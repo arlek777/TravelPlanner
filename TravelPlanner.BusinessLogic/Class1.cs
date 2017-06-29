@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TravelPlanner
+namespace TravelPlanner.BusinessLogic
 {
     public class Class1
     {

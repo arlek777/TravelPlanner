@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelPlanner.DomainModel",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelPlanner.DataAccess", "TravelPlanner.DataAccess\TravelPlanner.DataAccess.csproj", "{3A32CB30-C11C-4172-B9D6-3A71D0CE36D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelPlanner.BusinessLogic", "TravelPlanner.BusinessLogic\TravelPlanner.BusinessLogic.csproj", "{55080128-270C-406A-9722-D788B5D22C7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3A32CB30-C11C-4172-B9D6-3A71D0CE36D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A32CB30-C11C-4172-B9D6-3A71D0CE36D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A32CB30-C11C-4172-B9D6-3A71D0CE36D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55080128-270C-406A-9722-D788B5D22C7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55080128-270C-406A-9722-D788B5D22C7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55080128-270C-406A-9722-D788B5D22C7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55080128-270C-406A-9722-D788B5D22C7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
