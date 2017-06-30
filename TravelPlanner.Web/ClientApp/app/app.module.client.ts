@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { sharedConfig } from './app.module.shared';
 
+import { AuthGuard } from "./services/auth-guard.service";
+import { AuthService } from "./services/auth.service";
+import { BackendService } from "./services/backend.service";
+
 @NgModule({
     bootstrap: sharedConfig.bootstrap,
     declarations: sharedConfig.declarations,
@@ -14,7 +18,10 @@ import { sharedConfig } from './app.module.shared';
         ...sharedConfig.imports
     ],
     providers: [
-        { provide: 'ORIGIN_URL', useValue: location.origin }
+        { provide: 'ORIGIN_URL', useValue: location.origin },
+        AuthGuard,
+        AuthService,
+        BackendService
     ]
 })
 export class AppModule {

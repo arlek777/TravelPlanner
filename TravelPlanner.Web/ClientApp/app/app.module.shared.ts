@@ -3,25 +3,28 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
-import { HomeComponent } from './components/home/home.component';
-import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
-import { CounterComponent } from './components/counter/counter.component';
+
+import { HomePage } from './pages/home/home.page';
+import { MyTripsPage } from './pages/mytrips/mytrips.page';
+import { InvitedTripsPage } from './pages/invitedtrips/invitedtrips.page';
+
+import { AuthGuard } from "./services/auth-guard.service";
 
 export const sharedConfig: NgModule = {
     bootstrap: [ AppComponent ],
     declarations: [
         AppComponent,
         NavMenuComponent,
-        CounterComponent,
-        FetchDataComponent,
-        HomeComponent
+        HomePage,
+        MyTripsPage,
+        InvitedTripsPage
     ],
     imports: [
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'home', component: HomeComponent },
-            { path: 'counter', component: CounterComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
+            { path: 'home', component: HomePage },
+            { path: 'mytrips', component: MyTripsPage, canActivate: [AuthGuard] },
+            { path: 'invitedtrips', component: InvitedTripsPage, canActivate: [AuthGuard] },
             { path: '**', redirectTo: 'home' }
         ])
     ]
