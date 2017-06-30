@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { sharedConfig } from './app.module.shared';
 
 import { AuthGuard } from "./services/auth-guard.service";
+import { UnauthGuard } from "./services/unauth-guard.service";
 import { AuthService } from "./services/auth.service";
 import { BackendService } from "./services/backend.service";
 
@@ -20,6 +21,7 @@ import { BackendService } from "./services/backend.service";
     providers: [
         { provide: 'ORIGIN_URL', useValue: location.origin },
         AuthGuard,
+        UnauthGuard,
         AuthService,
         BackendService
     ]

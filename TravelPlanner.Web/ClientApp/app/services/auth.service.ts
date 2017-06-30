@@ -6,7 +6,6 @@ export class AuthService {
     constructor(private backendService: BackendService) {
     }
 
-
     isLoggedIn = false;
     redirectUrl: string;
 
