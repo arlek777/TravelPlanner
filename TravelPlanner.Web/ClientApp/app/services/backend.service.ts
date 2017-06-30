@@ -1,12 +1,14 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { LoginViewModel } from "../models/auth/login";
+import { RegistrationViewModel } from "../models/auth/registration";
 
 @Injectable()
 export class BackendService {
     constructor(private http: Http) {
     }
 
-    login(email, password): Promise<boolean> {
+    login(model: LoginViewModel): Promise<boolean> {
         return Promise.resolve(true);
     }
 
@@ -14,7 +16,7 @@ export class BackendService {
         return Promise.resolve(true);
     }
 
-    register(): Promise<boolean> {
+    register(model: RegistrationViewModel): Promise<boolean> {
         return Promise.resolve(true);
     }
 }

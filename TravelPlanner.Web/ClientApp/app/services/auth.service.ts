@@ -1,5 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { BackendService } from "./backend.service";
+import { LoginViewModel } from "../models/auth/login";
+import { RegistrationViewModel } from "../models/auth/registration";
 
 @Injectable()
 export class AuthService {
@@ -9,12 +11,12 @@ export class AuthService {
     isLoggedIn = false;
     redirectUrl: string;
 
-    login(): Promise<boolean> {
-        return this.backendService.login("", "").then(() => { this.isLoggedIn = true; return true; });
+    login(model: LoginViewModel): Promise<void> {
+        return this.backendService.login(model).then(() => { this.isLoggedIn = true; });
     }
 
-    register(): Promise<boolean> {
-        return this.backendService.register().then(() => { this.isLoggedIn = true; return true; });
+    register(model: RegistrationViewModel): Promise<void> {
+        return this.backendService.register(model).then(() => { this.isLoggedIn = true; });
     }
 
     logout(): void {

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -11,7 +12,6 @@ import { LoginPage } from './pages/login/login.page';
 import { RegisterPage } from './pages/register/register.page';
 
 import { AuthGuard } from "./services/auth-guard.service";
-import { UnauthGuard } from "./services/unauth-guard.service";
 
 export const sharedConfig: NgModule = {
     bootstrap: [ AppComponent ],
@@ -30,9 +30,10 @@ export const sharedConfig: NgModule = {
             { path: 'home', component: HomePage },
             { path: 'mytrips', component: MyTripsPage, canActivate: [AuthGuard] },
             { path: 'invitedtrips', component: InvitedTripsPage, canActivate: [AuthGuard] },
-            { path: 'login', component: LoginPage, canActivate: [UnauthGuard] },
-            { path: 'register', component: RegisterPage, canActivate: [UnauthGuard] },
+            { path: 'login', component: LoginPage },
+            { path: 'register', component: RegisterPage },
             { path: '**', redirectTo: 'home' }
-        ])
+        ]),
+        FormsModule
     ]
 };

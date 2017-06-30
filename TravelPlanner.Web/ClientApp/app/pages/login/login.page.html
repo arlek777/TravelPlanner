@@ -1,10 +1,10 @@
 <h1>Login</h1>
 
-<form>
-    <input type="text" placeholder="Email..."/>
-    <input type="text" placeholder="Password..." />
+<form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+    <input required id="email" name="email" [(ngModel)]="model.email" type="text" placeholder="Email..."/>
+    <input required id="password" name="password" [(ngModel)]="model.password" type="password" placeholder="Password..." />
     
-    <input type="submit" value="Login"/>
+    <input type="submit" value="Login" [disabled]="!loginForm.form.valid"/>
 </form>
 
 Don't have Account? <a [routerLink]="['/register']">Register</a>
