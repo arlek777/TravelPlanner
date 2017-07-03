@@ -18,7 +18,8 @@ namespace TravelPlanner.DataAccess
 
         public async Task<T> Find<T>(Expression<Func<T, bool>> predicate) where T: class
         {
-            return await _context.Set<T>().FirstOrDefaultAsync(predicate);
+            var item = await _context.Set<T>().FirstOrDefaultAsync(predicate);
+            return item;
         }
 
         public async Task<IEnumerable<T>> GetList<T>(Expression<Func<T, bool>> predicate) where T : class

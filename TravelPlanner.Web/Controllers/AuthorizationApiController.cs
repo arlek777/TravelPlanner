@@ -1,28 +1,38 @@
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TravelPlanner.BusinessLogic.IdentityManagers;
+using TravelPlanner.BusinessLogic.Models;
 using TravelPlanner.DomainModel;
+using TravelPlanner.Web.Models;
 
 namespace TravelPlanner.Web.Controllers
 {
-    public class RegistrationModel
-    {
-        public Guid Id { get; set; }
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Phone { get; set; }
-    }
-
-    public class AuthorizationApiController : Controller
+    public class AuthorizationApiController : BaseApiController
     {
         private readonly ApplicationUserManager _userManager;
 
         public AuthorizationApiController(ApplicationUserManager userManager)
         {
             _userManager = userManager;
+        }
+
+        [Route("api/auth/login")]
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody]LoginModel loginModel)
+        {
+            var user = await _userManager.FindByEmailAsync(loginModel.Email);
+            if (user == null)
+            {
+                return GetActionResult(new RequestResult(new [] { "User with these credentials does not exist." }));
+            }
+            bool passwordValid = await _userManager.CheckPasswordAsync(user, loginModel.Password);
+            if (!passwordValid)
+            {
+                return GetActionResult(new RequestResult(new[] { "User with these credentials does not exist." }));//TODO localization
+            }
+
+            return Ok();
         }
 
         [Route("api/auth/register")]
@@ -36,7 +46,7 @@ namespace TravelPlanner.Web.Controllers
                 UserName = model.UserName
             }, model.Password);
 
-            return Ok(result);
+            return GetActionResult(result);
         }
     }
 }

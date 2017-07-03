@@ -2,6 +2,7 @@
 import { BackendService } from "./backend.service";
 import { LoginViewModel } from "../models/auth/login";
 import { RegistrationViewModel } from "../models/auth/registration";
+import { RequestResult } from "../models/requestresult";
 
 @Injectable()
 export class AuthService {
@@ -12,11 +13,13 @@ export class AuthService {
     redirectUrl: string;
 
     login(model: LoginViewModel): Promise<void> {
-        return this.backendService.login(model).then(() => { this.isLoggedIn = true; });
+        return this.backendService.login(model).then((result: RequestResult) => {
+            this.isLoggedIn = true;
+        }).catch((result) => console.log(result));
     }
 
     register(model: RegistrationViewModel): Promise<void> {
-        return this.backendService.register(model).then(() => { this.isLoggedIn = true; });
+        return this.backendService.register(model).then((result: RequestResult) => { this.isLoggedIn = true; });
     }
 
     logout(): void {

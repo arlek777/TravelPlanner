@@ -6,7 +6,7 @@ using TravelPlanner.DomainModel;
 
 namespace TravelPlanner.BusinessLogic.IdentityStores
 {
-    public class TravelPlannerUserStore : IUserStore<User, Guid>, IUserPasswordStore<User, Guid>
+    public class TravelPlannerUserStore : IUserPasswordStore<User, Guid>, IUserEmailStore<User, Guid>
     {
         private readonly IGenericRepository _repository;
 
@@ -69,6 +69,38 @@ namespace TravelPlanner.BusinessLogic.IdentityStores
         public Task<bool> HasPasswordAsync(User user)
         {
             return Task.FromResult(!String.IsNullOrEmpty(user.PasswordHash));
+        }
+
+        #endregion
+
+        #region IUserEmailStore
+
+        public async Task SetEmailAsync(User user, string email)
+        {
+            user.Email = email;
+            await _repository.SaveChanges();
+        }
+
+        public async Task<string> GetEmailAsync(User user)
+        {
+            var foundUser = await FindByIdAsync(user.Id);
+            return foundUser.Email;
+        }
+
+        public Task<bool> GetEmailConfirmedAsync(User user)
+        {
+            return Task.FromResult(true);
+        }
+
+        public Task SetEmailConfirmedAsync(User user, bool confirmed)
+        {
+            return Task.FromResult(0);
+        }
+
+        public async Task<User> FindByEmailAsync(string email)
+        {
+            var user = await _repository.Find<User>(u => u.Email == email);
+            return user;
         }
 
         #endregion

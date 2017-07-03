@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="IdentityManagers\ApplicationUserManager.cs" />
     <Compile Include="IdentityStores\TravelPlannerUserStore.cs" />
+    <Compile Include="Models\RequestResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

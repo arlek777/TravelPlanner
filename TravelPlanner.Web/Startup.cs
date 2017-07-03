@@ -32,9 +32,8 @@ namespace TravelPlanner.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var context = new TravelPlannerDbContext(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddScoped<DbContext>((provider) => context);
-            DbInitializer.Initialize(context);
+            services.AddScoped<DbContext>((provider) => new TravelPlannerDbContext(Configuration.GetConnectionString("DefaultConnection")));
+            //DbInitializer.Initialize(context);
 
             services.AddTransient<IGenericRepository, EntityFrameworkRepository>();
             services.AddTransient<IUserStore<User, Guid>, TravelPlannerUserStore>();
