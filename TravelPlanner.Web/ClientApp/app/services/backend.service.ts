@@ -2,6 +2,7 @@
 import { Http } from '@angular/http';
 import { LoginViewModel } from "../models/auth/login";
 import { RegistrationViewModel } from "../models/auth/registration";
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class BackendService {
@@ -17,6 +18,9 @@ export class BackendService {
     }
 
     register(model: RegistrationViewModel): Promise<boolean> {
-        return Promise.resolve(true);
+        return this.http.post("/api/auth/register", model).toPromise().then((result) => {
+            console.log(result);
+            return true;
+        });
     }
 }

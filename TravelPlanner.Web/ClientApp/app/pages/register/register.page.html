@@ -1,7 +1,7 @@
 <h1>Register</h1>
 
 <form #registerForm="ngForm" (ngSubmit)="onSubmit()"> 
-    <input [(ngModel)]="model.name" name="name" type="text" required placeholder="Name..." />
+    <input [(ngModel)]="model.userName" name="userName" type="text" required placeholder="Name..." />
     <input [(ngModel)]="model.email" name="email" type="text" required placeholder="Email..."/>
     <input [(ngModel)]="model.phone" name="phone" type="text" required placeholder="Phone..."/>
     <input [(ngModel)]="model.password" name="password" type="password" required placeholder="Password..."/>

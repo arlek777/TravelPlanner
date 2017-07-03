@@ -1,11 +1,17 @@
+using System;
 using System.Data.Entity;
+using System.Linq;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using TravelPlanner.BusinessLogic.IdentityManagers;
+using TravelPlanner.BusinessLogic.IdentityStores;
 using TravelPlanner.DataAccess;
+using TravelPlanner.DomainModel;
 
 namespace TravelPlanner.Web
 {
@@ -27,10 +33,12 @@ namespace TravelPlanner.Web
         public void ConfigureServices(IServiceCollection services)
         {
             var context = new TravelPlannerDbContext(Configuration.GetConnectionString("DefaultConnection"));
-            // Add framework services.
             services.AddScoped<DbContext>((provider) => context);
-
             DbInitializer.Initialize(context);
+
+            services.AddTransient<IGenericRepository, EntityFrameworkRepository>();
+            services.AddTransient<IUserStore<User, Guid>, TravelPlannerUserStore>();
+            services.AddTransient<ApplicationUserManager>();
 
             services.AddMvc();
         }

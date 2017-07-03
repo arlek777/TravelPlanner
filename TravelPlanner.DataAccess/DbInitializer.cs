@@ -6,7 +6,7 @@ namespace TravelPlanner.DataAccess
     {
         public static void Initialize(TravelPlannerDbContext context)
         {
-            context.Users.Add(new User() { Name = "test", Email = "test", Password = "pass", Phone = "phone"});
+            context.Users.Add(new User() { UserName = "test", Email = "test", PasswordHash = "pass", Phone = "phone"});
         }
     }
 }

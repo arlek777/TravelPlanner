@@ -5,6 +5,11 @@ namespace TravelPlanner.DataAccess
 {
     public class TravelPlannerDbContext: DbContext
     {
+        static TravelPlannerDbContext()
+        {
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<TravelPlannerDbContext>());
+        }
+
         public TravelPlannerDbContext(string connectionStr) : base(connectionStr)
         {
         }
