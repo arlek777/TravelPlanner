@@ -1,10 +1,11 @@
+using System.Data.Entity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using TravelPlanner.DataAccess;
 
 namespace TravelPlanner.Web
 {
@@ -25,9 +26,11 @@ namespace TravelPlanner.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var context = new TravelPlannerDbContext(Configuration.GetConnectionString("DefaultConnection"));
             // Add framework services.
-            services.AddDbContext<TravelPlannerDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("TravelPlannerConnection")));
+            services.AddScoped<DbContext>((provider) => context);
+
+            DbInitializer.Initialize(context);
 
             services.AddMvc();
         }
