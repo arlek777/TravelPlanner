@@ -1,20 +1,22 @@
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TravelPlanner.BusinessLogic.IdentityManagers;
 using TravelPlanner.BusinessLogic.Models;
 using TravelPlanner.DomainModel;
 using TravelPlanner.Web.Models;
+using TravelPlanner.BusinessLogic.Security;
 
 namespace TravelPlanner.Web.Controllers
 {
     public class AuthorizationApiController : BaseApiController
     {
         private readonly ApplicationUserManager _userManager;
+        private readonly IAuthTokenManager _tokenManager;
 
-        public AuthorizationApiController(ApplicationUserManager userManager)
+        public AuthorizationApiController(ApplicationUserManager userManager, IAuthTokenManager tokenManager)
         {
             _userManager = userManager;
+            _tokenManager = tokenManager;
         }
 
         [Route("api/auth/login")]
@@ -24,29 +26,43 @@ namespace TravelPlanner.Web.Controllers
             var user = await _userManager.FindByEmailAsync(loginModel.Email);
             if (user == null)
             {
-                return GetActionResult(new RequestResult(new [] { "User with these credentials does not exist." }));
+                return BadRequest(ValidationResultCodes.LoginWrongCredentials);
             }
             bool passwordValid = await _userManager.CheckPasswordAsync(user, loginModel.Password);
             if (!passwordValid)
             {
-                return GetActionResult(new RequestResult(new[] { "User with these credentials does not exist." }));//TODO localization
+                return BadRequest(ValidationResultCodes.LoginWrongCredentials);
             }
 
-            return Ok();
+            var tokens = GetJWTTokens(user);
+            return Ok(tokens);
         }
 
         [Route("api/auth/register")]
         [HttpPost]
         public async Task<IActionResult> Register([FromBody]RegistrationModel model)
         {
-            IdentityResult result = await _userManager.CreateAsync(new User()
+            var user = new User()
             {
                 Email = model.Email,
                 Phone = model.Phone,
                 UserName = model.UserName
-            }, model.Password);
+            };
 
-            return GetActionResult(result);
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded) return BadRequest(result.Errors);
+
+            var tokens = GetJWTTokens(user);
+            return Ok(tokens);
+        }
+
+        private dynamic GetJWTTokens(User user)
+        {
+            return new
+            {
+                access_token = _tokenManager.GetAccessToken(user),
+                id_token = _tokenManager.GetIdToken(user)
+            };
         }
     }
 }

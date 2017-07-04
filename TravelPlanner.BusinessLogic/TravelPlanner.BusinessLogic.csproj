@@ -43,10 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="IdentityValidators\ApplicationUserValidator.cs" />
+    <Compile Include="IdentityValidators\ApplicationPasswordValidator.cs" />
+    <Compile Include="Models\ValidationResultCodes.cs" />
     <Compile Include="IdentityManagers\ApplicationUserManager.cs" />
     <Compile Include="IdentityStores\TravelPlannerUserStore.cs" />
-    <Compile Include="Models\RequestResult.cs" />
+    <Compile Include="Models\ValidationResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\IAuthTokenManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
