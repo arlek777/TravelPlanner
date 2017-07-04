@@ -1,4 +1,6 @@
+using System;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TravelPlanner.BusinessLogic.IdentityManagers;
 using TravelPlanner.BusinessLogic.Models;
@@ -10,10 +12,10 @@ namespace TravelPlanner.Web.Controllers
 {
     public class AuthorizationApiController : BaseApiController
     {
-        private readonly ApplicationUserManager _userManager;
+        private readonly UserManager<User, Guid> _userManager;
         private readonly IAuthTokenManager _tokenManager;
 
-        public AuthorizationApiController(ApplicationUserManager userManager, IAuthTokenManager tokenManager)
+        public AuthorizationApiController(UserManager<User, Guid> userManager, IAuthTokenManager tokenManager)
         {
             _userManager = userManager;
             _tokenManager = tokenManager;

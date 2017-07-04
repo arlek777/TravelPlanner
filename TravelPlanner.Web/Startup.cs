@@ -1,5 +1,6 @@
 using System;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +17,10 @@ using Microsoft.IdentityModel.Tokens;
 using TravelPlanner.BusinessLogic.IdentityManagers;
 using TravelPlanner.BusinessLogic.IdentityStores;
 using TravelPlanner.BusinessLogic.IdentityValidators;
+using TravelPlanner.BusinessLogic.Security;
 using TravelPlanner.DataAccess;
 using TravelPlanner.DomainModel;
+using TravelPlanner.Web.Infrastructure;
 using TravelPlanner.Web.Models;
 
 namespace TravelPlanner.Web
@@ -46,9 +49,20 @@ namespace TravelPlanner.Web
 
             services.AddTransient<IGenericRepository, EntityFrameworkRepository>();
             services.AddTransient<IUserStore<User, Guid>, TravelPlannerUserStore>();
-            services.AddTransient<ApplicationUserManager>();
-            services.AddTransient<IIdentityValidator<User>, ApplicationUserValidator<User>>();
-            services.AddTransient<IIdentityValidator<string>, ApplicationPasswordValidator>();
+
+            services.AddTransient<UserManager<User, Guid>>((ctx) => new ApplicationUserManager(ctx.GetService<IUserStore<User, Guid>>())
+            {
+                PasswordValidator = new ApplicationPasswordValidator()
+                {
+                    RequiredLength = 6
+                },
+                UserValidator = new ApplicationUserValidator<User>(new ApplicationUserManager(ctx.GetService<IUserStore<User, Guid>>()))
+                {
+                    RequireUniqueEmail = true
+                }
+            });
+
+            services.AddTransient<IAuthTokenManager, JWTTokenManager>();
 
             services.Configure<IdentityOptions>(opts =>
             {
