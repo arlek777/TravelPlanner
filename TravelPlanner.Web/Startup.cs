@@ -42,14 +42,29 @@ namespace TravelPlanner.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<JWTSettings>(Configuration.GetSection("JWTSettings"));
+            ConfigureDb(services);
+            ConfigureIdentity(services);
+            ConfigureSecurity(services);
+            ConfigureBusinessLogic(services);
 
+            services.AddMvc();
+        }
+
+        private void ConfigureDb(IServiceCollection services)
+        {
+            services.AddTransient<IGenericRepository, EntityFrameworkRepository>();
             services.AddScoped<DbContext>((provider) => new TravelPlannerDbContext(Configuration.GetConnectionString("DefaultConnection")));
             //DbInitializer.Initialize(context);
+        }
 
-            services.AddTransient<IGenericRepository, EntityFrameworkRepository>();
+        private void ConfigureBusinessLogic(IServiceCollection services)
+        {
+
+        }
+
+        private void ConfigureIdentity(IServiceCollection services)
+        {
             services.AddTransient<IUserStore<User, Guid>, TravelPlannerUserStore>();
-
             services.AddTransient<UserManager<User, Guid>>((ctx) => new ApplicationUserManager(ctx.GetService<IUserStore<User, Guid>>())
             {
                 PasswordValidator = new ApplicationPasswordValidator()
@@ -61,7 +76,11 @@ namespace TravelPlanner.Web
                     RequireUniqueEmail = true
                 }
             });
+        }
 
+        private void ConfigureSecurity(IServiceCollection services)
+        {
+            services.Configure<JWTSettings>(Configuration.GetSection("JWTSettings"));
             services.AddTransient<IAuthTokenManager, JWTTokenManager>();
 
             services.Configure<IdentityOptions>(opts =>
@@ -70,17 +89,15 @@ namespace TravelPlanner.Web
                 {
                     OnRedirectToLogin = ctx =>
                     {
-                        ctx.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
+                        ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         return Task.FromResult(0);
                     }
                 };
             });
-
-            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IOptions<JWTSettings> optionsAccessor)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -97,24 +114,12 @@ namespace TravelPlanner.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            // secretKey contains a secret passphrase only your server knows
-            var secretKey = Configuration.GetSection("JWTSettings:SecretKey").Value;
-            var issuer = Configuration.GetSection("JWTSettings:Issuer").Value;
-            var audience = Configuration.GetSection("JWTSettings:Audience").Value;
-            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = signingKey,
+            // Authentication JWT Settings
+            var jwtSettings = optionsAccessor.Value;
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey));
 
-                // Validate the JWT Issuer (iss) claim
-                ValidateIssuer = true,
-                ValidIssuer = issuer,
+            var tokenValidationParameters = GetTokenValidationParameters(signingKey, jwtSettings);
 
-                // Validate the JWT Audience (aud) claim
-                ValidateAudience = true,
-                ValidAudience = audience
-            };
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
                 TokenValidationParameters = tokenValidationParameters
@@ -126,6 +131,7 @@ namespace TravelPlanner.Web
                 AutomaticChallenge = false
             });
 
+            // Standart MVC settings
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
@@ -138,6 +144,25 @@ namespace TravelPlanner.Web
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+        }
+
+        private TokenValidationParameters GetTokenValidationParameters(SymmetricSecurityKey signingKey,
+            JWTSettings jwtSettings)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+
+                // Validate the JWT Issuer (iss) claim
+                ValidateIssuer = true,
+                ValidIssuer = jwtSettings.Issuer,
+
+                // Validate the JWT Audience (aud) claim
+                ValidateAudience = true,
+                ValidAudience = jwtSettings.Audience
+            };
+            return tokenValidationParameters;
         }
     }
 }
