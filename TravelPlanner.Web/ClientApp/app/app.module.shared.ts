@@ -5,13 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 
+import { AuthGuard } from "./services/auth-guard.service";
+
 import { HomePage } from './pages/home/home.page';
 import { MyTripsPage } from './pages/mytrips/mytrips.page';
 import { InvitedTripsPage } from './pages/invitedtrips/invitedtrips.page';
 import { LoginPage } from './pages/login/login.page';
 import { RegisterPage } from './pages/register/register.page';
-
-import { AuthGuard } from "./services/auth-guard.service";
 
 export const sharedConfig: NgModule = {
     bootstrap: [ AppComponent ],
@@ -35,5 +35,5 @@ export const sharedConfig: NgModule = {
             { path: '**', redirectTo: 'home' }
         ]),
         FormsModule
-    ]
+    ],
 };

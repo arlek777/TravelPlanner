@@ -62,8 +62,8 @@ namespace TravelPlanner.Web.Controllers
         {
             return new
             {
-                access_token = _tokenManager.GetAccessToken(user),
-                id_token = _tokenManager.GetIdToken(user)
+                accessToken = _tokenManager.GetAccessToken(user),
+                idToken = _tokenManager.GetIdToken(user)
             };
         }
     }

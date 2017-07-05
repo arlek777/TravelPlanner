@@ -20,9 +20,14 @@
                 </li>
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/invitedtrips']">
-                         Invited Trips
+                        Invited Trips
                     </a>
                 </li>
+                <!--<li *ngIf="isLogoutVisible()">
+                    <a (click)="logout()">
+                        Logout
+                    </a>
+                </li>-->
             </ul>
         </div>
     </div>

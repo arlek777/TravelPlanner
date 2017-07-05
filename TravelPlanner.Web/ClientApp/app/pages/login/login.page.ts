@@ -15,8 +15,9 @@ export class LoginPage {
 
     onSubmit() {
         this.authService.login(this.model).then(() => {
-            if (this.authService.redirectUrl) { this.router.navigate([this.authService.redirectUrl]); }
-            else { this.router.navigate(['/home']); }
+            this.router.navigate(['/home']);
+            //if (this.authService.redirectUrl) { this.router.navigate([this.authService.redirectUrl]); }
+            //else { this.router.navigate(['/home']); }
         });
     }
 }
