@@ -9,16 +9,35 @@ import { LocalStorage } from '../utils/localstorage';
 
 @Injectable()
 export class AuthService {
+    private _accessToken: string;
+    private _user:User;
+
     constructor(private backendService: BackendService, @Inject(LocalStorage) private localStorage) {
-        var localStorageUser = localStorage.getItem(Constants.currentUserKey);
-        if (localStorageUser) {
-            this.user = JSON.parse(localStorageUser);
-        }
     }
 
-    user: User = null;
-    isLoggedIn = () => this.user && this.user !== null;
     redirectUrl: string;
+
+    get user(): User {
+        if (this._user) return this._user;
+        var localStorageUser = localStorage.getItem(Constants.currentUserKey);
+        if (localStorageUser) {
+            this._user = JSON.parse(localStorageUser);
+            return this._user;
+        }
+        return null;
+    }
+
+    get accessToken(): string {
+        if (this._accessToken) return this._accessToken;
+        var localStorageToken = localStorage.getItem(Constants.accessTokenKey);
+        if (localStorageToken) {
+            this._accessToken = localStorageToken;
+            return this._accessToken;
+        }
+        return null;
+    }
+
+    get isLoggedIn() { return this.user && this.accessToken }
 
     login(model: LoginViewModel): Promise<void> {
         return this.backendService.login(model).then((tokens: JWTTokens) => {
@@ -36,7 +55,7 @@ export class AuthService {
         localStorage.removeItem(Constants.accessTokenKey);
         localStorage.removeItem(Constants.currentUserKey);
 
-        this.user = null;
+        this._user = null;
     }
 
     private setTokensAndUserToLocalStorage(tokens: JWTTokens) {

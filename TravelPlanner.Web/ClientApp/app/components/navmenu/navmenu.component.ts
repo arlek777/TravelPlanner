@@ -12,7 +12,7 @@ export class NavMenuComponent {
     }
 
     isLogoutVisible() {
-        return this.authService.isLoggedIn();
+        return this.authService.isLoggedIn;
     }
 
     logout = () => {
