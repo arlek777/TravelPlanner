@@ -1,11 +1,16 @@
-import { NgModule } from '@angular/core';
+﻿import { NgModule, Inject } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
+import { AuthGuard } from "./services/auth-guard.service";
+import { AuthService } from "./services/auth.service";
+import { BackendService } from "./services/backend.service";
+import { InterceptedHttp } from "./utils/http.interceptor";
+
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
-
-import { AuthGuard } from "./services/auth-guard.service";
 
 import { HomePage } from './pages/home/home.page';
 import { MyTripsPage } from './pages/mytrips/mytrips.page';
@@ -13,8 +18,12 @@ import { InvitedTripsPage } from './pages/invitedtrips/invitedtrips.page';
 import { LoginPage } from './pages/login/login.page';
 import { RegisterPage } from './pages/register/register.page';
 
-export const sharedConfig: NgModule = {
-    bootstrap: [ AppComponent ],
+function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
+    return new InterceptedHttp(xhrBackend, requestOptions);
+}
+
+@NgModule({
+    bootstrap: [AppComponent],
     declarations: [
         AppComponent,
         NavMenuComponent,
@@ -25,6 +34,8 @@ export const sharedConfig: NgModule = {
         RegisterPage
     ],
     imports: [
+        BrowserModule,
+        HttpModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomePage },
@@ -36,4 +47,16 @@ export const sharedConfig: NgModule = {
         ]),
         FormsModule
     ],
-};
+    providers: [
+        { provide: 'ORIGIN_URL', useValue: location.origin },
+        AuthGuard,
+        AuthService,
+        BackendService,
+        {
+            provide: Http,
+            useFactory: httpFactory,
+            deps: [XHRBackend, RequestOptions]
+        }]
+})
+export class AppModule {
+}

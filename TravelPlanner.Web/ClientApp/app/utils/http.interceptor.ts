@@ -7,7 +7,7 @@ import { Constants } from "../models/constants";
 
 @Injectable()
 export class InterceptedHttp extends Http {
-    constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, @Inject(LocalStorage) private localStorage) {
+    constructor(backend: ConnectionBackend, defaultOptions: RequestOptions) {
         super(backend, defaultOptions);
     }
 

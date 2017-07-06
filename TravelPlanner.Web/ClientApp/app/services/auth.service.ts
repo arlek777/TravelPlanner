@@ -12,7 +12,7 @@ export class AuthService {
     private _accessToken: string;
     private _user:User;
 
-    constructor(private backendService: BackendService, @Inject(LocalStorage) private localStorage) {
+    constructor(private backendService: BackendService) {
     }
 
     redirectUrl: string;
