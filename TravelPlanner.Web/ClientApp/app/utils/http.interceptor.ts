@@ -2,10 +2,12 @@
 import { ConnectionBackend, RequestOptions, Request, RequestOptionsArgs, Response, Http, Headers } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 import { AuthService } from "../services/auth.service";
+import { LocalStorage } from '../utils/localstorage';
+import { Constants } from "../models/constants";
 
 @Injectable()
 export class InterceptedHttp extends Http {
-    constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, private authService: AuthService) {
+    constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, @Inject(LocalStorage) private localStorage) {
         super(backend, defaultOptions);
     }
 
@@ -38,8 +40,10 @@ export class InterceptedHttp extends Http {
         }
         options.headers.append('Content-Type', 'application/json');
 
-        if (this.authService.isLoggedIn) {
-            options.headers.append('Authorization', 'Bearer ' + this.authService.accessToken);
+        var accessToken = localStorage.getItem(Constants.accessTokenKey);
+        var user = localStorage.getItem(Constants.currentUserKey);
+        if (accessToken && user) {
+            options.headers.append('Authorization', 'Bearer ' + accessToken);
         }
 
         return options;

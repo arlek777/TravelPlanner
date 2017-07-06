@@ -90,7 +90,7 @@ namespace TravelPlanner.Web
                     OnRedirectToLogin = ctx =>
                     {
                         ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        return Task.FromResult(0);
+                        return Task.FromResult("User Unauthorized");
                     }
                 };
             });
