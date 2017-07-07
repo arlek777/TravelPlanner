@@ -1,0 +1,31 @@
+﻿{
+  "loginWrongCredentials": "E-mail или пароль введен не верен.",
+  "userNameRequiredOrInvalid": "Имя не введено или введено неверно, попробуйте еще раз.",
+  "emailRequiredOrInvalid": "E-mail не введен или введен неверно, попробуйте еще раз.",
+  "duplicateEmail": "Пользователь с таким E-mail уже существует.",
+  "passwordShort": "Минимальная длина пароля 6 символов.",
+  "passwordInvalidFormat": "Пароль имеет не верный формат.",
+  "phoneInvalidOrRequired": "Телефон имеет не верный формат.",
+
+  "homePageTitle": "Главная",
+  "loginPageTitle": "Войти",
+  "registrPageTitle": "Зарегистрироваться",
+  "myTripsPageTitle": "Мои Поездки",
+  "invitedTripsPageTitle": "Приглашенные",
+  "newTripPageTitle": "Новая поездка",
+  "logout": "Выйти",
+
+  "dontHaveAccount": "Нету аккаунта?",
+  "haveAccount": "Есть аккаунт?",
+
+  "emailPlaceholder": "E-mail",
+  "passwordPlaceholder": "Пароль",
+  "userNamePlaceholder": "Имя",
+  "phonePlaceholder": "Телефон",
+  "tripTitlePlaceholder": "Название",
+  "tripDescriptionPlaceholder": "Описание",
+
+  "createButton": "Создать",
+  "editButton": "Изменить",
+  "removeButton": "Удалить"
+}

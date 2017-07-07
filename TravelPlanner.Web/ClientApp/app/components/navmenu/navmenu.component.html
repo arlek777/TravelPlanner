@@ -7,25 +7,23 @@
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
             </button>
-            <a class='navbar-brand' [routerLink]="['/home']">TravelPlanner_Web</a>
+            <a class='navbar-brand' [routerLink]="['/home']">Travel Planner</a>
         </div>
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/home']">Home</a>
+                    <a [routerLink]="['/home']">{{ 'homePageTitle' | translate }}</a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/mytrips']">My Trips</a>
+                    <a [routerLink]="['/mytrips']">{{ 'myTripsPageTitle' | translate }}</a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/invitedtrips']">
-                        Invited Trips
-                    </a>
+                    <a [routerLink]="['/invitedtrips']">{{ 'invitedTripsPageTitle' | translate }}</a>
                 </li>
                 <li *ngIf="isLogoutVisible()">
                     <a (click)="logout()">
-                        Logout
+                        {{ 'logout' | translate }}
                     </a>
                 </li>
             </ul>

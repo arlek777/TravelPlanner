@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
+import { Component, OnInit } from '@angular/core';
+import { Trip } from "../../models/trips/trip";
 
 @Component({
     selector: 'mytrips',
     templateUrl: './mytrips.page.html'
 })
-export class MyTripsPage {
-    constructor(private http: Http) {
-        this.http.get("/api/mytrips/test").toPromise().then((response) => {
-            console.log(response.json());
-        });
+export class MyTripsPage implements OnInit {
+    constructor() {
     }
+
+    ngOnInit(): void {
+        
+    }
+
+    trips: Trip[];
 }

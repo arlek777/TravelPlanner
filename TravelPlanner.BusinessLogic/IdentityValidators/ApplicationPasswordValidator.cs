@@ -25,19 +25,19 @@ namespace TravelPlanner.BusinessLogic.IdentityValidators
             }
             if (RequireNonLetterOrDigit && item.All(IsLetterOrDigit))
             {
-                errors.Add(ValidationResultCodes.PasswordRequireNonLetterOrDigit);
+                errors.Add(ValidationResultCodes.PasswordInvalidFormat);
             }
             if (RequireDigit && item.All(c => !IsDigit(c)))
             {
-                errors.Add(ValidationResultCodes.PasswordRequireDigit);
+                errors.Add(ValidationResultCodes.PasswordInvalidFormat);
             }
             if (RequireLowercase && item.All(c => !IsLower(c)))
             {
-                errors.Add(ValidationResultCodes.PasswordRequireLower);
+                errors.Add(ValidationResultCodes.PasswordInvalidFormat);
             }
             if (RequireUppercase && item.All(c => !IsUpper(c)))
             {
-                errors.Add(ValidationResultCodes.PasswordRequireUpper);
+                errors.Add(ValidationResultCodes.PasswordInvalidFormat);
             }
             if (errors.Count == 0)
             {

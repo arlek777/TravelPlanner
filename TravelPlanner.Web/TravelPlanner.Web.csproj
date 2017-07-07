@@ -25,6 +25,9 @@
     <Content Remove="ClientApp\**" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="wwwroot\ru.json" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\TravelPlanner.BusinessLogic\TravelPlanner.BusinessLogic.csproj" />
     <ProjectReference Include="..\TravelPlanner.DataAccess\TravelPlanner.DataAccess.csproj" />
     <ProjectReference Include="..\TravelPlanner.DomainModel\TravelPlanner.DomainModel.csproj" />

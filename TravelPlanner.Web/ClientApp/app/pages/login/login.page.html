@@ -1,10 +1,10 @@
-<h1>Login</h1>
+<h1>{{ 'loginPageTitle' | translate }}</h1>
 
 <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
-    <input required id="email" name="email" [(ngModel)]="model.email" type="text" placeholder="Email..."/>
-    <input required id="password" name="password" [(ngModel)]="model.password" type="password" placeholder="Password..." />
+    <input required id="email" name="email" [(ngModel)]="model.email" type="text" placeholder="{{ 'emailPlaceholder' | translate }}"/>
+    <input required id="password" name="password" [(ngModel)]="model.password" type="password" placeholder="{{ 'passwordPlaceholder' | translate }}" />
     
-    <input type="submit" value="Login" [disabled]="!loginForm.form.valid"/>
+    <input type="submit" value="{{ 'loginPageTitle' | translate }}" [disabled]="!loginForm.form.valid"/>
 </form>
 
-Don't have Account? <a [routerLink]="['/register']">Register</a>
+{{ 'dontHaveAccount' | translate }} <a [routerLink]="['/register']">{{ 'registrPageTitle' | translate }}</a>
