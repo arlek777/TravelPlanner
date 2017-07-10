@@ -46,6 +46,8 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="IdentityValidators\ApplicationUserValidator.cs" />
     <Compile Include="IdentityValidators\ApplicationPasswordValidator.cs" />
+    <Compile Include="Interfaces\ITripService.cs" />
+    <Compile Include="Services\TripService.cs" />
     <Compile Include="Models\ValidationResultCodes.cs" />
     <Compile Include="IdentityManagers\ApplicationUserManager.cs" />
     <Compile Include="IdentityStores\TravelPlannerUserStore.cs" />
@@ -66,5 +68,6 @@
       <Name>TravelPlanner.DomainModel</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
