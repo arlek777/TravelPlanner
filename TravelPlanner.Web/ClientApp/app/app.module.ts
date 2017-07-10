@@ -15,6 +15,8 @@ import { InterceptedHttp } from "./utils/http.interceptor";
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 
+import { LocalizeDirective } from "./directives/localize.directive";
+
 import { HomePage } from './pages/home/home.page';
 import { MyTripsPage } from './pages/mytrips/mytrips.page';
 import { InvitedTripsPage } from './pages/invitedtrips/invitedtrips.page';
@@ -40,7 +42,8 @@ export function HttpLoaderFactory(http: Http) {
         InvitedTripsPage,
         LoginPage,
         RegisterPage,
-        NewTripPage
+        NewTripPage,
+        LocalizeDirective
     ],
     imports: [
         BrowserModule,

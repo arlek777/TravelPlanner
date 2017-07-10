@@ -1,9 +1,9 @@
-<h1>{{ 'newTripPageTitle' | translate }}</h1>
+<h1 localize="newTripPageTitle"></h1>
 
 <form #newTripForm="ngForm" (ngSubmit)="onSubmit()">
-    <input name="title" placeholder="{{ 'tripTitlePlaceholder' | translate }}"/>
-    <textarea placeholder="{{ 'tripDescriptionPlaceholder' | translate }}"></textarea>
+    <input name="title" localize="tripTitlePlaceholder"/>
+    <textarea localize="tripDescriptionPlaceholder"></textarea>
     
-    <input type="submit" [disabled]="!newTripForm.form.valid" value="{{ 'createButton' | translate }}"/>
+    <button [disabled]="!newTripForm.form.valid" localize="createButton"></button>
 </form>
 
