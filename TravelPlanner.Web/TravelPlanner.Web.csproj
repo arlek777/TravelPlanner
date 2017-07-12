@@ -31,6 +31,7 @@
     <ProjectReference Include="..\TravelPlanner.BusinessLogic\TravelPlanner.BusinessLogic.csproj" />
     <ProjectReference Include="..\TravelPlanner.DataAccess\TravelPlanner.DataAccess.csproj" />
     <ProjectReference Include="..\TravelPlanner.DomainModel\TravelPlanner.DomainModel.csproj" />
+    <ProjectReference Include="..\TravelPlanner.Identity\TravelPlanner.Identity.csproj" />
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->

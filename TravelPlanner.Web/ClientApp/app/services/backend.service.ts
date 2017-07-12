@@ -31,4 +31,11 @@ export class BackendService {
         return this.http.get(`/api/mytrips/get/${id}/${userId}`).toPromise()
             .then((result) => { return new TripViewModel(result.json()); });
     }
+
+    getOwnTrips(userId: string): Promise<TripViewModel[]> {
+        return this.http.get(`/api/mytrips/getown/${userId}`).toPromise()
+            .then((result) => {
+                return result.json();
+            });
+    }
 }

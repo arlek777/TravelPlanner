@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using TravelPlanner.BusinessLogic.Models;
 
-namespace TravelPlanner.BusinessLogic.IdentityValidators
+namespace TravelPlanner.Identity.IdentityValidators
 {
     /// <summary>
     ///     Used to validate some basic password policy like length and number of non alphanumerics

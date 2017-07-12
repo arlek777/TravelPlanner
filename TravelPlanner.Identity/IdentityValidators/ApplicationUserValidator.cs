@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity;
 using TravelPlanner.BusinessLogic.Models;
 using TravelPlanner.DomainModel;
 
-namespace TravelPlanner.BusinessLogic.IdentityValidators
+namespace TravelPlanner.Identity.IdentityValidators
 {
     public class ApplicationUserValidator<TUser> : UserValidator<TUser, Guid>
         where TUser : User

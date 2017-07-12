@@ -4,7 +4,7 @@ using Microsoft.AspNet.Identity;
 using TravelPlanner.DataAccess;
 using TravelPlanner.DomainModel;
 
-namespace TravelPlanner.BusinessLogic.IdentityStores
+namespace TravelPlanner.Identity.IdentityStores
 {
     public class TravelPlannerUserStore : IUserPasswordStore<User, Guid>, IUserEmailStore<User, Guid>
     {

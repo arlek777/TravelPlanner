@@ -14,14 +14,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using TravelPlanner.BusinessLogic.IdentityManagers;
-using TravelPlanner.BusinessLogic.IdentityStores;
-using TravelPlanner.BusinessLogic.IdentityValidators;
 using TravelPlanner.BusinessLogic.Interfaces;
 using TravelPlanner.BusinessLogic.Security;
 using TravelPlanner.BusinessLogic.Services;
 using TravelPlanner.DataAccess;
 using TravelPlanner.DomainModel;
+using TravelPlanner.Identity.IdentityManagers;
+using TravelPlanner.Identity.IdentityStores;
+using TravelPlanner.Identity.IdentityValidators;
 using TravelPlanner.Web.Infrastructure;
 using TravelPlanner.Web.Models;
 

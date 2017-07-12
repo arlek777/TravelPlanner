@@ -2,7 +2,7 @@ using System;
 using Microsoft.AspNet.Identity;
 using TravelPlanner.DomainModel;
 
-namespace TravelPlanner.BusinessLogic.IdentityManagers
+namespace TravelPlanner.Identity.IdentityManagers
 {
     public class ApplicationUserManager : UserManager<User, Guid>
     {

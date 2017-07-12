@@ -1,17 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { TripViewModel } from "../../models/trips/trip";
+import { BackendService } from "../../services/backend.service";
+import { UserHelper } from "../../utils/helpers";
 
 @Component({
     selector: 'mytrips',
     templateUrl: './mytrips.page.html'
 })
 export class MyTripsPage implements OnInit {
-    constructor() {
+    trips: TripViewModel[];
+
+    constructor(private backendService: BackendService) {
     }
 
     ngOnInit(): void {
-        
+        this.backendService.getOwnTrips(UserHelper.getUserId()).then((trips) => {
+            this.trips = trips;
+        });
     }
-
-    trips: TripViewModel[];
 }

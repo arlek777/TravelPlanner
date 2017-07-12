@@ -1,4 +1,4 @@
-﻿import { Mapper } from '../../utils/mapper';
+﻿import { Mapper } from '../../utils/helpers';
 
 export class TripViewModel {
     constructor(trip?: any) {

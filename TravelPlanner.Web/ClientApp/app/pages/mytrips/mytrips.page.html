@@ -3,7 +3,7 @@
 <a class="btn btn-success" [routerLink]="['/newtrip']">{{ 'createButton' | translate }}</a>
 
 <div *ngFor="let trip of trips">
-    <a [routerLink]="['/trip', {id: trip.id}]">{{ trip.title }}</a>
+    <a [routerLink]="['/trip', trip.id]">{{ trip.title }}</a>
     <a [routerLink]="['/edittrip', {id: trip.id}]">{{ 'editButton' | translate }}</a>
     <a (click)="removeTrip(trip.id)">{{ 'removeButton' | translate }}</a>
 </div>
