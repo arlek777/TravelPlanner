@@ -23,6 +23,7 @@ import { InvitedTripsPage } from './pages/invitedtrips/invitedtrips.page';
 import { LoginPage } from './pages/login/login.page';
 import { RegisterPage } from './pages/register/register.page';
 import { NewTripPage } from "./pages/newtrip/newtrip.page";
+import { TripPage } from "./pages/trip/trip.page";
 
 function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
     return new InterceptedHttp(xhrBackend, requestOptions);
@@ -43,6 +44,7 @@ export function HttpLoaderFactory(http: Http) {
         LoginPage,
         RegisterPage,
         NewTripPage,
+        TripPage,
         LocalizeDirective
     ],
     imports: [
@@ -57,7 +59,7 @@ export function HttpLoaderFactory(http: Http) {
             { path: 'register', component: RegisterPage },
             { path: 'newtrip', component: NewTripPage },
             { path: 'edittrip/:id', component: NewTripPage },
-            { path: 'trip/:id', component: NewTripPage },
+            { path: 'trip/:id', component: TripPage },
             { path: '**', redirectTo: 'home' }
         ]),
         FormsModule,

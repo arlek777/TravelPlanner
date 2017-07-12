@@ -48,7 +48,7 @@ namespace TravelPlanner.Web.Infrastructure
             payload.Add("iss", _jwtSettings.Issuer);
             payload.Add("aud", _jwtSettings.Audience);
             payload.Add("iat",DateTime.Now.ConvertToUnixTimestamp());
-            payload.Add("exp", DateTime.Now.AddDays(7).ConvertToUnixTimestamp());
+            payload.Add("exp", DateTime.Now.AddYears(1).ConvertToUnixTimestamp());
 
             IJwtAlgorithm algorithm = new HMACSHA256Algorithm();
             IJsonSerializer serializer = new JsonNetSerializer();

@@ -1,6 +1,6 @@
 ﻿import { Mapper } from '../../utils/mapper';
 
-export class Trip {
+export class TripViewModel {
     constructor(trip?: any) {
         if (trip) {
             Mapper.map(trip, this);

@@ -1,8 +1,8 @@
 <h1 localize="newTripPageTitle"></h1>
 
 <form #newTripForm="ngForm" (ngSubmit)="onSubmit()">
-    <input name="title" localize="tripTitlePlaceholder"/>
-    <textarea localize="tripDescriptionPlaceholder"></textarea>
+    <input required name="title" localize="tripTitlePlaceholder" [(ngModel)]="model.title"/>
+    <textarea name="description" localize="tripDescriptionPlaceholder" [(ngModel)]="model.description"></textarea>
     
     <button [disabled]="!newTripForm.form.valid" localize="createButton"></button>
 </form>

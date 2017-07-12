@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Trip } from "../../models/trips/trip";
+import { TripViewModel } from "../../models/trips/trip";
 
 @Component({
     selector: 'mytrips',
@@ -13,5 +13,5 @@ export class MyTripsPage implements OnInit {
         
     }
 
-    trips: Trip[];
+    trips: TripViewModel[];
 }
