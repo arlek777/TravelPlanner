@@ -11,8 +11,12 @@ export class NavMenuComponent {
     constructor(private authService: AuthService, private router: Router) {
     }
 
-    isLogoutVisible() {
+    isLoggedIn() {
         return this.authService.isLoggedIn;
+    }
+
+    getUserName() {
+        return this.isLoggedIn() ? this.authService.user.userName : "";
     }
 
     logout = () => {

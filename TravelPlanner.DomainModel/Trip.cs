@@ -7,6 +7,12 @@ namespace TravelPlanner.DomainModel
 {
     public class Trip
     {
+        public Trip()
+        {
+            TripInvites = new List<TripInvite>();
+            Users = new List<User>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public Guid CreatorId { get; set; }
@@ -15,7 +21,7 @@ namespace TravelPlanner.DomainModel
         public string Description  { get; set; }
 
         public virtual Chat Chat { get; set; }
-        public virtual ICollection<Invitation> Invitations { get; set; }
+        public virtual ICollection<TripInvite> TripInvites { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }

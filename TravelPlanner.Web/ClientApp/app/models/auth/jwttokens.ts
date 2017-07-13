@@ -1,4 +1,4 @@
-﻿import { Mapper } from '../utils/helpers';
+﻿import { Mapper } from '../../utils/helpers';
 
 export class JWTTokens {
     constructor(tokens: JWTTokens) {

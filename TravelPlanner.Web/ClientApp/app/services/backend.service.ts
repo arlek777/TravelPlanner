@@ -1,16 +1,19 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
+
 import { LoginViewModel } from "../models/auth/login";
 import { RegistrationViewModel } from "../models/auth/registration";
-import 'rxjs/add/operator/toPromise';
-import { JWTTokens } from "../models/jwttokens";
-import { TripViewModel } from "../models/trips/trip";
+import { User } from "../models/user";
+import { JWTTokens } from "../models/auth/jwttokens";
+import { TripViewModel } from "../models/trip";
 
 @Injectable()
 export class BackendService {
     constructor(private http: Http) {
     }
 
+    // Auth
     login(model: LoginViewModel): Promise<JWTTokens> {
         return this.http.post("/api/auth/login", model).toPromise()
             .then((result) => { return new JWTTokens(result.json()); });
@@ -21,8 +24,8 @@ export class BackendService {
             .then((result) => { return new JWTTokens(result.json()); });
     }
 
+    // Trip
     createTrip(model: TripViewModel): Promise<string> {
-        console.log(model);
         return this.http.post("/api/mytrips/create", model).toPromise()
             .then((result) => { return result.json(); });
     }
@@ -37,5 +40,11 @@ export class BackendService {
             .then((result) => {
                 return result.json();
             });
+    }
+
+    // Invites
+    sendInvites(model: string[]): Promise<User[]> {
+        return this.http.post("/api/invites/send", model).toPromise()
+            .then((result) => { return result.json(); });
     }
 }

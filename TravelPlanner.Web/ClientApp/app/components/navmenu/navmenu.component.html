@@ -8,6 +8,7 @@
                 <span class='icon-bar'></span>
             </button>
             <a class='navbar-brand' [routerLink]="['/home']">Travel Planner</a>
+            <p *ngIf="isLoggedIn()">Hello, {{ getUserName() }}</p>
         </div>
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse'>
@@ -21,7 +22,7 @@
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/invitedtrips']">{{ 'invitedTripsPageTitle' | translate }}</a>
                 </li>
-                <li *ngIf="isLogoutVisible()">
+                <li *ngIf="isLoggedIn()">
                     <a (click)="logout()">
                         {{ 'logout' | translate }}
                     </a>

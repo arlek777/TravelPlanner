@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TravelPlanner.DomainModel
 {
-    public class Invitation
+    public class TripInvite
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
@@ -12,9 +12,7 @@ namespace TravelPlanner.DomainModel
         public Guid? UserId { get; set; }
         [Required]
         public string Phone { get; set; }
-        [NotMapped]
-        public bool IsAccepted => UserId.HasValue;
-
+        public bool IsAccepted { get; set; }
         public User User { get; set; }
         public Trip Trip { get; set; }
     }

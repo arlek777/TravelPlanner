@@ -3,7 +3,7 @@ import { BackendService } from "./backend.service";
 import { LoginViewModel } from "../models/auth/login";
 import { RegistrationViewModel } from "../models/auth/registration";
 import { User } from "../models/user";
-import { JWTTokens } from "../models/jwttokens";
+import { JWTTokens } from "../models/auth/jwttokens";
 import { Constants } from "../models/constants";
 import { LocalStorage } from '../utils/localstorage';
 
@@ -60,10 +60,17 @@ export class AuthService {
 
     private setTokensAndUserToLocalStorage(tokens: JWTTokens) {
         var base64UserClaims = tokens.idToken.split(".")[1];
-        var user = JSON.parse(atob(base64UserClaims));
+        var userClaims = JSON.parse(atob(base64UserClaims));
+
+        this._user = new User({
+            id: userClaims.id,
+            userName: userClaims.username,
+            email: userClaims.email,
+            phone: userClaims.phone
+        });
 
         localStorage.setItem(Constants.accessTokenKey, tokens.accessToken);
-        localStorage.setItem(Constants.currentUserKey, JSON.stringify(user));
-        localStorage.setItem(Constants.userIdKey, user.id);
+        localStorage.setItem(Constants.currentUserKey, JSON.stringify(this._user));
+        localStorage.setItem(Constants.userIdKey, this._user.id);
     }
 }

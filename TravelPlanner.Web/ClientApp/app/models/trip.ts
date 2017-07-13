@@ -1,4 +1,5 @@
-﻿import { Mapper } from '../../utils/helpers';
+﻿import { Mapper } from '../utils/helpers';
+import { User } from "./user";
 
 export class TripViewModel {
     constructor(trip?: any) {
@@ -11,4 +12,5 @@ export class TripViewModel {
     creatorId: string;
     title: string;
     description: string;
+    users: User[];
 }

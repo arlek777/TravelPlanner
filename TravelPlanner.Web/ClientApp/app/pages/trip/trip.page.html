@@ -1,2 +1,15 @@
 <h1>{{ trip.title }}</h1>
+<p>{{ trip.description }}</p>
 
+Invitations
+<input type="text" localize="enterInvitePhone" name="invite" [(ngModel)]="newInvite"/>
+<button (click)="addInvite()" localize="addInviteButton"></button>
+<p *ngFor="let invite of invites">{{ invite }}</p>
+<button (click)="sendInvites()" localize="inviteButton"></button>
+
+<hr/>
+
+Users
+<p *ngFor="let user of trip.users">
+    {{ user.userName }}
+</p>

@@ -8,6 +8,11 @@ namespace TravelPlanner.DomainModel
 {
     public class User: IUser<Guid>
     {
+        public User()
+        {
+            Trips = new List<Trip>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         [Required]

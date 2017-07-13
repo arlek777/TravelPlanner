@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chat.cs" />
-    <Compile Include="Invitation.cs" />
+    <Compile Include="TripInvite.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Trip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

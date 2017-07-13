@@ -19,7 +19,10 @@ namespace TravelPlanner.BusinessLogic.Services
 
         public async Task<Guid> Create(Trip model)
         {
+            var currentUser = await _repository.Find<User>(u => u.Id == model.CreatorId);
+
             _repository.Add(model);
+            model.Users.Add(currentUser);
             await _repository.SaveChanges();
 
             return model.Id;
@@ -45,7 +48,7 @@ namespace TravelPlanner.BusinessLogic.Services
         public async Task<IEnumerable<Trip>> GetInvited(Guid userId)
         {
             var user = await _repository.Find<User>(u => u.Id == userId);
-            return user.Trips.ToList();
+            return user.Trips.Where(t => t.CreatorId != userId).ToList();
         }
 
         public async Task<IEnumerable<Trip>> GetOwn(Guid userId)

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { TripViewModel } from "../../models/trips/trip";
+import { TripViewModel } from "../../models/trip";
 import { BackendService } from "../../services/backend.service";
 import { Constants } from "../../models/constants";
 import { UserHelper } from "../../utils/helpers";

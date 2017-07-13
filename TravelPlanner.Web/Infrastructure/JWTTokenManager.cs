@@ -26,7 +26,8 @@ namespace TravelPlanner.Web.Infrastructure
             {
                 { "id", user.Id },
                 { "username", user.UserName },
-                { "email", user.Email }
+                { "email", user.Email },
+                { "phone", user.Phone }
             };
             return GetToken(payload);
         }
