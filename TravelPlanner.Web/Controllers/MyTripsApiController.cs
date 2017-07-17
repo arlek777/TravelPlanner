@@ -10,18 +10,19 @@ using TravelPlanner.Web.Models;
 
 namespace TravelPlanner.Web.Controllers
 {
+    public class InvitesModel
+    {
+        public string[] Phones { get; set; }
+        public Guid InvitorUserId { get; set; }
+        public Guid TripId { get; set; }
+    }
+
     [Authorize]
     public class InvitesApiController : Controller
     {
-        public async Task<IActionResult> SendInvites([FromBody] string[] model)
+        public async Task<IActionResult> SendInvites([FromBody] InvitesModel model)
         {
-            // TODO
-            // 1. Look through all phones
-            // 2. If a user is found with it - create trip invite with him and add it to the Trip users
-            // 3. If a user is new - create a trip invite without him and add it to the Trip users
-            // 4. Creating TripInvite - generate short link, attach all data TripId, UserId, Phone
-            // 5. Send invite with link and by invite provider
-            // 6. Return list of new users
+
         }
     }
 
