@@ -25,11 +25,14 @@ namespace TravelPlanner.BusinessLogic.Services
             return uniqueInvites;
         }
 
-        public async Task<TripInvite> AcceptInvite(string inviteId)
+        public async Task<TripInvite> AcceptInvite(int inviteId, Guid userId)
         {
             var tripInvite = await Get(inviteId);
             if (tripInvite != null)
             {
+                var user = await _repository.Find<User>(u => u.Id == userId);
+                tripInvite.Trip.Users.Add(user);
+
                 _repository.Remove(tripInvite);
                 await _repository.SaveChanges();
             }
@@ -37,13 +40,13 @@ namespace TravelPlanner.BusinessLogic.Services
             return tripInvite;
         }
 
-        public async Task<TripInvite> Get(string inviteId)
+        public async Task<TripInvite> Get(int inviteId)
         {
-            var trip = await _repository.Find<TripInvite>(t => t.InviteId == inviteId);
+            var trip = await _repository.Find<TripInvite>(t => t.Id == inviteId);
             return trip;
         }
 
-        private async Task<List<TripInvite>> AddUniqueInvites(IEnumerable<TripInvite> invites, Guid tripId)
+        private async Task<List<TripInvite>> AddUniqueInvites(IEnumerable<TripInvite> invites, int tripId)
         {
             var trip = await _repository.Find<Trip>(t => t.Id == tripId);
             var uniqueInvites = invites.Where(invite => trip.TripInvites.All(t => t.Phone != invite.Phone)).ToList();

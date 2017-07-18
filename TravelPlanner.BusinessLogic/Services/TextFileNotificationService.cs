@@ -20,6 +20,8 @@ namespace TravelPlanner.BusinessLogic.Services
             {
                 await streamWriter.WriteAsync(notification.Text);
             }
+
+            streamWriter.Close();
         }
     }
 }

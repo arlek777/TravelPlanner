@@ -8,7 +8,7 @@ export class TripViewModel {
         }
     }
 
-    id: string;
+    id: number;
     creatorId: string;
     title: string;
     description: string;

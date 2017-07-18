@@ -32,30 +32,29 @@ namespace TravelPlanner.Web.Controllers
             {
                 InvitorId = model.InvitorUserId,
                 Phone = p,
-                TripId = model.TripId,
-                InviteId = new Random().Next(10000, 99999).ToString()
+                TripId = model.TripId
             }));
 
             var invites = await _inviteService.AddInvites(tripInvites);
-            await SendInvites(model.InvitorUserName, invites);
+            await SendInvites(model.InvitorUserName, invites.ToList());
 
             return Ok();
         }
 
         [Route("api/invites/accept")]
         [HttpPost]
-        public async Task<IActionResult> AcceptInvite([FromBody] string inviteId)
+        public async Task<IActionResult> AcceptInvite([FromBody] int inviteId, Guid userId)
         {
-            var tripInvite = await _inviteService.AcceptInvite(inviteId);
+            var tripInvite = await _inviteService.AcceptInvite(inviteId, userId);
             return Ok(tripInvite?.TripId);
         }
 
         private async Task SendInvites(string invitorUserName, IEnumerable<TripInvite> invites)
         {
-            var inviteLink = "http://localhost:5000/acceptinvite/";
+            var inviteLink = "http://localhost:54823/acceptinvite/";
             var notifications = invites.Select(invite => new NotificationModel()
             {
-                Text = $"Привет, {invitorUserName} приглашает вас в путешествие: {inviteLink + invite.InviteId}.",
+                Text = $"Привет, {invitorUserName} приглашает вас в путешествие: {inviteLink + invite.Id}.",
                 To = invite.Phone
             });
 

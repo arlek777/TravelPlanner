@@ -14,7 +14,7 @@ namespace TravelPlanner.DomainModel
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public Guid CreatorId { get; set; }
         [Required]
         public string Title { get; set; }

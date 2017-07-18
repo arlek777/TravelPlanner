@@ -17,7 +17,7 @@ namespace TravelPlanner.BusinessLogic.Services
             _repository = repository;
         }
 
-        public async Task<Guid> Create(Trip model)
+        public async Task<int> Create(Trip model)
         {
             var currentUser = await _repository.Find<User>(u => u.Id == model.CreatorId);
 
@@ -28,19 +28,19 @@ namespace TravelPlanner.BusinessLogic.Services
             return model.Id;
         }
 
-        public async Task Remove(Guid id, Guid userId)
+        public async Task Remove(int id, Guid userId)
         {
             var trip = await GetTrip(id, userId);
             _repository.Remove(trip);
             await _repository.SaveChanges();
         }
 
-        public Task<Guid> Update(Trip model)
+        public Task<int> Update(Trip model)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Trip> Get(Guid id, Guid userId)
+        public async Task<Trip> Get(int id, Guid userId)
         {
             return await GetTrip(id, userId);
         }
@@ -56,9 +56,11 @@ namespace TravelPlanner.BusinessLogic.Services
             return await _repository.GetList<Trip>(t => t.CreatorId == userId);
         }
 
-        private async Task<Trip> GetTrip(Guid id, Guid userId)
+        private async Task<Trip> GetTrip(int id, Guid userId)
         {
-            var trip = await _repository.Find<Trip>(t => t.Id == id && t.CreatorId == userId);
+            var trip = await _repository.Find<Trip>(t => t.Id == id
+                                                         && (t.CreatorId == userId ||
+                                                             t.Users.Any(u => u.Id == userId)));
             return trip;
         }
     }

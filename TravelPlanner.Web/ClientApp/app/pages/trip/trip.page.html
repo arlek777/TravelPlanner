@@ -2,10 +2,10 @@
 <p>{{ trip.description }}</p>
 
 Invitations
-<input type="text" localize="enterInvitePhone" name="invite" [(ngModel)]="newInvite"/>
+<input type="text" localize="enterInvitePhone" name="newPhone" [(ngModel)]="newPhone"/>
 <button (click)="addInvite()" localize="addInviteButton"></button>
-<p *ngFor="let invite of invites">{{ invite }}</p>
-<button (click)="sendInvites()" localize="inviteButton"></button>
+<p *ngFor="let invite of invitePhones">{{ invite }}</p>
+<button (click)="sendInvites()" localize="sendInvitesButton"></button>
 
 <hr/>
 

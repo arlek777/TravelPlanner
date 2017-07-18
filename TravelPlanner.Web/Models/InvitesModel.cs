@@ -6,7 +6,7 @@ namespace TravelPlanner.Web.Models
     {
         public string[] Phones { get; set; }
         public Guid InvitorUserId { get; set; }
-        public Guid TripId { get; set; }
+        public int TripId { get; set; }
         public string InvitorUserName { get; set; }
     }
 }

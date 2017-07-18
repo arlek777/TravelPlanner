@@ -7,6 +7,7 @@ import { RegistrationViewModel } from "../models/auth/registration";
 import { User } from "../models/user";
 import { JWTTokens } from "../models/auth/jwttokens";
 import { TripViewModel } from "../models/trip";
+import { InvitesModel } from "../models/invites";
 
 @Injectable()
 export class BackendService {
@@ -43,8 +44,7 @@ export class BackendService {
     }
 
     // Invites
-    sendInvites(model: string[]): Promise<User[]> {
-        return this.http.post("/api/invites/send", model).toPromise()
-            .then((result) => { return result.json(); });
+    sendInvites(model: InvitesModel): Promise<boolean> {
+        return this.http.post("/api/invites/send", model).toPromise().then(() => { return true });
     }
 }

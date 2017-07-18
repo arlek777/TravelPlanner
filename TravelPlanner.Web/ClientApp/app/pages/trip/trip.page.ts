@@ -1,38 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { TripViewModel } from "../../models/trip";
+import { InvitesModel } from "../../models/invites";
 import { BackendService } from "../../services/backend.service";
+import { AuthService } from "../../services/auth.service";
 import { UserHelper } from "../../utils/helpers";
+import { User } from "../../models/user";
 
 @Component({
     selector: 'trip',
     templateUrl: './trip.page.html'
 })
 export class TripPage implements OnInit {
-    trip = new TripViewModel();
-    newInvite = "";
-    invites = new Array<string>();
+    private currentUser: User = null;
 
-    constructor(private backendService: BackendService, private route: ActivatedRoute) {
+    constructor(private backendService: BackendService, private route: ActivatedRoute, private authService: AuthService) {
     }
 
+    trip = new TripViewModel();
+    newPhone = "";
+    invitePhones = new Array<string>();
+
     ngOnInit() {
-        var userId = UserHelper.getUserId();
+        this.currentUser = this.authService.user;
         var tripId = this.route.snapshot.params['id'];
-        this.backendService.getTrip(tripId, userId).then((trip) => {
+        this.backendService.getTrip(tripId, this.currentUser.id).then((trip) => {
             this.trip = trip;
         });
     }
 
     addInvite() {
-        this.invites.push(this.newInvite);
-        this.newInvite = "";
+        this.invitePhones.push(this.newPhone);
+        this.newPhone = "";
     }
 
     sendInvites() {
-        this.backendService.sendInvites(this.invites).then((users) => {
-            this.trip.users = users;
+        var model = new InvitesModel(this.invitePhones, this.currentUser.id, this.currentUser.userName, this.trip.id);
+        this.backendService.sendInvites(model).then(() => {
+            alert("Done");
         });
-        this.invites = new Array<string>();
+        this.invitePhones = new Array<string>();
     }
 }
