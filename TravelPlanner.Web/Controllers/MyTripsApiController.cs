@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -10,22 +10,6 @@ using TravelPlanner.Web.Models;
 
 namespace TravelPlanner.Web.Controllers
 {
-    public class InvitesModel
-    {
-        public string[] Phones { get; set; }
-        public Guid InvitorUserId { get; set; }
-        public Guid TripId { get; set; }
-    }
-
-    [Authorize]
-    public class InvitesApiController : Controller
-    {
-        public async Task<IActionResult> SendInvites([FromBody] InvitesModel model)
-        {
-
-        }
-    }
-
     [Authorize]
     public class MyTripsApiController : Controller
     {

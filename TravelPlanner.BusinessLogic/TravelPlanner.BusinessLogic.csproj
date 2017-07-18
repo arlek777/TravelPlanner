@@ -47,10 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Extensions\GuidExtensions.cs" />
+    <Compile Include="Extensions\GuidHelper.cs" />
     <Compile Include="Interfaces\ITripService.cs" />
     <Compile Include="Interfaces\INotificationService.cs" />
     <Compile Include="Models\NotificationModel.cs" />
+    <Compile Include="Interfaces\ITripInviteService.cs" />
     <Compile Include="Services\TextFileNotificationService.cs" />
     <Compile Include="Services\TripInviteService.cs" />
     <Compile Include="Services\TripService.cs" />

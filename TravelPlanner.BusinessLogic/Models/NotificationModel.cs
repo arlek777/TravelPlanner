@@ -1,4 +1,4 @@
-namespace TravelPlanner.BusinessLogic.Services
+namespace TravelPlanner.BusinessLogic.Models
 {
     public class NotificationModel
     {

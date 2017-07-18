@@ -8,12 +8,19 @@ namespace TravelPlanner.DomainModel
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+
+        [Required]
+        public Guid InvitorId { get; set; }
+
+        [Required]
         public Guid TripId { get; set; }
+
         [Required]
         public string Phone { get; set; }
+
         [Required]
-        public string Link { get; set; }
-        public bool IsAccepted { get; set; }
+        public string InviteId { get; set; }
+
         public Trip Trip { get; set; }
     }
 }
