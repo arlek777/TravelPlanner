@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TravelPlanner.DomainModel
 {
@@ -8,12 +9,12 @@ namespace TravelPlanner.DomainModel
     {
         public Trip()
         {
-            Id = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
             TripInvites = new List<TripInvite>();
             Users = new List<User>();
         }
 
-        public string Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
         public Guid CreatorId { get; set; }
         [Required]
         public string Title { get; set; }

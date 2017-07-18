@@ -8,7 +8,7 @@ namespace TravelPlanner.DomainModel
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public string ChatId { get; set; }
+        public Guid ChatId { get; set; }
         public Guid UserId { get; set; }
         [Required]
         public string Text { get; set; }

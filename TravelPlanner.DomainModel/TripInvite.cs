@@ -13,7 +13,7 @@ namespace TravelPlanner.DomainModel
         public Guid InvitorId { get; set; }
 
         [Required]
-        public string TripId { get; set; }
+        public Guid TripId { get; set; }
 
         [Required]
         public string Phone { get; set; }

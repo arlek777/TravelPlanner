@@ -43,7 +43,7 @@ namespace TravelPlanner.BusinessLogic.Services
             return trip;
         }
 
-        private async Task<List<TripInvite>> AddUniqueInvites(IEnumerable<TripInvite> invites, string tripId)
+        private async Task<List<TripInvite>> AddUniqueInvites(IEnumerable<TripInvite> invites, Guid tripId)
         {
             var trip = await _repository.Find<Trip>(t => t.Id == tripId);
             var uniqueInvites = invites.Where(invite => trip.TripInvites.All(t => t.Phone != invite.Phone)).ToList();
