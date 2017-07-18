@@ -36,7 +36,7 @@ namespace TravelPlanner.Web.Controllers
 
         [Route("api/mytrips/get/{id}/{userId}")]
         [HttpGet]
-        public async Task<IActionResult> GetTrip(Guid id, Guid userId)
+        public async Task<IActionResult> GetTrip(string id, Guid userId)
         {
             var trip = await _tripService.Get(id, userId);
             return Ok(Mapper.Map<TripDetailModel>(trip));
@@ -60,7 +60,7 @@ namespace TravelPlanner.Web.Controllers
 
         [Route("api/mytrips/remove")]
         [HttpPost]
-        public async Task<IActionResult> Remove([FromBody] Guid id, Guid userId)
+        public async Task<IActionResult> Remove([FromBody] string id, Guid userId)
         {
             await _tripService.Remove(id, userId);
             return Ok();

@@ -27,7 +27,7 @@ export class BackendService {
     // Trip
     createTrip(model: TripViewModel): Promise<string> {
         return this.http.post("/api/mytrips/create", model).toPromise()
-            .then((result) => { return result.json(); });
+            .then((result) => { return result.text(); });
     }
 
     getTrip(id: string, userId: string): Promise<TripViewModel> {

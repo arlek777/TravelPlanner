@@ -12,7 +12,7 @@ namespace TravelPlanner.DomainModel
         }
 
         [ForeignKey("Trip")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public Trip Trip { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
     }
