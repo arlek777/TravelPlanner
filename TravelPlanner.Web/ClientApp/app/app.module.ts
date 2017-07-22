@@ -24,6 +24,7 @@ import { LoginPage } from './pages/login/login.page';
 import { RegisterPage } from './pages/register/register.page';
 import { NewTripPage } from "./pages/newtrip/newtrip.page";
 import { TripPage } from "./pages/trip/trip.page";
+import { AcceptInvitePage } from "./pages/acceptinvite/acceptinvite.page";
 
 function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
     return new InterceptedHttp(xhrBackend, requestOptions);
@@ -45,6 +46,7 @@ export function HttpLoaderFactory(http: Http) {
         RegisterPage,
         NewTripPage,
         TripPage,
+        AcceptInvitePage,
         LocalizeDirective
     ],
     imports: [
@@ -57,9 +59,10 @@ export function HttpLoaderFactory(http: Http) {
             { path: 'invitedtrips', component: InvitedTripsPage, canActivate: [AuthGuard] },
             { path: 'login', component: LoginPage },
             { path: 'register', component: RegisterPage },
-            { path: 'newtrip', component: NewTripPage },
-            { path: 'edittrip/:id', component: NewTripPage },
-            { path: 'trip/:id', component: TripPage },
+            { path: 'newtrip', component: NewTripPage, canActivate: [AuthGuard] },
+            { path: 'edittrip/:id', component: NewTripPage, canActivate: [AuthGuard] },
+            { path: 'trip/:id', component: TripPage, canActivate: [AuthGuard] },
+            { path: 'acceptinvite/:inviteId', component: AcceptInvitePage, canActivate: [AuthGuard] },
             { path: '**', redirectTo: 'home' }
         ]),
         FormsModule,

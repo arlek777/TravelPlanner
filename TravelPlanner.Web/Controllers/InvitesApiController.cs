@@ -43,16 +43,17 @@ namespace TravelPlanner.Web.Controllers
 
         [Route("api/invites/accept")]
         [HttpPost]
-        public async Task<IActionResult> AcceptInvite([FromBody] int inviteId, Guid userId)
+        public async Task<IActionResult> AcceptInvite([FromBody] int inviteId, [FromBody] Guid userId)
         {
             var tripInvite = await _inviteService.AcceptInvite(inviteId, userId);
-            return Ok(tripInvite?.TripId);
+            if (tripInvite == null) return BadRequest(ValidationResultCodes.InviteNotFound);
+            return Ok(tripInvite.TripId);
         }
 
         private async Task SendInvites(string invitorUserName, IEnumerable<TripInvite> invites)
         {
-            var inviteLink = "http://localhost:54823/acceptinvite/";
-            var notifications = invites.Select(invite => new NotificationModel()
+            var inviteLink = $"http://{Request.Host}/acceptinvite/";
+            var notifications = invites.ToList().Select(invite => new NotificationModel()
             {
                 Text = $"Привет, {invitorUserName} приглашает вас в путешествие: {inviteLink + invite.Id}.",
                 To = invite.Phone

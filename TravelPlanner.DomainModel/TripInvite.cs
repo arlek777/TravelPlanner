@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TravelPlanner.DomainModel
 {
@@ -7,9 +8,10 @@ namespace TravelPlanner.DomainModel
     {
         public TripInvite()
         {
-            Id = new Random().Next(11111, 99999);
+            Id = new Random().Next(1000, 9999);
         }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]

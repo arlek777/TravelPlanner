@@ -56,7 +56,7 @@ namespace TravelPlanner.Web
         {
             services.AddTransient<IGenericRepository, EntityFrameworkRepository>();
             services.AddScoped<DbContext>((provider) => new TravelPlannerDbContext(Configuration.GetConnectionString("DefaultConnection")));
-            //DbInitializer.Initialize(context);
+            //DbInitializer.Initialize(new TravelPlannerDbContext(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         private void ConfigureBusinessLogic(IServiceCollection services)

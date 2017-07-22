@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class LoginPage {
     constructor(private authService: AuthService, private router: Router) {
+        if (this.authService.isLoggedIn) this.router.navigate(['/home']);
     }
 
     model = new LoginViewModel();

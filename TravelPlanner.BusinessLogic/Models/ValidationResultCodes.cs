@@ -10,5 +10,7 @@
 
         public const string PasswordShort = "passwordShort";
         public const string PasswordInvalidFormat = "passwordInvalidFormat";
+
+        public static string InviteNotFound = "inviteNotFound";
     }
 }
