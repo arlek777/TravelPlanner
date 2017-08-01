@@ -31,6 +31,11 @@ export class BackendService {
             .then((result) => { return result.json(); });
     }
 
+    removeTrip(tripId: number, userId: string): Promise<boolean> {
+        var model = { id: tripId, userId: userId };
+        return this.http.post("/api/mytrips/remove", model).toPromise().then(() => { return true; });
+    }
+
     getTrip(id: string, userId: string): Promise<TripViewModel> {
         return this.http.get(`/api/mytrips/get/${id}/${userId}`).toPromise()
             .then((result) => { return new TripViewModel(result.json()); });

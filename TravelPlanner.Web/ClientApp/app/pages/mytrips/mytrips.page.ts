@@ -18,4 +18,12 @@ export class MyTripsPage implements OnInit {
             this.trips = trips;
         });
     }
+
+    removeTrip(tripId: number) {
+        if (!confirm("Are you sure?")) return;
+        this.backendService.removeTrip(tripId, UserHelper.getUserId()).then(() => {
+            alert("Done");
+            
+        });
+    }
 }
