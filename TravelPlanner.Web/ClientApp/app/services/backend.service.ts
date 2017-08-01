@@ -49,7 +49,8 @@ export class BackendService {
     }
 
     acceptInvite(inviteId: number, userId: string): Promise<number> {
-        return this.http.post("/api/invites/accept", { inviteId: inviteId, userId: userId })
+        var model = { inviteId: inviteId, userId: userId };
+        return this.http.post("/api/invites/accept", model)
             .toPromise()
             .then((response) => { return parseInt(response.text()); });
     }

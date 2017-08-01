@@ -11,6 +11,12 @@ using TravelPlanner.Web.Models;
 
 namespace TravelPlanner.Web.Controllers
 {
+    public class AcceptInviteModel
+    {
+        public int InviteId { get; set; }
+        public Guid UserId { get; set; }
+    }
+
     [Authorize]
     public class InvitesApiController : Controller
     {
@@ -43,9 +49,9 @@ namespace TravelPlanner.Web.Controllers
 
         [Route("api/invites/accept")]
         [HttpPost]
-        public async Task<IActionResult> AcceptInvite([FromBody] int inviteId, [FromBody] Guid userId)
+        public async Task<IActionResult> AcceptInvite([FromBody] AcceptInviteModel model)
         {
-            var tripInvite = await _inviteService.AcceptInvite(inviteId, userId);
+            var tripInvite = await _inviteService.AcceptInvite(model.InviteId, model.UserId);
             if (tripInvite == null) return BadRequest(ValidationResultCodes.InviteNotFound);
             return Ok(tripInvite.TripId);
         }

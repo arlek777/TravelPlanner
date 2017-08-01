@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterContentInit } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { ActivatedRoute, Router } from "@angular/router";
@@ -9,12 +9,13 @@ import { UserHelper } from "../../utils/helpers";
     selector: 'acceptinvite',
     templateUrl: './acceptinvite.page.html'
 })
-export class AcceptInvitePage implements OnInit {
+export class AcceptInvitePage implements AfterContentInit {
+    
     constructor(private backendService: BackendService, private route: ActivatedRoute, private router: Router) {
         
     }
 
-    ngOnInit() {
+    ngAfterContentInit() {
         var inviteId = this.route.snapshot.params["inviteId"];
         this.backendService.acceptInvite(inviteId, UserHelper.getUserId()).then((tripId: number) => {
             this.router.navigate(['/trip/' + tripId]);

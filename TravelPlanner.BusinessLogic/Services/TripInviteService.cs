@@ -30,6 +30,11 @@ namespace TravelPlanner.BusinessLogic.Services
             var tripInvite = await Get(inviteId);
             if (tripInvite != null)
             {
+                if (tripInvite.Trip.Users.Any(u => u.Id == userId))
+                {
+                    return null;
+                }
+
                 var user = await _repository.Find<User>(u => u.Id == userId);
                 tripInvite.Trip.Users.Add(user);
 

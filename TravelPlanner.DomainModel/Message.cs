@@ -14,7 +14,7 @@ namespace TravelPlanner.DomainModel
         public string Text { get; set; }
         [Required]
         public DateTime SentDt { get; set; }
-        public Chat Chat { get; set; }
-        public User User { get; set; }
+        public virtual Chat Chat { get; set; }
+        public virtual User User { get; set; }
     }
 }

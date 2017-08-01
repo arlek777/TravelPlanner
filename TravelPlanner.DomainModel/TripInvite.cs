@@ -23,6 +23,6 @@ namespace TravelPlanner.DomainModel
         [Required]
         public string Phone { get; set; }
 
-        public Trip Trip { get; set; }
+        public virtual Trip Trip { get; set; }
     }
 }
