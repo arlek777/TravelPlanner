@@ -10,10 +10,13 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AuthGuard } from "./services/auth-guard.service";
 import { AuthService } from "./services/auth.service";
 import { BackendService } from "./services/backend.service";
+import { ChatService } from "./services/chat.service";
+import { WebSocketService } from "./services/websocket.service";
 import { InterceptedHttp } from "./utils/http.interceptor";
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 import { LocalizeDirective } from "./directives/localize.directive";
 
@@ -39,6 +42,7 @@ export function HttpLoaderFactory(http: Http) {
     declarations: [
         AppComponent,
         NavMenuComponent,
+        ChatComponent,
         HomePage,
         MyTripsPage,
         InvitedTripsPage,
@@ -79,6 +83,8 @@ export function HttpLoaderFactory(http: Http) {
         AuthGuard,
         AuthService,
         BackendService,
+        ChatService,
+        WebSocketService,
         {
             provide: Http,
             useFactory: httpFactory,

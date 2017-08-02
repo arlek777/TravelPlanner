@@ -1,0 +1,19 @@
+<div style="border: 1px solid gray; height: 200px; width: 200px">
+    <p>Messages</p>
+    <p *ngFor="let msg of messages">{{ msg.text }}</p>
+</div>
+
+<h2>New message:</h2>	
+<div class="input-group col-xs-8">		   
+    <input
+        [(ngModel)]="message.text"
+        name="msg"                    
+        type="text"
+        class="form-control"
+        placeholder="message...">
+    <span class="input-group-btn">
+        <button                       
+            class="btn"
+            (click)="sendMsg()">send</button>
+    </span>
+</div>

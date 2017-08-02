@@ -2,6 +2,7 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -23,6 +24,7 @@ using TravelPlanner.Identity.IdentityManagers;
 using TravelPlanner.Identity.IdentityStores;
 using TravelPlanner.Identity.IdentityValidators;
 using TravelPlanner.Web.Infrastructure;
+using TravelPlanner.Web.Infrastructure.WebSocket;
 using TravelPlanner.Web.Models;
 
 namespace TravelPlanner.Web
@@ -49,7 +51,73 @@ namespace TravelPlanner.Web
             ConfigureSecurity(services);
             ConfigureBusinessLogic(services);
 
+            services.AddTransient<WebSocketConnectionManager>();
+            foreach (var type in Assembly.GetEntryAssembly().ExportedTypes)
+            {
+                if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler))
+                {
+                    services.AddSingleton(type);
+                }
+            }
+
             services.AddMvc();
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            ILoggerFactory loggerFactory, IOptions<JWTSettings> optionsAccessor, IServiceProvider serviceProvider)
+        {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
+                    HotModuleReplacement = true
+                });
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+
+            AutoMapperConfig.Configure();
+
+            // Authentication JWT Settings
+            var jwtSettings = optionsAccessor.Value;
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey));
+
+            var tokenValidationParameters = GetTokenValidationParameters(signingKey, jwtSettings);
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                TokenValidationParameters = tokenValidationParameters
+            });
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AutomaticAuthenticate = false,
+                AutomaticChallenge = false
+            });
+
+            app.UseWebSockets();
+            app.MapWebSocketManager("/ws", serviceProvider.GetService<ChatMessageHandler>());
+
+            // Standart MVC settings
+            app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
         }
 
         private void ConfigureDb(IServiceCollection services)
@@ -97,58 +165,6 @@ namespace TravelPlanner.Web
                         return Task.FromResult("User Unauthorized");
                     }
                 };
-            });
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IOptions<JWTSettings> optionsAccessor)
-        {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
-                    HotModuleReplacement = true
-                });
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
-            AutoMapperConfig.Configure();
-
-            // Authentication JWT Settings
-            var jwtSettings = optionsAccessor.Value;
-            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey));
-
-            var tokenValidationParameters = GetTokenValidationParameters(signingKey, jwtSettings);
-
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
-            {
-                TokenValidationParameters = tokenValidationParameters
-            });
-
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AutomaticAuthenticate = false,
-                AutomaticChallenge = false
-            });
-
-            // Standart MVC settings
-            app.UseStaticFiles();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
             });
         }
 
