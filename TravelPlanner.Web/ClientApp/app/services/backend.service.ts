@@ -27,22 +27,22 @@ export class BackendService {
 
     // Trip
     createTrip(model: TripViewModel): Promise<string> {
-        return this.http.post("/api/mytrips/create", model).toPromise()
+        return this.http.post("/api/mytrip/create", model).toPromise()
             .then((result) => { return result.json(); });
     }
 
     removeTrip(tripId: number, userId: string): Promise<boolean> {
         var model = { id: tripId, userId: userId };
-        return this.http.post("/api/mytrips/remove", model).toPromise().then(() => { return true; });
+        return this.http.post("/api/mytrip/remove", model).toPromise().then(() => { return true; });
     }
 
     getTrip(id: string, userId: string): Promise<TripViewModel> {
-        return this.http.get(`/api/mytrips/get/${id}/${userId}`).toPromise()
+        return this.http.get(`/api/mytrip/get/${id}/${userId}`).toPromise()
             .then((result) => { return new TripViewModel(result.json()); });
     }
 
     getOwnTrips(userId: string): Promise<TripViewModel[]> {
-        return this.http.get(`/api/mytrips/getown/${userId}`).toPromise()
+        return this.http.get(`/api/mytrip/getown/${userId}`).toPromise()
             .then((result) => {
                 return result.json();
             });
@@ -50,12 +50,23 @@ export class BackendService {
 
     // Invites
     sendInvites(model: InvitesModel): Promise<boolean> {
-        return this.http.post("/api/invites/send", model).toPromise().then(() => { return true });
+        return this.http.post("/api/invite/send", model).toPromise().then(() => { return true });
     }
 
     acceptInvite(inviteId: number, userId: string): Promise<number> {
         var model = { inviteId: inviteId, userId: userId };
-        return this.http.post("/api/invites/accept", model)
+        return this.http.post("/api/invite/accept", model)
+            .toPromise()
+            .then((response) => { return parseInt(response.text()); });
+    }
+
+    // Messages
+    sendMessage(model: MessageModel): Promise<boolean> {
+        return this.http.post("/api/message/send", model).toPromise().then(() => { return true });
+    }
+
+    getAllMessages(chatId: number): Promise<MessageModel> {
+        return this.http.get(`/api/message/getall/${chatId}`)
             .toPromise()
             .then((response) => { return parseInt(response.text()); });
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -11,25 +10,19 @@ using TravelPlanner.Web.Models;
 
 namespace TravelPlanner.Web.Controllers
 {
-    public class AcceptInviteModel
-    {
-        public int InviteId { get; set; }
-        public Guid UserId { get; set; }
-    }
-
     [Authorize]
-    public class InvitesApiController : Controller
+    public class InviteApiController : Controller
     {
         private readonly ITripInviteService _inviteService;
         private readonly INotificationService _notificationService;
 
-        public InvitesApiController(ITripInviteService inviteService, INotificationService notificationService)
+        public InviteApiController(ITripInviteService inviteService, INotificationService notificationService)
         {
             _inviteService = inviteService;
             _notificationService = notificationService;
         }
 
-        [Route("api/invites/send")]
+        [Route("api/invite/send")]
         [HttpPost]
         public async Task<IActionResult> SendInvites([FromBody] InvitesModel model)
         {
@@ -47,7 +40,7 @@ namespace TravelPlanner.Web.Controllers
             return Ok();
         }
 
-        [Route("api/invites/accept")]
+        [Route("api/invite/accept")]
         [HttpPost]
         public async Task<IActionResult> AcceptInvite([FromBody] AcceptInviteModel model)
         {

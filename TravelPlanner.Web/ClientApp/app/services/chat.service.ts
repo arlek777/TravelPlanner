@@ -16,9 +16,12 @@ export class ChatService {
             .map((response: MessageEvent): IMessage => {
                 let data = JSON.parse(response.data);
                 return {
+                    id: data.id,
+                    userId: data.userId,
+                    chatId: data.chatId,
                     author: data.author,
                     text: data.text,
-                    newDate: data.newDate
+                    sentDate: data.sentDate
                 }
             });
     }

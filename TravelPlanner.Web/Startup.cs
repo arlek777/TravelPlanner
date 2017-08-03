@@ -1,12 +1,5 @@
 using System;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -15,14 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using TravelPlanner.BusinessLogic.Interfaces;
-using TravelPlanner.BusinessLogic.Security;
-using TravelPlanner.BusinessLogic.Services;
-using TravelPlanner.DataAccess;
-using TravelPlanner.DomainModel;
-using TravelPlanner.Identity.IdentityManagers;
-using TravelPlanner.Identity.IdentityStores;
-using TravelPlanner.Identity.IdentityValidators;
 using TravelPlanner.Web.Infrastructure;
 using TravelPlanner.Web.Infrastructure.WebSocket;
 using TravelPlanner.Web.Models;
@@ -46,21 +31,8 @@ namespace TravelPlanner.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            ConfigureDb(services);
-            ConfigureIdentity(services);
-            ConfigureSecurity(services);
-            ConfigureBusinessLogic(services);
-
-            services.AddTransient<WebSocketConnectionManager>();
-            foreach (var type in Assembly.GetEntryAssembly().ExportedTypes)
-            {
-                if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler))
-                {
-                    services.AddSingleton(type);
-                }
-            }
-
             services.AddMvc();
+            services.AddTravelPlanner(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -119,55 +91,6 @@ namespace TravelPlanner.Web
                     defaults: new { controller = "Home", action = "Index" });
             });
         }
-
-        private void ConfigureDb(IServiceCollection services)
-        {
-            services.AddTransient<IGenericRepository, EntityFrameworkRepository>();
-            services.AddScoped<DbContext>((provider) => new TravelPlannerDbContext(Configuration.GetConnectionString("DefaultConnection")));
-            //DbInitializer.Initialize(new TravelPlannerDbContext(Configuration.GetConnectionString("DefaultConnection")));
-        }
-
-        private void ConfigureBusinessLogic(IServiceCollection services)
-        {
-            services.AddTransient<ITripService, TripService>();
-            services.AddTransient<ITripInviteService, TripInviteService>();
-            services.AddTransient<INotificationService, TextFileNotificationService>();
-        }
-
-        private void ConfigureIdentity(IServiceCollection services)
-        {
-            services.AddTransient<IUserStore<User, Guid>, TravelPlannerUserStore>();
-            services.AddTransient<UserManager<User, Guid>>((ctx) => new ApplicationUserManager(ctx.GetService<IUserStore<User, Guid>>())
-            {
-                PasswordValidator = new ApplicationPasswordValidator()
-                {
-                    RequiredLength = 6
-                },
-                UserValidator = new ApplicationUserValidator<User>(new ApplicationUserManager(ctx.GetService<IUserStore<User, Guid>>()))
-                {
-                    RequireUniqueEmail = true
-                }
-            });
-        }
-
-        private void ConfigureSecurity(IServiceCollection services)
-        {
-            services.Configure<JWTSettings>(Configuration.GetSection("JWTSettings"));
-            services.AddTransient<IAuthTokenManager, JWTTokenManager>();
-
-            services.Configure<IdentityOptions>(opts =>
-            {
-                opts.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents()
-                {
-                    OnRedirectToLogin = ctx =>
-                    {
-                        ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        return Task.FromResult("User Unauthorized");
-                    }
-                };
-            });
-        }
-
         private TokenValidationParameters GetTokenValidationParameters(SymmetricSecurityKey signingKey,
             JWTSettings jwtSettings)
         {

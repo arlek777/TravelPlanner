@@ -11,16 +11,16 @@ using TravelPlanner.Web.Models;
 namespace TravelPlanner.Web.Controllers
 {
     [Authorize]
-    public class MyTripsApiController : Controller
+    public class MyTripApiController : Controller
     {
         private readonly ITripService _tripService;
 
-        public MyTripsApiController(ITripService tripService)
+        public MyTripApiController(ITripService tripService)
         {
             _tripService = tripService;
         }
 
-        [Route("api/mytrips/create")]
+        [Route("api/mytrip/create")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] TripModel model)
         {
@@ -34,7 +34,7 @@ namespace TravelPlanner.Web.Controllers
             return Ok(id);
         }
 
-        [Route("api/mytrips/get/{id}/{userId}")]
+        [Route("api/mytrip/get/{id}/{userId}")]
         [HttpGet]
         public async Task<IActionResult> GetTrip(int id, Guid userId)
         {
@@ -42,7 +42,7 @@ namespace TravelPlanner.Web.Controllers
             return Ok(Mapper.Map<TripDetailModel>(trip));
         }
 
-        [Route("api/mytrips/getown/{userId}")]
+        [Route("api/mytrip/getown/{userId}")]
         [HttpGet]
         public async Task<IActionResult> GetOwnTrips(Guid userId)
         {
@@ -50,7 +50,7 @@ namespace TravelPlanner.Web.Controllers
             return Ok(trips);
         }
 
-        [Route("api/mytrips/getinvited/{userId}")]
+        [Route("api/mytrip/getinvited/{userId}")]
         [HttpGet]
         public async Task<IActionResult> GetInvitedTrips(Guid userId)
         {
@@ -58,7 +58,7 @@ namespace TravelPlanner.Web.Controllers
             return Ok(trips);
         }
 
-        [Route("api/mytrips/remove")]
+        [Route("api/mytrip/remove")]
         [HttpPost]
         public async Task<IActionResult> Remove([FromBody] int id, Guid userId)
         {

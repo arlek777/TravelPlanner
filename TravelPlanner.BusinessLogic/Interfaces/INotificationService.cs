@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TravelPlanner.BusinessLogic.Models;
-using TravelPlanner.BusinessLogic.Services;
 
 namespace TravelPlanner.BusinessLogic.Interfaces
 {

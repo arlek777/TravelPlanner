@@ -10,7 +10,7 @@ namespace TravelPlanner.Web.Infrastructure.WebSocket
     {
         protected WebSocketConnectionManager WebSocketConnectionManager { get; set; }
 
-        public WebSocketHandler(WebSocketConnectionManager webSocketConnectionManager)
+        protected WebSocketHandler(WebSocketConnectionManager webSocketConnectionManager)
         {
             WebSocketConnectionManager = webSocketConnectionManager;
         }
