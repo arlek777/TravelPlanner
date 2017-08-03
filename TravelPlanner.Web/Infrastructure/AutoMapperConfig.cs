@@ -14,9 +14,10 @@ namespace TravelPlanner.Web.Infrastructure
                 c.CreateMap<Trip, TripDetailModel>().ReverseMap();
                 c.CreateMap<User, UserModel>().ReverseMap();
 
-                c.CreateMap<Message, MessageModel>()
-                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.User.UserName));
-                c.CreateMap<MessageModel, Message>();
+                c.CreateMap<Message, MessageModel>().ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.User.UserName));
+                c.CreateMap<MessageModel, Message>()
+                    .ForMember(dest => dest.User, opt => opt.Ignore())
+                    .ForMember(dest => dest.Chat, opt => opt.Ignore());
             });
 
             Mapper.AssertConfigurationIsValid();

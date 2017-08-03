@@ -1,8 +1,10 @@
 ﻿import { Mapper } from '../../utils/helpers';
 
 export class JWTTokens {
-    constructor(tokens: JWTTokens) {
-        Mapper.map(tokens, this);
+    constructor(token?: JWTTokens) {
+        if (token) {
+            Mapper.map(token, this);
+        }
     }
 
     accessToken: string;

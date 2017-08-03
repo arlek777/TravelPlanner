@@ -2,7 +2,7 @@
 import { User } from "./user";
 
 export class TripViewModel {
-    constructor(trip?: any) {
+    constructor(trip?: TripViewModel) {
         if (trip) {
             Mapper.map(trip, this);
         }

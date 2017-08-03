@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { ChatService } from "../../services/chat.service";
-import { IMessage } from "../../models/message";
+import { MessageViewModel } from "../../models/message";
 
 @Component({
     selector: 'chat',
@@ -13,6 +13,9 @@ export class ChatComponent {
     }
 
     ngOnInit() {
+        // todo init initial message list
+        // set message author current user
+
         this.chatService.messages.subscribe(msg => {
             this.messages.push(msg);
         });
@@ -20,9 +23,9 @@ export class ChatComponent {
 
     sendMsg() {
         this.chatService.messages.next(this.message);
-        this.message = { author: '', text: '' };
+        this.message.text = '';
     }
 
-    message: IMessage = {author: '', text: ''};
-    messages: IMessage[] = [];
+    message: MessageViewModel;
+    messages: MessageViewModel[] = [];
 }

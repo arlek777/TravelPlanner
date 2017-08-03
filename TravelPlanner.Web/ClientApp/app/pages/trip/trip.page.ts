@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { TripViewModel } from "../../models/trip";
-import { InvitesModel } from "../../models/invites";
+import { InvitesViewModel } from "../../models/invites";
 import { BackendService } from "../../services/backend.service";
 import { AuthService } from "../../services/auth.service";
 import { UserHelper } from "../../utils/helpers";
@@ -33,9 +33,13 @@ export class TripPage implements OnInit {
         this.invitePhones.push(this.newPhone);
         this.newPhone = "";
     }
-
     sendInvites() {
-        var model = new InvitesModel(this.invitePhones, this.currentUser.id, this.currentUser.userName, this.trip.id);
+        var model = new InvitesViewModel({
+            invitorUserId: this.currentUser.id,
+            invitorUserName: this.currentUser.userName,
+            tripId: this.trip.id,
+            phones: this.invitePhones
+        });
         this.backendService.sendInvites(model).then(() => {
             alert("Done");
         });

@@ -1,7 +1,7 @@
 ﻿import { Mapper } from "../utils/helpers";
 
 export class User {
-    constructor(user?: any) {
+    constructor(user?: User) {
         Mapper.map(user, this);
     }
 

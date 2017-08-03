@@ -1,4 +1,14 @@
-﻿export class InvitesModel {
-    constructor(public phones: string[], public invitorUserId: string, public invitorUserName: string, public tripId: number) {
+﻿import { Mapper } from "../utils/helpers";
+
+export class InvitesViewModel {
+    constructor(invite?: InvitesViewModel) {
+        if (invite) {
+            Mapper.map(invite, this);
+        }
     }
+
+    public phones: string[];
+    public invitorUserId: string;
+    public invitorUserName: string;
+    public tripId: number;
 }

@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, ResponseContentType, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { LoginViewModel } from "../models/auth/login";
@@ -7,7 +7,8 @@ import { RegistrationViewModel } from "../models/auth/registration";
 import { User } from "../models/user";
 import { JWTTokens } from "../models/auth/jwttokens";
 import { TripViewModel } from "../models/trip";
-import { InvitesModel } from "../models/invites";
+import { InvitesViewModel } from "../models/invites";
+import { MessageViewModel } from "../models/message";
 
 @Injectable()
 export class BackendService {
@@ -26,9 +27,9 @@ export class BackendService {
     }
 
     // Trip
-    createTrip(model: TripViewModel): Promise<string> {
-        return this.http.post("/api/mytrip/create", model).toPromise()
-            .then((result) => { return result.json(); });
+    createTrip(model: TripViewModel): Promise<number> {
+        return this.http.post("/api/mytrip/create", model, { responseType: ResponseContentType.Text }).toPromise()
+            .then((result: Response) => { return parseInt(result.text()); });
     }
 
     removeTrip(tripId: number, userId: string): Promise<boolean> {
@@ -49,7 +50,7 @@ export class BackendService {
     }
 
     // Invites
-    sendInvites(model: InvitesModel): Promise<boolean> {
+    sendInvites(model: InvitesViewModel): Promise<boolean> {
         return this.http.post("/api/invite/send", model).toPromise().then(() => { return true });
     }
 
@@ -61,13 +62,13 @@ export class BackendService {
     }
 
     // Messages
-    sendMessage(model: MessageModel): Promise<boolean> {
+    sendMessage(model: MessageViewModel): Promise<boolean> {
         return this.http.post("/api/message/send", model).toPromise().then(() => { return true });
     }
 
-    getAllMessages(chatId: number): Promise<MessageModel> {
+    getAllMessages(chatId: number): Promise<MessageViewModel> {
         return this.http.get(`/api/message/getall/${chatId}`)
             .toPromise()
-            .then((response) => { return parseInt(response.text()); });
+            .then((response) => { return new MessageViewModel(response.json()); });
     }
 }
