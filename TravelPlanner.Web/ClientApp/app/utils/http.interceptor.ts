@@ -1,8 +1,6 @@
 ﻿import { Injectable, Inject } from '@angular/core';
 import { ConnectionBackend, RequestOptions, Request, RequestOptionsArgs, Response, Http, Headers } from "@angular/http";
 import { Observable } from "rxjs/Rx";
-import { AuthService } from "../services/auth.service";
-import { LocalStorage } from '../utils/localstorage';
 import { Constants } from "../models/constants";
 
 @Injectable()

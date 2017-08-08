@@ -23,7 +23,8 @@ export class BackendService {
 
     register(model: RegistrationViewModel): Promise<JWTTokens> {
         return this.http.post("/api/auth/register", model).toPromise()
-            .then((result) => { return new JWTTokens(result.json()); });
+            .then((result) => { return new JWTTokens(result.json()); })
+            .catch(result => { return Promise.reject(result); });
     }
 
     // Trip

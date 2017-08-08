@@ -1,5 +1,7 @@
 <h1>{{ 'registrPageTitle' | translate }}</h1>
 
+<notification></notification>
+
 <form #registerForm="ngForm" (ngSubmit)="onSubmit()"> 
     <input [(ngModel)]="model.userName" name="userName" type="text" required placeholder="{{ 'userNamePlaceholder' | translate }}" />
     <input [(ngModel)]="model.email" name="email" type="text" required placeholder="{{ 'emailPlaceholder' | translate }}"/>

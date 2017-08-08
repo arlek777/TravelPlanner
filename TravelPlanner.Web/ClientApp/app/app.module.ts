@@ -1,4 +1,4 @@
-﻿import { NgModule, Inject } from '@angular/core';
+﻿import { NgModule, Inject, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { RouterModule } from '@angular/router';
@@ -13,10 +13,13 @@ import { BackendService } from "./services/backend.service";
 import { ChatService } from "./services/chat.service";
 import { WebSocketService } from "./services/websocket.service";
 import { InterceptedHttp } from "./utils/http.interceptor";
+import { GlobalErrorHandler } from "./services/global-error-handler.service";
+import { NotificationService } from "./services/notification.service";
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 import { LocalizeDirective } from "./directives/localize.directive";
 
@@ -43,6 +46,7 @@ export function HttpLoaderFactory(http: Http) {
         AppComponent,
         NavMenuComponent,
         ChatComponent,
+        NotificationComponent,
         HomePage,
         MyTripsPage,
         InvitedTripsPage,
@@ -85,11 +89,17 @@ export function HttpLoaderFactory(http: Http) {
         BackendService,
         ChatService,
         WebSocketService,
+        NotificationService,
         {
             provide: Http,
             useFactory: httpFactory,
             deps: [XHRBackend, RequestOptions]
-        }]
+        },
+        {
+            provide: ErrorHandler,
+            useClass: GlobalErrorHandler
+        }
+    ]
 })
 export class AppModule {
 }

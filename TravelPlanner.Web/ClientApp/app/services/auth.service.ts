@@ -5,7 +5,6 @@ import { RegistrationViewModel } from "../models/auth/registration";
 import { User } from "../models/user";
 import { JWTTokens } from "../models/auth/jwttokens";
 import { Constants } from "../models/constants";
-import { LocalStorage } from '../utils/localstorage';
 
 @Injectable()
 export class AuthService {
