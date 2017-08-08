@@ -75,7 +75,7 @@ namespace TravelPlanner.Web
             });
 
             app.UseWebSockets();
-            app.MapWebSocketManager("/ws", serviceProvider.GetService<ChatMessageHandler>());
+            app.MapWebSocketManager("/ws", serviceProvider.GetService<WebSocketMessageHandler>());
 
             // Standart MVC settings
             app.UseStaticFiles();

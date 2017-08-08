@@ -66,9 +66,9 @@ export class BackendService {
         return this.http.post("/api/message/send", model).toPromise().then(() => { return true });
     }
 
-    getAllMessages(chatId: number): Promise<MessageViewModel> {
+    getAllMessages(chatId: number): Promise<MessageViewModel[]> {
         return this.http.get(`/api/message/getall/${chatId}`)
             .toPromise()
-            .then((response) => { return new MessageViewModel(response.json()); });
+            .then((response) => { return response.json(); });
     }
 }

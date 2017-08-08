@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TravelPlanner.BusinessLogic.Interfaces;
@@ -22,6 +23,7 @@ namespace TravelPlanner.BusinessLogic.Services
 
         public async Task<Message> Send(Message message)
         {
+            message.SentDt = DateTime.UtcNow;
             _repository.Add(message);
             await _repository.SaveChanges();
 

@@ -1,28 +1,43 @@
 import { Component } from '@angular/core';
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { ChatService } from "../../services/chat.service";
 import { MessageViewModel } from "../../models/message";
+import { BackendService } from "../../services/backend.service";
 
 @Component({
     selector: 'chat',
     templateUrl: './chat.component.html'
 })
 export class ChatComponent {
-    constructor(private chatService: ChatService) {
+    private chatId: number;
+
+    constructor(private chatService: ChatService,
+        private route: ActivatedRoute,
+        private authService: AuthService,
+        private backendService: BackendService) {
     }
 
     ngOnInit() {
-        // todo init initial message list
-        // set message author current user
+        this.chatId = this.route.snapshot.params["id"];
+        this.backendService.getAllMessages(this.chatId).then((messages: MessageViewModel[]) => {
+            this.messages = messages;
+        });
+
+        this.message = new MessageViewModel();
+        this.message.chatId = this.chatId;
+        this.message.userId = this.authService.user.id;
+        this.message.author = this.authService.user.userName;
 
         this.chatService.messages.subscribe(msg => {
-            this.messages.push(msg);
+            if (msg.chatId == this.chatId) {
+                this.messages.push(msg);
+            }
         });
     }
 
     sendMsg() {
-        this.chatService.messages.next(this.message);
+        this.backendService.sendMessage(this.message);
         this.message.text = '';
     }
 

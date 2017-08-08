@@ -8,7 +8,7 @@
                 <span class='icon-bar'></span>
             </button>
             <a class='navbar-brand' [routerLink]="['/home']">Travel Planner</a>
-            <p *ngIf="isLoggedIn()">Hello, {{ getUserName() }}</p>
+            <a class="navbar-brand" href="javascript: " *ngIf="isLoggedIn()" (click)="showUserInfo()">Hello, {{ getUserName() }}</a>
         </div>
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse'>

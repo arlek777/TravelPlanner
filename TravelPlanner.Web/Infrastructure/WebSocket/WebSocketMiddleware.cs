@@ -7,23 +7,23 @@ using Microsoft.AspNetCore.Http;
 
 namespace TravelPlanner.Web.Infrastructure.WebSocket
 {
-    public static class WebSocketManagerMiddlewareExtension
+    public static class WebSocketMiddlewareExtension
     {
         public static IApplicationBuilder MapWebSocketManager(this IApplicationBuilder app,
             PathString path,
-            WebSocketHandler handler)
+            WebSocketMessageHandler handler)
         {
-            return app.Map(path, (_app) => _app.UseMiddleware<WebSocketManagerMiddleware>(handler));
+            return app.Map(path, (_app) => _app.UseMiddleware<WebSocketMiddleware>(handler));
         }
     }
 
-    public class WebSocketManagerMiddleware
+    public class WebSocketMiddleware
     {
         private readonly RequestDelegate _next;
-        private WebSocketHandler WebSocketHandler { get; set; }
+        private WebSocketMessageHandler WebSocketHandler { get; set; }
 
-        public WebSocketManagerMiddleware(RequestDelegate next,
-            WebSocketHandler webSocketHandler)
+        public WebSocketMiddleware(RequestDelegate next,
+            WebSocketMessageHandler webSocketHandler)
         {
             _next = next;
             WebSocketHandler = webSocketHandler;
@@ -51,8 +51,7 @@ namespace TravelPlanner.Web.Infrastructure.WebSocket
 
             });
 
-            //TODO - investigate the Kestrel exception thrown when this is the last middleware
-            //await _next.Invoke(context);
+            await _next.Invoke(context);
         }
 
         private async Task Receive(System.Net.WebSockets.WebSocket socket, Action<WebSocketReceiveResult, byte[]> handleMessage)

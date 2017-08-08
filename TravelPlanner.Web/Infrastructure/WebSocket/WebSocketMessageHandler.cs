@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace TravelPlanner.Web.Infrastructure.WebSocket
 {
-    public abstract class WebSocketHandler
+    public class WebSocketMessageHandler
     {
         protected WebSocketConnectionManager WebSocketConnectionManager { get; set; }
 
-        protected WebSocketHandler(WebSocketConnectionManager webSocketConnectionManager)
+        public WebSocketMessageHandler(WebSocketConnectionManager webSocketConnectionManager)
         {
             WebSocketConnectionManager = webSocketConnectionManager;
         }
@@ -52,6 +52,11 @@ namespace TravelPlanner.Web.Infrastructure.WebSocket
             }
         }
 
-        public abstract Task ReceiveAsync(System.Net.WebSockets.WebSocket socket, WebSocketReceiveResult result, byte[] buffer);
+        public virtual async Task ReceiveAsync(System.Net.WebSockets.WebSocket socket, WebSocketReceiveResult result,
+            byte[] buffer)
+        {
+            var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+            await SendMessageToAllAsync(message);
+        }
     }
 }

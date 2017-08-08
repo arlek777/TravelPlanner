@@ -23,4 +23,8 @@ export class NavMenuComponent {
         this.authService.logout();
         this.router.navigate(['/home']);
     }
+
+    showUserInfo() {
+        console.log(this.authService.user);
+    }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading;
@@ -14,7 +13,7 @@ namespace TravelPlanner.Web.Infrastructure.WebSocket
 
         public System.Net.WebSockets.WebSocket GetSocketById(string id)
         {
-            return Enumerable.FirstOrDefault<KeyValuePair<string, System.Net.WebSockets.WebSocket>>(_sockets, p => p.Key == id).Value;
+            return Enumerable.FirstOrDefault(_sockets, p => p.Key == id).Value;
         }
 
         public ConcurrentDictionary<string, System.Net.WebSockets.WebSocket> GetAll()
@@ -24,7 +23,7 @@ namespace TravelPlanner.Web.Infrastructure.WebSocket
 
         public string GetId(System.Net.WebSockets.WebSocket socket)
         {
-            return Enumerable.FirstOrDefault<KeyValuePair<string, System.Net.WebSockets.WebSocket>>(_sockets, p => p.Value == socket).Key;
+            return Enumerable.FirstOrDefault(_sockets, p => p.Value == socket).Key;
         }
         public void AddSocket(System.Net.WebSockets.WebSocket socket)
         {

@@ -84,13 +84,7 @@ namespace TravelPlanner.Web.Infrastructure
         private static void ConfigureWebSocket(IServiceCollection services)
         {
             services.AddTransient<WebSocketConnectionManager>();
-            foreach (var type in Assembly.GetEntryAssembly().ExportedTypes)
-            {
-                if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler))
-                {
-                    services.AddSingleton(type);
-                }
-            }
+            services.AddSingleton<WebSocketMessageHandler>();
         }
     }
 }

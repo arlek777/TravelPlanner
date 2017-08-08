@@ -17,15 +17,21 @@ namespace TravelPlanner.BusinessLogic.Services
             _repository = repository;
         }
 
-        public async Task<int> Create(Trip model)
+        public async Task<int> Create(Trip trip)
         {
-            var currentUser = await _repository.Find<User>(u => u.Id == model.CreatorId);
+            var currentUser = await _repository.Find<User>(u => u.Id == trip.CreatorId);
 
-            _repository.Add(model);
-            model.Users.Add(currentUser);
+            _repository.Add(trip);
+            trip.Users.Add(currentUser);
             await _repository.SaveChanges();
 
-            return model.Id;
+            _repository.Add(new Chat()
+            {
+                Id = trip.Id
+            });
+            await _repository.SaveChanges();
+
+            return trip.Id;
         }
 
         public async Task Remove(int id, Guid userId)
@@ -35,7 +41,7 @@ namespace TravelPlanner.BusinessLogic.Services
             await _repository.SaveChanges();
         }
 
-        public Task<int> Update(Trip model)
+        public Task<int> Update(Trip trip)
         {
             throw new NotImplementedException();
         }
