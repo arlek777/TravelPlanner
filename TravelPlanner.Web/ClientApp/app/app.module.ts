@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 import { AuthGuard } from "./services/auth-guard.service";
 import { AuthService } from "./services/auth.service";
@@ -39,6 +39,12 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
 
 export function HttpLoaderFactory(http: Http) {
     return new TranslateHttpLoader(http, "./", ".json");
+}
+
+export class CustomToastOption extends ToastOptions {
+    maxShown = 1;
+    toastLife = 3000;
+    showCloseButton = true;
 }
 
 @NgModule({
@@ -100,7 +106,8 @@ export function HttpLoaderFactory(http: Http) {
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler
-        }
+        },
+        { provide: ToastOptions, useClass: CustomToastOption }
     ]
 })
 export class AppModule {
