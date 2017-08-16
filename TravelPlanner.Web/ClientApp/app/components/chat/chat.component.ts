@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { ChatService } from "../../services/chat.service";
@@ -9,7 +9,7 @@ import { BackendService } from "../../services/backend.service";
     selector: 'chat',
     templateUrl: './chat.component.html'
 })
-export class ChatComponent {
+export class ChatComponent implements OnInit {
     private chatId: number;
 
     constructor(private chatService: ChatService,

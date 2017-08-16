@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -51,7 +52,7 @@ namespace TravelPlanner.Web.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded) return BadRequest(result.Errors);
+            if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault());
 
             var tokens = GetJWTTokens(user);
             return Ok(tokens);

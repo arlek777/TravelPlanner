@@ -3,9 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 import { AuthGuard } from "./services/auth-guard.service";
 import { AuthService } from "./services/auth.service";
@@ -19,7 +21,6 @@ import { NotificationService } from "./services/notification.service";
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { ChatComponent } from './components/chat/chat.component';
-import { NotificationComponent } from './components/notification/notification.component';
 
 import { LocalizeDirective } from "./directives/localize.directive";
 
@@ -46,7 +47,6 @@ export function HttpLoaderFactory(http: Http) {
         AppComponent,
         NavMenuComponent,
         ChatComponent,
-        NotificationComponent,
         HomePage,
         MyTripsPage,
         InvitedTripsPage,
@@ -80,7 +80,9 @@ export function HttpLoaderFactory(http: Http) {
                 useFactory: HttpLoaderFactory,
                 deps: [Http]
             }
-        })
+        }),
+        BrowserAnimationsModule,
+        ToastModule.forRoot()
     ],
     providers: [
         { provide: 'ORIGIN_URL', useValue: location.origin },

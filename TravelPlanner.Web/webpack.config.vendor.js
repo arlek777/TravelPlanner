@@ -27,11 +27,12 @@ module.exports = (env) => {
                 '@angular/router',
                 'bootstrap',
                 'bootstrap/dist/css/bootstrap.css',
+                'ng2-toastr/ng2-toastr.css',
                 'es6-shim',
                 'es6-promise',
                 'event-source-polyfill',
                 'jquery',
-                'zone.js',
+                'zone.js'
             ]
         },
         output: {
