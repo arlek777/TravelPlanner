@@ -1,4 +1,5 @@
 ﻿import { Mapper } from "../utils/helpers";
+import { Car } from "./car";
 
 export class User {
     constructor(user?: User) {
@@ -9,4 +10,5 @@ export class User {
     userName: string;
     email: string;
     phone: string;
+    cars?: Car[];
 }

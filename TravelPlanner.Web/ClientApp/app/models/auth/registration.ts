@@ -11,4 +11,6 @@ export class RegistrationViewModel {
     public phone: string;
     public userName: string;
     public password: string;
+    public carName: string;
+    public carPetrolUsage: string;
 }

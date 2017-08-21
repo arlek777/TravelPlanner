@@ -51,6 +51,11 @@ namespace TravelPlanner.Web.Controllers
                 UserName = model.UserName
             };
 
+            if (!String.IsNullOrEmpty(model.CarName) && !String.IsNullOrEmpty(model.CarPetrolUsage))
+            {
+                user.Cars.Add(new Car() { Name = model.CarName, PetrolUsage = model.CarPetrolUsage });
+            }
+
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault());
 

@@ -29,22 +29,22 @@ export class BackendService {
 
     // Trip
     createTrip(model: TripViewModel): Promise<number> {
-        return this.http.post("/api/mytrip/create", model, { responseType: ResponseContentType.Text }).toPromise()
+        return this.http.post("/api/trip/create", model, { responseType: ResponseContentType.Text }).toPromise()
             .then((result: Response) => { return parseInt(result.text()); });
     }
 
     removeTrip(tripId: number, userId: string): Promise<boolean> {
         var model = { id: tripId, userId: userId };
-        return this.http.post("/api/mytrip/remove", model).toPromise().then(() => { return true; });
+        return this.http.post("/api/trip/remove", model).toPromise().then(() => { return true; });
     }
 
     getTrip(id: string, userId: string): Promise<TripViewModel> {
-        return this.http.get(`/api/mytrip/get/${id}/${userId}`).toPromise()
+        return this.http.get(`/api/trip/get/${id}/${userId}`).toPromise()
             .then((result) => { return new TripViewModel(result.json()); });
     }
 
     getOwnTrips(userId: string): Promise<TripViewModel[]> {
-        return this.http.get(`/api/mytrip/getown/${userId}`).toPromise()
+        return this.http.get(`/api/trip/getown/${userId}`).toPromise()
             .then((result) => {
                 return result.json();
             });

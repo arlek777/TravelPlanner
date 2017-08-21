@@ -11,30 +11,24 @@ using TravelPlanner.Web.Models;
 namespace TravelPlanner.Web.Controllers
 {
     [Authorize]
-    public class MyTripApiController : Controller
+    public class TripApiController : Controller
     {
         private readonly ITripService _tripService;
 
-        public MyTripApiController(ITripService tripService)
+        public TripApiController(ITripService tripService)
         {
             _tripService = tripService;
         }
 
-        [Route("api/mytrip/create")]
+        [Route("api/trip/create")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] TripModel model)
+        public async Task<IActionResult> Create([FromBody] TripDetailModel model)
         {
-            var id = await _tripService.Create(new Trip()
-            {
-                CreatorId = model.CreatorId,
-                Title = model.Title,
-                Description = model.Description
-            });
-
+            var id = await _tripService.Create(Mapper.Map<Trip>(model));
             return Ok(id);
         }
 
-        [Route("api/mytrip/get/{id}/{userId}")]
+        [Route("api/trip/get/{id}/{userId}")]
         [HttpGet]
         public async Task<IActionResult> GetTrip(int id, Guid userId)
         {
@@ -42,7 +36,7 @@ namespace TravelPlanner.Web.Controllers
             return Ok(Mapper.Map<TripDetailModel>(trip));
         }
 
-        [Route("api/mytrip/getown/{userId}")]
+        [Route("api/trip/getown/{userId}")]
         [HttpGet]
         public async Task<IActionResult> GetOwnTrips(Guid userId)
         {
@@ -50,7 +44,7 @@ namespace TravelPlanner.Web.Controllers
             return Ok(trips);
         }
 
-        [Route("api/mytrip/getinvited/{userId}")]
+        [Route("api/trip/getinvited/{userId}")]
         [HttpGet]
         public async Task<IActionResult> GetInvitedTrips(Guid userId)
         {
@@ -58,7 +52,7 @@ namespace TravelPlanner.Web.Controllers
             return Ok(trips);
         }
 
-        [Route("api/mytrip/remove")]
+        [Route("api/trip/remove")]
         [HttpPost]
         public async Task<IActionResult> Remove([FromBody] int id, Guid userId)
         {

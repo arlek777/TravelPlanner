@@ -12,5 +12,6 @@ export class TripViewModel {
     creatorId: string;
     title: string;
     description: string;
+    mapUrl: string;
     users: User[];
 }

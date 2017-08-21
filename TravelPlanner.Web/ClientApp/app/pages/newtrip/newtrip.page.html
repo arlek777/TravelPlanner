@@ -2,6 +2,7 @@
 
 <form #newTripForm="ngForm" (ngSubmit)="onSubmit()">
     <input required name="title" localize="tripTitlePlaceholder" [(ngModel)]="model.title"/>
+    <input name="map" localize="tripMapPlaceholder" [(ngModel)]="model.mapUrl" />
     <textarea name="description" localize="tripDescriptionPlaceholder" [(ngModel)]="model.description"></textarea>
     
     <button [disabled]="!newTripForm.form.valid" localize="createButton"></button>

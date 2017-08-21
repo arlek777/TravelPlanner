@@ -5,6 +5,9 @@
     <input [(ngModel)]="model.email" name="email" type="text" required placeholder="{{ 'emailPlaceholder' | translate }}"/>
     <input [(ngModel)]="model.phone" name="phone" type="text" required placeholder="{{ 'phonePlaceholder' | translate }}"/>
     <input [(ngModel)]="model.password" name="password" type="password" required placeholder="{{ 'passwordPlaceholder' | translate }}"/>
+    
+    <input [(ngModel)]="model.carName" name="carName" type="text" placeholder="{{ 'carNamePlaceholder' | translate }}" />
+    <input [(ngModel)]="model.carPetrolUsage" name="petrolUsage" type="text" placeholder="{{ 'petrolUsagePlaceholder' | translate }}" />
 
     <input type="submit" value="{{ 'registrPageTitle' | translate }}" [disabled]="!registerForm.form.valid"/>
 </form>

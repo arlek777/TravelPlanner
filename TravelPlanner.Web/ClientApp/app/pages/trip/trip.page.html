@@ -9,9 +9,21 @@ Invitations
 
 <hr/>
 
+<div *ngIf="trip.mapUrl">
+    Map
+    <div [innerHtml]="getMapIframe()"></div>
+
+    <hr />
+</div>
+
 Users
-<p *ngFor="let user of trip.users">
+<div *ngFor="let user of trip.users">
     {{ user.userName }}
-</p>
+    
+    Cars
+    <div *ngFor="let car of user.cars">
+        {{ car.name }}
+    </div>
+</div>
 
 <chat></chat>

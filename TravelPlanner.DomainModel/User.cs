@@ -11,6 +11,7 @@ namespace TravelPlanner.DomainModel
         public User()
         {
             Trips = new List<Trip>();
+            Cars = new List<Car>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -24,5 +25,6 @@ namespace TravelPlanner.DomainModel
         public string PasswordHash { get; set; }
 
         public virtual ICollection<Trip> Trips { get; set; }
+        public virtual ICollection<Car> Cars { get; set; }
     }
 }

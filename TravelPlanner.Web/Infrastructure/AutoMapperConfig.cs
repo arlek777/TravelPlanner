@@ -13,6 +13,7 @@ namespace TravelPlanner.Web.Infrastructure
                 c.CreateMap<Trip, TripModel>().ReverseMap();
                 c.CreateMap<Trip, TripDetailModel>().ReverseMap();
                 c.CreateMap<User, UserModel>().ReverseMap();
+                c.CreateMap<Car, CarModel>().ReverseMap();
 
                 c.CreateMap<Message, MessageModel>().ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.User.UserName));
                 c.CreateMap<MessageModel, Message>()
