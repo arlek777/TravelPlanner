@@ -1,5 +1,5 @@
 ﻿import { GoogleMapsAPIWrapper } from '@agm/core';
-import { Directive, Input, Output } from '@angular/core';
+import { Directive, Input, Output, EventEmitter } from '@angular/core';
 import { } from 'googlemaps';
 
 @Directive({
@@ -12,8 +12,8 @@ export class DirectionsMapDirective {
     @Input() destinationPlaceId: string;
     @Input() waypoints: google.maps.DirectionsWaypoint[];
     @Input() directionsDisplay: any;
-    @Input() estimatedTime: any;
-    @Input() estimatedDistance: any;
+
+    @Output() onDirectionsDone = new EventEmitter<{ time: number, distance: number }>();
 
     constructor(private gmapsApi: GoogleMapsAPIWrapper) { }
 
@@ -24,37 +24,31 @@ export class DirectionsMapDirective {
             }
 
             var directionsService = new google.maps.DirectionsService();
-            var me = this;
-            var latLngA = new google.maps.LatLng(this.origin.lat, this.origin.lng);
-            var latLngB = new google.maps.LatLng(this.destination.lat, this.destination.lng);
             this.directionsDisplay.setMap(map);
-            this.directionsDisplay.setOptions({
-                polylineOptions: {
-                    strokeWeight: 8,
-                    strokeOpacity: 0.7,
-                    strokeColor: '#00468c'
-                }
-            });
             this.directionsDisplay.setDirections({ routes: [] });
+
             directionsService.route({
                 origin: { placeId: this.originPlaceId },
                 destination: { placeId: this.destinationPlaceId },
                 waypoints: this.waypoints,
                 travelMode: google.maps.TravelMode.DRIVING
-            }, function (response: any, status: any) {
-                if (status === 'OK') {
-                    me.directionsDisplay.setDirections(response);
-                    map.setZoom(30);
-                    
-                    var point = response.routes[0].legs[0];
-                    me.estimatedTime = point.duration.text;
-                    me.estimatedDistance = point.distance.text;
-                } else {
-                    console.log('Directions request failed due to ' + status);
-                }
-            });
+            }, (resp, status) => this.onDirectionsReceived(resp, status, this));
         });
 
+    }
+
+    private onDirectionsReceived(response: any, status: any, that: DirectionsMapDirective) {
+        if (status === 'OK') {
+            that.directionsDisplay.setDirections(response);
+
+            var point = response.routes[0].legs[0];
+            var estimatedTime = point.duration.text;
+            var estimatedDistance = point.distance.text;
+
+            that.onDirectionsDone.emit({ time: estimatedTime, distance: estimatedDistance });
+        } else {
+            console.log('Directions request failed due to ' + status);
+        }
     }
 
     private getcomputeDistance(latLngA: any, latLngB: any) {

@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, ViewChild, ElementRef } from '@angular/core';
+﻿import { Component, NgZone, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BackendService } from "../../services/backend.service";
 import { MapsAPILoader, GoogleMapsAPIWrapper } from '@agm/core';
@@ -6,36 +6,40 @@ import { } from 'googlemaps';
 import { GoogleMap } from "@agm/core/services/google-maps-types";
 import { Mapper } from "../../utils/helpers";
 import { DirectionsMapDirective } from "../../directives/map-directions.directive";
+import { MapLocation } from "../../models/map-location";
 
-export class RouteLocation {
-    constructor(routeLocation?: RouteLocation) {
-        Mapper.map(routeLocation, this);
-    }
-
-    public id: string;
-    public latLng: google.maps.LatLngLiteral;
-    public name: string;
+interface IMapMarker {
+    id: string;
+    lat: number;
+    lng: number;
+    label: string;
 }
 
 @Component({
     selector: 'map',
     templateUrl: './map.component.html',
     styles: [` agm-map {
-            height: 800px;
+            height: 500px;
         }`],
     providers: [GoogleMapsAPIWrapper]
 })
 export class MapComponent implements OnInit {
+    private readonly defaultZoom = 7;
+    private readonly defaultLng = 50.4501;
+    private readonly defaultLat = 30.5234;
+
     @ViewChild("search")
-    public searchElementRef: ElementRef;
+    searchElementRef: ElementRef;
 
     @ViewChild(DirectionsMapDirective)
     directionsMapDirective: DirectionsMapDirective;
 
-    public zoom: number;
-    public defaultLat: number;
-    public defaultLong: number;
-    public routeLocations: RouteLocation[] = [];
+    markers: IMapMarker[] = [];
+
+    zoom: number = this.defaultZoom;
+    lat: number = this.defaultLat;
+    lng: number = this.defaultLng;
+    mapLocations: MapLocation[] = [];
 
     constructor(private mapsLoader: MapsAPILoader,
         private backendService: BackendService,
@@ -43,9 +47,20 @@ export class MapComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.defaultLat = 50.4501;
-        this.defaultLong = 30.5234;
-        this.zoom = 20;
+        this.markers = [
+            {
+                id: "1",
+                lat: 50.434479,
+                lng: 30.304548,
+                label: 'Чайка'
+            },
+            {
+                id: "2",
+                lat: 50.231608,
+                lng: 30.495089,
+                label: 'ЧУб Страусы'
+            }
+        ];
 
         this.setCurrentPosition();
 
@@ -55,15 +70,13 @@ export class MapComponent implements OnInit {
             let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
             autocomplete.addListener("place_changed", () => {
                 this.ngZone.run(() => {
-                    //get the place result
                     let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
-                    //verify result
                     if (place.geometry === undefined || place.geometry === null) {
                         return;
                     }
 
-                    this.routeLocations.push({
+                    this.mapLocations.push({
                         id: place.place_id,
                         latLng: { lat: place.geometry.location.lat(), lng: place.geometry.location.lng() },
                         name: place.address_components[0].short_name
@@ -75,29 +88,41 @@ export class MapComponent implements OnInit {
     }
 
     getDirections() {
-        if (this.routeLocations.length < 2) return;
+        if (this.mapLocations.length < 2) return;
 
-        this.directionsMapDirective.origin = this.routeLocations[0].latLng;
-        this.directionsMapDirective.originPlaceId = this.routeLocations[0].id;
+        this.directionsMapDirective.origin = this.mapLocations[0].latLng;
+        this.directionsMapDirective.originPlaceId = this.mapLocations[0].id;
 
-        var destination = this.routeLocations[this.routeLocations.length - 1];
+        var destination = this.mapLocations[this.mapLocations.length - 1];
 
         this.directionsMapDirective.destination = destination.latLng;
         this.directionsMapDirective.destinationPlaceId = destination.id;
 
         var waypoints: google.maps.DirectionsWaypoint[] = [];
-        this.routeLocations.forEach((r) => waypoints.push({ location: r.latLng, stopover: false }));
+        this.mapLocations.forEach((r) => waypoints.push({ location: r.latLng, stopover: false }));
 
         this.directionsMapDirective.waypoints = waypoints;
         this.directionsMapDirective.updateDirections();
     }
 
+    clickedMarker(marker: IMapMarker) { // todo work on markers
+        this.mapLocations.push({
+            id: marker.id,
+            latLng: { lat: marker.lat, lng: marker.lng },
+            name: marker.label
+        });
+    }
+
+    onDirectionsDone(info: { time: number, distance: number }) {
+        console.log(info);
+    }
+
     private setCurrentPosition() {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
-                this.defaultLat = position.coords.latitude;
-                this.defaultLong = position.coords.longitude;
-                this.zoom = 12;
+                this.zoom = this.defaultZoom;
+                this.lat = position.coords.latitude;
+                this.lng = position.coords.longitude;
             });
         }
     }

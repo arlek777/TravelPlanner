@@ -3,11 +3,21 @@
     <div class="form-group">
         <input placeholder="search for location" autocorrect="off" autocapitalize="off" type="text" class="form-control" #search>
     </div>
-    <div *ngFor="let location of routeLocations">{{ location.name }}</div>
+    <div *ngFor="let location of mapLocations">{{ location.name }}</div>
     <div><button (click)="getDirections()">Get Directions</button></div>
 
-    <agm-map [latitude]="defaultLat" [longitude]="defaultLong" [scrollwheel]="false" [zoom]="zoom">
-        <agm-marker [latitude]="defaultLat" [longitude]="defaultLong"></agm-marker>
-        <map-directions></map-directions>
+    <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="true" [zoom]="zoom">
+        <agm-marker 
+            *ngFor="let m of markers; let i = index"
+            (markerClick)="clickedMarker(m)"
+            [latitude]="m.lat"
+            [longitude]="m.lng">
+
+            <agm-info-window>
+                <strong>{{ m.label }}</strong>
+            </agm-info-window>
+
+        </agm-marker>
+        <map-directions (onDirectionsDone)="onDirectionsDone($event)"></map-directions>
     </agm-map>
 </div>
