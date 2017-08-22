@@ -1,0 +1,13 @@
+<div class="container">
+    <h1>Map</h1>
+    <div class="form-group">
+        <input placeholder="search for location" autocorrect="off" autocapitalize="off" type="text" class="form-control" #search>
+    </div>
+    <div *ngFor="let location of routeLocations">{{ location.name }}</div>
+    <div><button (click)="getDirections()">Get Directions</button></div>
+
+    <agm-map [latitude]="defaultLat" [longitude]="defaultLong" [scrollwheel]="false" [zoom]="zoom">
+        <agm-marker [latitude]="defaultLat" [longitude]="defaultLong"></agm-marker>
+        <map-directions></map-directions>
+    </agm-map>
+</div>

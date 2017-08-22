@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { AgmCoreModule } from '@agm/core';
 
 import { AuthGuard } from "./services/auth-guard.service";
 import { AuthService } from "./services/auth.service";
@@ -21,8 +22,10 @@ import { NotificationService } from "./services/notification.service";
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { MapComponent } from './components/map/map.component';
 
 import { LocalizeDirective } from "./directives/localize.directive";
+import { DirectionsMapDirective } from "./directives/map-directions.directive";
 
 import { HomePage } from './pages/home/home.page';
 import { MyTripsPage } from './pages/mytrips/mytrips.page';
@@ -32,6 +35,7 @@ import { RegisterPage } from './pages/register/register.page';
 import { NewTripPage } from "./pages/newtrip/newtrip.page";
 import { TripPage } from "./pages/trip/trip.page";
 import { AcceptInvitePage } from "./pages/acceptinvite/acceptinvite.page";
+import { MapTestPage } from "./pages/maptest/maptest.page";
 
 function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
     return new InterceptedHttp(xhrBackend, requestOptions);
@@ -53,6 +57,7 @@ export class CustomToastOption extends ToastOptions {
         AppComponent,
         NavMenuComponent,
         ChatComponent,
+        MapComponent,
         HomePage,
         MyTripsPage,
         InvitedTripsPage,
@@ -61,7 +66,9 @@ export class CustomToastOption extends ToastOptions {
         NewTripPage,
         TripPage,
         AcceptInvitePage,
-        LocalizeDirective
+        MapTestPage,
+        LocalizeDirective,
+        DirectionsMapDirective
     ],
     imports: [
         BrowserModule,
@@ -75,6 +82,7 @@ export class CustomToastOption extends ToastOptions {
             { path: 'register', component: RegisterPage },
             { path: 'newtrip', component: NewTripPage, canActivate: [AuthGuard] },
             { path: 'edittrip/:id', component: NewTripPage, canActivate: [AuthGuard] },
+            { path: 'maptest', component: MapTestPage },
             { path: 'trip/:id', component: TripPage, canActivate: [AuthGuard] },
             { path: 'acceptinvite/:inviteId', component: AcceptInvitePage, canActivate: [AuthGuard] },
             { path: '**', redirectTo: 'home' }
@@ -88,7 +96,11 @@ export class CustomToastOption extends ToastOptions {
             }
         }),
         BrowserAnimationsModule,
-        ToastModule.forRoot()
+        ToastModule.forRoot(),
+        AgmCoreModule.forRoot({
+            apiKey: "AIzaSyDJmD8azOwGxMPw-bZIcBSQANhRZgBTaAc", // todo extract to settings
+            libraries: ["places"]
+        }),
     ],
     providers: [
         { provide: 'ORIGIN_URL', useValue: location.origin },
