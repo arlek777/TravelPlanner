@@ -62,7 +62,11 @@ export class MapComponent implements OnInit {
         ];
 
         this.setCurrentPosition(); 
-        this.reloadMap();
+        this.mapsLoader.load().then(() => {
+            this.placeAutocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
+            this.directionsMapDirective.directionsDisplay = new google.maps.DirectionsRenderer();
+            this.placeAutocomplete.addListener("place_changed", () => this.placeSelected());
+        });
     }
 
     getDirections() {
@@ -72,6 +76,7 @@ export class MapComponent implements OnInit {
 
         this.directionsMapDirective.origin = this.waypoints[0].latLng; // first location
         this.directionsMapDirective.destination = this.waypoints[this.markers.length - 1].latLng; // last location
+        this.directionsMapDirective.waypoints = [];
 
         // set waypoints if there are more then 2 locations
         if (this.waypoints.length > 2) {
@@ -86,19 +91,17 @@ export class MapComponent implements OnInit {
     updateWaypoint(waypoint: TripWaypoint, index: number) {
         this.searchElementRef.nativeElement.value = waypoint.name;
         this.updateWaypointIndex = index;
-        this.reloadMap();
     }
 
     removeWaypoint(waypoint: TripWaypoint, index: number) {
         this.waypoints.splice(index, 1);
         // remove from db
-        this.reloadMap();
-        this.directionsMapDirective.clearDirections();
     }
 
     clearDirections() {
         this.waypoints = [];
-        this.reloadMap();
+        this.directionsMapDirective.clearDirections();
+        this.setCurrentPosition();
     }
 
     clickedMarker(marker: IMapMarker, infoWindow) { 
@@ -117,14 +120,6 @@ export class MapComponent implements OnInit {
 
     onDirectionsDone(info: { time: number, distance: number }) {
         console.log(info);
-    }
-
-    private reloadMap() {
-        this.mapsLoader.load().then(() => {
-            this.placeAutocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
-            this.directionsMapDirective.directionsDisplay = new google.maps.DirectionsRenderer();
-            this.placeAutocomplete.addListener("place_changed", this.placeSelected);
-        });
     }
 
     private placeSelected() {

@@ -32,11 +32,7 @@ export class DirectionsMapDirective {
     }
 
     clearDirections() {
-        this.gmapsApi.getNativeMap().then(map => {
-            var directionsService = new google.maps.DirectionsService();
-            this.directionsDisplay.setMap(map);
-            this.directionsDisplay.setDirections({ routes: [] });
-        });
+        this.directionsDisplay.setDirections({ routes: [] });
     }
 
     private onDirectionsReceived(response: any, status: any, that: DirectionsMapDirective) {
