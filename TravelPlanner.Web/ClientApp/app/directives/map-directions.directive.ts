@@ -8,8 +8,6 @@ import { } from 'googlemaps';
 export class DirectionsMapDirective {
     @Input() origin: google.maps.LatLngLiteral;
     @Input() destination: google.maps.LatLngLiteral;
-    @Input() originPlaceId: string;
-    @Input() destinationPlaceId: string;
     @Input() waypoints: google.maps.DirectionsWaypoint[];
     @Input() directionsDisplay: any;
 
@@ -19,22 +17,26 @@ export class DirectionsMapDirective {
 
     updateDirections() {
         this.gmapsApi.getNativeMap().then(map => {
-            if (!this.originPlaceId || !this.destinationPlaceId) {
-                return;
-            }
-
             var directionsService = new google.maps.DirectionsService();
             this.directionsDisplay.setMap(map);
             this.directionsDisplay.setDirections({ routes: [] });
 
             directionsService.route({
-                origin: { placeId: this.originPlaceId },
-                destination: { placeId: this.destinationPlaceId },
+                origin: this.origin,
+                destination: this.destination,
                 waypoints: this.waypoints,
                 travelMode: google.maps.TravelMode.DRIVING
             }, (resp, status) => this.onDirectionsReceived(resp, status, this));
         });
 
+    }
+
+    clearDirections() {
+        this.gmapsApi.getNativeMap().then(map => {
+            var directionsService = new google.maps.DirectionsService();
+            this.directionsDisplay.setMap(map);
+            this.directionsDisplay.setDirections({ routes: [] });
+        });
     }
 
     private onDirectionsReceived(response: any, status: any, that: DirectionsMapDirective) {

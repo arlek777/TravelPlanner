@@ -3,17 +3,22 @@
     <div class="form-group">
         <input placeholder="search for location" autocorrect="off" autocapitalize="off" type="text" class="form-control" #search>
     </div>
-    <div *ngFor="let location of mapLocations">{{ location.name }}</div>
+    <div *ngFor="let waypoint of waypoints; let i = index;">
+        {{ waypoint.name }}
+        <a class="glyphicon glyphicon-edit" href="javascript: " (click)="updateWaypoint(waypoint, i)"></a>
+        <a class="glyphicon glyphicon-remove" href="javascript: " (click)="removeWaypoint(waypoint, i)"></a>
+    </div>
     <div><button (click)="getDirections()">Get Directions</button></div>
+    <div><button (click)="clearDirections()">Clear Directions</button></div>
 
     <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="true" [zoom]="zoom">
         <agm-marker 
             *ngFor="let m of markers; let i = index"
-            (markerClick)="clickedMarker(m)"
-            [latitude]="m.lat"
-            [longitude]="m.lng">
+            (markerClick)="clickedMarker(m, infoWindow)"
+            [latitude]="m.latLng.lat"
+            [longitude]="m.latLng.lng">
 
-            <agm-info-window>
+            <agm-info-window #infoWindow>
                 <strong>{{ m.label }}</strong>
             </agm-info-window>
 

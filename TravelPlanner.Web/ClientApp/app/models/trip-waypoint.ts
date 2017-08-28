@@ -1,8 +1,8 @@
 ﻿import { Mapper } from "../utils/helpers";
 
-export class MapLocation {
-    constructor(location?: MapLocation) {
-        Mapper.map(location, this);
+export class TripWaypoint {
+    constructor(wapypoint?: TripWaypoint) {
+        Mapper.map(wapypoint, this);
     }
 
     public id: string;
