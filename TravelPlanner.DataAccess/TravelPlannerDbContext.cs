@@ -20,5 +20,9 @@ namespace TravelPlanner.DataAccess
         public DbSet<Chat> Chats { get; set; }
         public DbSet<TripInvite> Invitations { get; set; }
         public DbSet<Car> Cars { get; set; }
+        public DbSet<TripWaypoint> TripWaypoints { get; set; }
+        public DbSet<TripRoute> TripRoutes { get; set; }
+        public DbSet<LatLng> LatLngs { get; set; }
+        public DbSet<SightMapMarker> SightMapMarkers { get; set; }
     }
 }

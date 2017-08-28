@@ -5,6 +5,8 @@
     <input name="map" localize="tripMapPlaceholder" [(ngModel)]="model.mapUrl" />
     <textarea name="description" localize="tripDescriptionPlaceholder" [(ngModel)]="model.description"></textarea>
     
+    <map></map>
+    
     <button [disabled]="!newTripForm.form.valid" localize="createButton"></button>
 </form>
 

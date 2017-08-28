@@ -10,7 +10,7 @@ namespace TravelPlanner.Web.Models
         }
 
         public List<UserModel> Users { get; set; }
+        public TripRouteModel TripRoute { get; set; }
         public string Description { get; set; }
-        public string MapUrl { get; set; }
     }
 }

@@ -19,8 +19,8 @@ namespace TravelPlanner.DomainModel
         [Required]
         public string Title { get; set; }
         public string Description  { get; set; }
-        public string MapUrl { get; set; }
 
+        public virtual TripRoute TripRoute { get; set; }
         public virtual Chat Chat { get; set; }
         public virtual ICollection<TripInvite> TripInvites { get; set; }
         public virtual ICollection<User> Users { get; set; }

@@ -15,7 +15,7 @@ export class DirectionsMapDirective {
 
     constructor(private gmapsApi: GoogleMapsAPIWrapper) { }
 
-    updateDirections() {
+    getDirections() {
         this.gmapsApi.getNativeMap().then(map => {
             var directionsService = new google.maps.DirectionsService();
             this.directionsDisplay.setMap(map);

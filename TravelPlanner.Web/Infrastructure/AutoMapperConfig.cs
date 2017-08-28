@@ -11,6 +11,8 @@ namespace TravelPlanner.Web.Infrastructure
             Mapper.Initialize(c =>
             {
                 c.CreateMap<Trip, TripModel>().ReverseMap();
+                c.CreateMap<TripRoute, TripRouteModel>().ReverseMap();
+                c.CreateMap<TripWaypoint, TripWaypointModel>().ReverseMap();
                 c.CreateMap<Trip, TripDetailModel>().ReverseMap();
                 c.CreateMap<User, UserModel>().ReverseMap();
                 c.CreateMap<Car, CarModel>().ReverseMap();

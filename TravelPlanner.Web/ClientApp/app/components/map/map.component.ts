@@ -1,4 +1,4 @@
-﻿import { Component, NgZone, OnInit, ViewChild, ElementRef } from '@angular/core';
+﻿import { Component, NgZone, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BackendService } from "../../services/backend.service";
 import { MapsAPILoader, GoogleMapsAPIWrapper } from '@agm/core';
@@ -13,7 +13,7 @@ interface IMapMarker {
     latLng: google.maps.LatLngLiteral;
     label?: string;
 }
-// TODO find a way to update map after directions changed
+
 @Component({
     selector: 'map',
     templateUrl: './map.component.html',
@@ -27,6 +27,11 @@ export class MapComponent implements OnInit {
     private readonly defaultLng = 50.4501;
     private readonly defaultLat = 30.5234;
 
+    @Input() waypoints: TripWaypoint[] = [];
+    @Input() markers: IMapMarker[] = [];
+
+    @Output() onRouteBuilt = new EventEmitter<{ distance: number, waypoints:  }>();
+
     @ViewChild("search")
     searchElementRef: ElementRef;
 
@@ -34,9 +39,6 @@ export class MapComponent implements OnInit {
     directionsMapDirective: DirectionsMapDirective;
 
     placeAutocomplete: google.maps.places.Autocomplete;
-
-    markers: IMapMarker[] = [];
-    waypoints: TripWaypoint[] = [];
 
     zoom: number = this.defaultZoom;
     lat: number = this.defaultLat;
@@ -50,22 +52,15 @@ export class MapComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.markers = [
-            {
-                latLng: { lat: 50.434479, lng: 30.304548 },
-                label: 'Чайка'
-            },
-            {
-                latLng: { lat: 50.231608, lng: 30.495089 },
-                label: 'ЧУб Страусы'
-            }
-        ];
-
         this.setCurrentPosition(); 
         this.mapsLoader.load().then(() => {
             this.placeAutocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
             this.directionsMapDirective.directionsDisplay = new google.maps.DirectionsRenderer();
             this.placeAutocomplete.addListener("place_changed", () => this.placeSelected());
+
+            if (this.waypoints.length >= 2) {
+                this.directionsMapDirective.getDirections();
+            }
         });
     }
 
@@ -85,7 +80,7 @@ export class MapComponent implements OnInit {
             this.directionsMapDirective.waypoints = waypoints;
         }
    
-        this.directionsMapDirective.updateDirections();
+        this.directionsMapDirective.getDirections();
     }
 
     updateWaypoint(waypoint: TripWaypoint, index: number) {
@@ -119,7 +114,7 @@ export class MapComponent implements OnInit {
     }
 
     onDirectionsDone(info: { time: number, distance: number }) {
-        console.log(info);
+        this.onRouteBuilt.emit(info);
     }
 
     private placeSelected() {

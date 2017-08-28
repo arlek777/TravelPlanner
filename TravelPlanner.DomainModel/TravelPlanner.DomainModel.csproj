@@ -46,10 +46,14 @@
   <ItemGroup>
     <Compile Include="Car.cs" />
     <Compile Include="Chat.cs" />
+    <Compile Include="LatLng.cs" />
+    <Compile Include="SightMapMarker.cs" />
     <Compile Include="TripInvite.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Trip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TripRoute.cs" />
+    <Compile Include="TripWaypoint.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
