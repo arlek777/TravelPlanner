@@ -1,5 +1,6 @@
 ﻿import { Mapper } from '../utils/helpers';
 import { User } from "./user";
+import { TripRouteViewModel } from "./trip-route";
 
 export class TripViewModel {
     constructor(trip?: TripViewModel) {

@@ -11,7 +11,7 @@ export class DirectionsMapDirective {
     @Input() waypoints: google.maps.DirectionsWaypoint[];
     @Input() directionsDisplay: any;
 
-    @Output() onDirectionsDone = new EventEmitter<{ time: number, distance: number }>();
+    @Output() onDirectionsDone = new EventEmitter<{ time: number, distance: string }>();
 
     constructor(private gmapsApi: GoogleMapsAPIWrapper) { }
 

@@ -4,7 +4,8 @@ namespace TravelPlanner.Web.Models
 {
     public class TripRouteModel
     {
-        public double Distance { get; set; }
+        public int Id { get; set; }
+        public string Distance { get; set; }
         public List<TripWaypointModel> TripWaypoints { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace TravelPlanner.DomainModel
 
         [ForeignKey("Trip")]
         public int Id { get; set; }
-        public double Distance { get; set; }
+        public string Distance { get; set; }
 
         public virtual List<TripWaypoint> TripWaypoints { get; set; }
         public virtual Trip Trip { get; set; }

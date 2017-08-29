@@ -6,7 +6,7 @@ namespace TravelPlanner.DomainModel
     public class TripWaypoint
     {
         public Guid Id { get; set; }
-        public Guid TripRouteId { get; set; }
+        public int TripRouteId { get; set; }
         public Guid LatLngId { get; set; }
 
         [Required]

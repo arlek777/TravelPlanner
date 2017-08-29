@@ -1,12 +1,12 @@
 <h1 localize="newTripPageTitle"></h1>
 
-<form #newTripForm="ngForm" (ngSubmit)="onSubmit()">
-    <input required name="title" localize="tripTitlePlaceholder" [(ngModel)]="model.title"/>
-    <input name="map" localize="tripMapPlaceholder" [(ngModel)]="model.mapUrl" />
-    <textarea name="description" localize="tripDescriptionPlaceholder" [(ngModel)]="model.description"></textarea>
+<form #newTripForm="ngForm">
+    <input required name="title" localize="tripTitlePlaceholder" [(ngModel)]="newtrip.title"/>
+    <input name="map" localize="tripMapPlaceholder" [(ngModel)]="newtrip.mapUrl" />
+    <textarea name="description" localize="tripDescriptionPlaceholder" [(ngModel)]="newtrip.description"></textarea>
     
-    <map></map>
+    <map (onRouteBuilt)="onRouteBuilt($event)"></map>
     
-    <button [disabled]="!newTripForm.form.valid" localize="createButton"></button>
+    <button [disabled]="!newTripForm.form.valid" localize="createButton" (click)="onSubmit()"></button>
 </form>
 

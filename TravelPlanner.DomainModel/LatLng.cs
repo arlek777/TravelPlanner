@@ -10,6 +10,6 @@ namespace TravelPlanner.DomainModel
         [Required]
         public double Lat { get; set; }
         [Required]
-        public double Long { get; set; }
+        public double Lng { get; set; }
     }
 }

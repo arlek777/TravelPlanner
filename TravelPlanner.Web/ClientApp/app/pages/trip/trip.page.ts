@@ -35,10 +35,6 @@ export class TripPage implements OnInit {
         });
     }
 
-    getMapIframe() {
-        return this.sanitizer.bypassSecurityTrustHtml(this.trip.mapUrl);
-    }
-
     addInvite() {
         this.invitePhones.push(this.newPhone);
         this.newPhone = "";

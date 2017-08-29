@@ -6,7 +6,8 @@ import { } from 'googlemaps';
 import { GoogleMap } from "@agm/core/services/google-maps-types";
 import { Mapper } from "../../utils/helpers";
 import { DirectionsMapDirective } from "../../directives/map-directions.directive";
-import { TripWaypoint } from "../../models/trip-waypoint";
+import { TripWaypointViewModel } from "../../models/trip-waypoint";
+import { TripRouteViewModel } from "../../models/trip-route";
 
 interface IMapMarker {
     id?: string;
@@ -27,10 +28,10 @@ export class MapComponent implements OnInit {
     private readonly defaultLng = 50.4501;
     private readonly defaultLat = 30.5234;
 
-    @Input() waypoints: TripWaypoint[] = [];
+    @Input() waypoints: TripWaypointViewModel[] = [];
     @Input() markers: IMapMarker[] = [];
 
-    @Output() onRouteBuilt = new EventEmitter<{ distance: number, waypoints:  }>();
+    @Output() onRouteBuilt = new EventEmitter<TripRouteViewModel>();
 
     @ViewChild("search")
     searchElementRef: ElementRef;
@@ -70,7 +71,7 @@ export class MapComponent implements OnInit {
         this.closeInfoWindow();
 
         this.directionsMapDirective.origin = this.waypoints[0].latLng; // first location
-        this.directionsMapDirective.destination = this.waypoints[this.markers.length - 1].latLng; // last location
+        this.directionsMapDirective.destination = this.waypoints[this.waypoints.length - 1].latLng; // last location
         this.directionsMapDirective.waypoints = [];
 
         // set waypoints if there are more then 2 locations
@@ -83,12 +84,12 @@ export class MapComponent implements OnInit {
         this.directionsMapDirective.getDirections();
     }
 
-    updateWaypoint(waypoint: TripWaypoint, index: number) {
+    updateWaypoint(waypoint: TripWaypointViewModel, index: number) {
         this.searchElementRef.nativeElement.value = waypoint.name;
         this.updateWaypointIndex = index;
     }
 
-    removeWaypoint(waypoint: TripWaypoint, index: number) {
+    removeWaypoint(waypoint: TripWaypointViewModel, index: number) {
         this.waypoints.splice(index, 1);
         // remove from db
     }
@@ -108,13 +109,14 @@ export class MapComponent implements OnInit {
 
         this.waypoints.push({
             id: marker.id,
+            tripRouteId: 0,
             latLng: marker.latLng,
             name: marker.label
         });
     }
 
-    onDirectionsDone(info: { time: number, distance: number }) {
-        this.onRouteBuilt.emit(info);
+    onDirectionsDone(info: { time: number, distance: string }) {
+        this.onRouteBuilt.emit({ id: 0, distance: info.distance, tripWaypoints: this.waypoints });
     }
 
     private placeSelected() {
@@ -137,7 +139,8 @@ export class MapComponent implements OnInit {
                 this.updateWaypointIndex = -1;
             } else {
                 this.waypoints.push({
-                    id: place.place_id,
+                    id: "",
+                    tripRouteId: 0,
                     latLng: { lat: place.geometry.location.lat(), lng: place.geometry.location.lng() },
                     name: placeName
                 });
