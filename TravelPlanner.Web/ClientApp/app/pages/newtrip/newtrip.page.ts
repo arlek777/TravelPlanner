@@ -1,20 +1,31 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TripViewModel } from "../../models/trip";
 import { BackendService } from "../../services/backend.service";
 import { Constants } from "../../models/constants";
 import { UserHelper } from "../../utils/helpers";
 import { TripRouteViewModel } from "../../models/trip-route";
+import { SightObjectViewModel } from "../../models/sight-object";
+import { MapComponent } from "../../components/map/map.component";
 
 @Component({
     selector: 'newtrip',
     templateUrl: './newtrip.page.html'
 })
-export class NewTripPage {
+export class NewTripPage implements OnInit {
+    @ViewChild(MapComponent)
+    mapComponent: MapComponent;
+
     newtrip = new TripViewModel();
 
     constructor(private backendService: BackendService, private router: Router) {
         this.newtrip.creatorId = UserHelper.getUserId();
+    }
+
+    ngOnInit(): void {
+        this.backendService.getSights().then((sights: SightObjectViewModel[]) => {
+            this.mapComponent.markers = sights;
+        });
     }
 
     onSubmit() {

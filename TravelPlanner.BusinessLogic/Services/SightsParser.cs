@@ -69,7 +69,6 @@ namespace TravelPlanner.BusinessLogic.Services
 
                         sights.Add(new SightObject()
                         {
-                            Description = description,
                             Label = title,
                             LatLng = new LatLng()
                             {

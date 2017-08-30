@@ -5,6 +5,11 @@
     <input name="map" localize="tripMapPlaceholder" [(ngModel)]="newtrip.mapUrl" />
     <textarea name="description" localize="tripDescriptionPlaceholder" [(ngModel)]="newtrip.description"></textarea>
     
+    <div *ngIf="newtrip.tripRoute">
+        Distance {{ newtrip.tripRoute.distance }} <br/>
+        Estimated Time {{ newtrip.tripRoute.time }}
+    </div>
+
     <map (onRouteBuilt)="onRouteBuilt($event)"></map>
     
     <button [disabled]="!newTripForm.form.valid" localize="createButton" (click)="onSubmit()"></button>

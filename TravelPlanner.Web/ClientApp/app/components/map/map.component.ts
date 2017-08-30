@@ -8,12 +8,7 @@ import { Mapper } from "../../utils/helpers";
 import { DirectionsMapDirective } from "../../directives/map-directions.directive";
 import { TripWaypointViewModel } from "../../models/trip-waypoint";
 import { TripRouteViewModel } from "../../models/trip-route";
-
-interface IMapMarker {
-    id?: string;
-    latLng: google.maps.LatLngLiteral;
-    label?: string;
-}
+import { SightObjectViewModel } from "../../models/sight-object";
 
 @Component({
     selector: 'map',
@@ -29,7 +24,7 @@ export class MapComponent implements OnInit {
     private readonly defaultLat = 30.5234;
 
     @Input() waypoints: TripWaypointViewModel[] = [];
-    @Input() markers: IMapMarker[] = [];
+    @Input() markers: SightObjectViewModel[] = [];
 
     @Output() onRouteBuilt = new EventEmitter<TripRouteViewModel>();
 
@@ -100,11 +95,11 @@ export class MapComponent implements OnInit {
         this.setCurrentPosition();
     }
 
-    clickedMarker(marker: IMapMarker, infoWindow) { 
+    clickedMarker(marker: SightObjectViewModel, infoWindow) { 
         this.closeInfoWindow();
         this.infoWindowOpened = infoWindow;
 
-        setTimeout(() => this.closeInfoWindow(), 3000);
+        setTimeout(() => this.closeInfoWindow(), 5000);
         if (!this.isWaypointUnique(marker.label)) return;
 
         this.waypoints.push({
@@ -115,8 +110,13 @@ export class MapComponent implements OnInit {
         });
     }
 
-    onDirectionsDone(info: { time: number, distance: string }) {
-        this.onRouteBuilt.emit({ id: 0, distance: info.distance, tripWaypoints: this.waypoints });
+    onDirectionsDone(info: { time: string, distance: string }) {
+        this.onRouteBuilt.emit({
+            id: 0,
+            distance: info.distance,
+            tripWaypoints: this.waypoints,
+            time: info.time
+        });
     }
 
     private placeSelected() {

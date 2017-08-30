@@ -9,6 +9,7 @@ import { JWTTokens } from "../models/auth/jwttokens";
 import { TripViewModel } from "../models/trip";
 import { InvitesViewModel } from "../models/invites";
 import { MessageViewModel } from "../models/message";
+import { SightObjectViewModel } from "../models/sight-object";
 
 @Injectable()
 export class BackendService {
@@ -69,6 +70,13 @@ export class BackendService {
 
     getAllMessages(chatId: number): Promise<MessageViewModel[]> {
         return this.http.get(`/api/message/getall/${chatId}`)
+            .toPromise()
+            .then((response) => { return response.json(); });
+    }
+
+    // Sights
+    getSights(): Promise<SightObjectViewModel[]> {
+        return this.http.get("/api/sight/get")
             .toPromise()
             .then((response) => { return response.json(); });
     }

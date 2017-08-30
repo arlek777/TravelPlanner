@@ -15,11 +15,10 @@ export class GlobalErrorHandler implements ErrorHandler {
             if (response.status === 400) {
                 notificationService.validationErrors.next(response.text());
             } else {
-                notificationService.serverErrors.next(response.text());
-                console.log(response.text());
+                console.log(error);
+                throw error;
             }
         } else {
-            console.log(error);
             throw error;
         }
     }

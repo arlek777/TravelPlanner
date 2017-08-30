@@ -8,5 +8,6 @@ export class TripRouteViewModel {
 
     public id: number;
     public distance: string;
+    public time: string;
     public tripWaypoints: TripWaypointViewModel[];
 }

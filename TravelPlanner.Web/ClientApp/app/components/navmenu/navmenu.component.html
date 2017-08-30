@@ -22,9 +22,6 @@
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/invitedtrips']">{{ 'invitedTripsPageTitle' | translate }}</a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/maptest']">MapTest</a>
-                </li>
                 <li *ngIf="isLoggedIn()">
                     <a (click)="logout()">
                         {{ 'logout' | translate }}
