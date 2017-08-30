@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TravelPlanner.DomainModel
 {
-    public class SightMapMarker
+    public class SightObject
     {
         public Guid Id { get; set; }
         public Guid LatLngId { get; set; }

@@ -23,6 +23,6 @@ namespace TravelPlanner.DataAccess
         public DbSet<TripWaypoint> TripWaypoints { get; set; }
         public DbSet<TripRoute> TripRoutes { get; set; }
         public DbSet<LatLng> LatLngs { get; set; }
-        public DbSet<SightMapMarker> SightMapMarkers { get; set; }
+        public DbSet<SightObject> SightObjects { get; set; }
     }
 }

@@ -27,6 +27,11 @@ namespace TravelPlanner.DataAccess
             return await _context.Set<T>().Where(predicate).ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAll<T>() where T : class
+        {
+            return await _context.Set<T>().ToListAsync();
+        }
+
         public void Remove<T>(T entity) where T : class
         {
             _context.Set<T>().Remove(entity);
