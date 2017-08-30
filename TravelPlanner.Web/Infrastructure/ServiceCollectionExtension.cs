@@ -42,6 +42,7 @@ namespace TravelPlanner.Web.Infrastructure
         private static void ConfigureBusinessLogic(IServiceCollection services)
         {
             services.AddTransient<ITripService, TripService>();
+            services.AddTransient<ISightObjectService, SightObjectService>();
             services.AddTransient<ITripInviteService, TripInviteService>();
             services.AddTransient<INotificationService, TextFileNotificationService>();
             services.AddTransient<IMessageService, MessageService>();
