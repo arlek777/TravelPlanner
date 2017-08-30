@@ -28,8 +28,10 @@ Users
 
 <chat></chat>
 
-<!--Distance
-<div>{{ trip.tripRoute.distance }}</div>-->
+MAP
+<map></map> // TODO think how to pass to i
 
-<!--MAP
-<map waypoints="trip.tripRoute.tripWaypoints"></map>-->
+<div *ngIf="trip.tripRoute">
+    Distance
+    <div>{{ trip.tripRoute.distance }}</div>
+</div>

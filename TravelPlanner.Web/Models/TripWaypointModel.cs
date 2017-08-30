@@ -1,4 +1,5 @@
 using System;
+using TravelPlanner.DomainModel;
 
 namespace TravelPlanner.Web.Models
 {
@@ -7,6 +8,6 @@ namespace TravelPlanner.Web.Models
         public Guid Id { get; set; }
         public int TripRouteId { get; set; }
         public string Name { get; set; }
-        //public LatLng LatLng { get; set; }
+        public LatLng LatLng { get; set; }
     }
 }

@@ -33,7 +33,8 @@ namespace TravelPlanner.Web.Controllers
         public async Task<IActionResult> GetTrip(int id, Guid userId)
         {
             var trip = await _tripService.Get(id, userId);
-            return Ok(Mapper.Map<TripDetailModel>(trip));
+            var tripModel = Mapper.Map<TripDetailModel>(trip);
+            return Ok(tripModel);
         }
 
         [Route("api/trip/getown/{userId}")]
