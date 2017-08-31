@@ -1,19 +1,25 @@
 ﻿import { GoogleMapsAPIWrapper } from '@agm/core';
 import { Directive, Input, Output, EventEmitter } from '@angular/core';
 import { } from 'googlemaps';
+import { RequestDirectionObsModel, MapDirectionsService } from "../services/observables/map-directions.service";
 
 @Directive({
     selector: 'map-directions'
 })
 export class DirectionsMapDirective {
-    @Input() origin: google.maps.LatLngLiteral;
-    @Input() destination: google.maps.LatLngLiteral;
-    @Input() waypoints: google.maps.DirectionsWaypoint[];
-    @Input() directionsDisplay: any;
+    directionsDisplay: any = new google.maps.DirectionsRenderer();
 
-    @Output() onDirectionsDone = new EventEmitter<{ time: string, distance: string }>();
+    private requestDirection: RequestDirectionObsModel = null;
 
-    constructor(private gmapsApi: GoogleMapsAPIWrapper) { }
+    constructor(private gmapsApi: GoogleMapsAPIWrapper, private mapDirectionService: MapDirectionsService) {
+        this.mapDirectionService.requestDirection$.subscribe((request) => {
+            this.requestDirection = request;
+        });
+
+        this.mapDirectionService.clearDirection$.subscribe(() => {
+            this.clearDirections();
+        })
+    }
 
     getDirections() {
         this.gmapsApi.getNativeMap().then(map => {
@@ -22,9 +28,9 @@ export class DirectionsMapDirective {
             this.directionsDisplay.setDirections({ routes: [] });
 
             directionsService.route({
-                origin: this.origin,
-                destination: this.destination,
-                waypoints: this.waypoints,
+                origin: this.requestDirection.origin,
+                destination: this.requestDirection.destination,
+                waypoints: this.requestDirection.waypoints,
                 travelMode: google.maps.TravelMode.DRIVING
             }, (resp, status) => this.onDirectionsReceived(resp, status, this));
         });
@@ -43,7 +49,7 @@ export class DirectionsMapDirective {
             var estimatedTime = point.duration.text;
             var estimatedDistance = point.distance.text;
 
-            that.onDirectionsDone.emit({ time: estimatedTime, distance: estimatedDistance });
+            that.mapDirectionService.directionDone({ time: estimatedTime, distance: estimatedDistance });
         } else {
             console.log('Directions request failed due to ' + status);
         }

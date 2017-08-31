@@ -1,4 +1,4 @@
-﻿import { Component, NgZone, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+﻿import { Component, NgZone, OnInit, OnChanges, ViewChild, ElementRef, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BackendService } from "../../services/backend.service";
 import { MapsAPILoader, GoogleMapsAPIWrapper } from '@agm/core';
@@ -6,9 +6,10 @@ import { } from 'googlemaps';
 import { GoogleMap } from "@agm/core/services/google-maps-types";
 import { Mapper } from "../../utils/helpers";
 import { DirectionsMapDirective } from "../../directives/map-directions.directive";
-import { TripWaypointViewModel } from "../../models/trip-waypoint";
-import { TripRouteViewModel } from "../../models/trip-route";
+import { TripWaypointViewModel } from "../../models/trip/trip-waypoint";
+import { TripRouteViewModel } from "../../models/trip/trip-route";
 import { SightObjectViewModel } from "../../models/sight-object";
+import { MapDirectionsService } from "../../services/observables/map-directions.service";
 
 @Component({
     selector: 'map',
@@ -18,7 +19,7 @@ import { SightObjectViewModel } from "../../models/sight-object";
         }`],
     providers: [GoogleMapsAPIWrapper]
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnChanges  {
     private readonly defaultZoom = 7;
     private readonly defaultLng = 50.4501;
     private readonly defaultLat = 30.5234;
@@ -31,9 +32,6 @@ export class MapComponent implements OnInit {
     @ViewChild("search")
     searchElementRef: ElementRef;
 
-    @ViewChild(DirectionsMapDirective)
-    directionsMapDirective: DirectionsMapDirective;
-
     placeAutocomplete: google.maps.places.Autocomplete;
 
     zoom: number = this.defaultZoom;
@@ -44,20 +42,35 @@ export class MapComponent implements OnInit {
 
     constructor(private mapsLoader: MapsAPILoader,
         private backendService: BackendService,
-        private ngZone: NgZone) {
+        private ngZone: NgZone,
+        private mapDirectionsService: MapDirectionsService) {
+
+        this.mapDirectionsService.directionDone$.subscribe((direction) => {
+            this.onRouteBuilt.emit({
+                id: 0,
+                distance: direction.distance,
+                tripWaypoints: this.waypoints,
+                time: direction.time
+            });
+        });
     }
 
     ngOnInit() {
         this.setCurrentPosition(); 
         this.mapsLoader.load().then(() => {
             this.placeAutocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
-            this.directionsMapDirective.directionsDisplay = new google.maps.DirectionsRenderer();
+            //this.directionsMapDirective.directionsDisplay = new google.maps.DirectionsRenderer();
             this.placeAutocomplete.addListener("place_changed", () => this.placeSelected());
 
             if (this.waypoints.length >= 2) {
-                this.directionsMapDirective.getDirections();
+                this.getDirections();
             }
         });
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        this.waypoints = changes["waypoints"].currentValue;
+        this.markers = changes["markers"].currentValue;
     }
 
     getDirections() {
@@ -65,18 +78,20 @@ export class MapComponent implements OnInit {
 
         this.closeInfoWindow();
 
-        this.directionsMapDirective.origin = this.waypoints[0].latLng; // first location
-        this.directionsMapDirective.destination = this.waypoints[this.waypoints.length - 1].latLng; // last location
-        this.directionsMapDirective.waypoints = [];
+        var origin = this.waypoints[0].latLng; // first location
+        var destination = this.waypoints[this.waypoints.length - 1].latLng; // last location
 
+        var googleWaypoints: google.maps.DirectionsWaypoint[] = []; 
         // set waypoints if there are more then 2 locations
         if (this.waypoints.length > 2) {
-            var waypoints: google.maps.DirectionsWaypoint[] = [];
-            this.waypoints.forEach((r) => waypoints.push({ location: r.latLng, stopover: false }));
-            this.directionsMapDirective.waypoints = waypoints;
+            this.waypoints.forEach((r) => googleWaypoints.push({ location: r.latLng, stopover: false }));
         }
    
-        this.directionsMapDirective.getDirections();
+        this.mapDirectionsService.requestDirection({
+            origin: origin,
+            destination: destination,
+            waypoints: googleWaypoints
+        });
     }
 
     updateWaypoint(waypoint: TripWaypointViewModel, index: number) {
@@ -91,7 +106,7 @@ export class MapComponent implements OnInit {
 
     clearDirections() {
         this.waypoints = [];
-        this.directionsMapDirective.clearDirections();
+        this.mapDirectionsService.clearDirection();
         this.setCurrentPosition();
     }
 
@@ -107,15 +122,6 @@ export class MapComponent implements OnInit {
             tripRouteId: 0,
             latLng: marker.latLng,
             name: marker.label
-        });
-    }
-
-    onDirectionsDone(info: { time: string, distance: string }) {
-        this.onRouteBuilt.emit({
-            id: 0,
-            distance: info.distance,
-            tripWaypoints: this.waypoints,
-            time: info.time
         });
     }
 

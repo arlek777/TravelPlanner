@@ -1,6 +1,6 @@
 import { Component, ViewContainerRef, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { NotificationService } from "../../services/notification.service";
+import { NotificationService } from "../../services/observables/notification.service";
 import { ToastsManager } from 'ng2-toastr';
 
 @Component({

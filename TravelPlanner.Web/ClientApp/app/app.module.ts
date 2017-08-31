@@ -17,7 +17,8 @@ import { ChatService } from "./services/chat.service";
 import { WebSocketService } from "./services/websocket.service";
 import { InterceptedHttp } from "./utils/http.interceptor";
 import { GlobalErrorHandler } from "./services/global-error-handler.service";
-import { NotificationService } from "./services/notification.service";
+
+import { NotificationService } from "./services/observables/notification.service";
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
