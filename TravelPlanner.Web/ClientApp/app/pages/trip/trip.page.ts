@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
-import { TripViewModel } from "../../models/trip";
+import { TripViewModel } from "../../models/trip/trip";
 import { InvitesViewModel } from "../../models/invites";
 import { BackendService } from "../../services/backend.service";
 import { AuthService } from "../../services/auth.service";
@@ -18,20 +18,16 @@ import { MapComponent } from "../../components/map/map.component";
 export class TripPage implements OnInit {
     private currentUser: User = null;
 
-    @ViewChild(MapComponent)
-    mapComponent: MapComponent;
-
     trip = new TripViewModel();
     newPhone = "";
     invitePhones = new Array<string>();
+    waypoints: Trip
 
     constructor(private backendService: BackendService,
         private route: ActivatedRoute,
         private authService: AuthService,
         private sanitizer: DomSanitizer) {
     }
-
- 
 
     ngOnInit() {
         this.currentUser = this.authService.user;
