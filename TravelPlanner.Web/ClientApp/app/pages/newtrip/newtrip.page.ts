@@ -6,7 +6,7 @@ import { Constants } from "../../models/constants";
 import { UserHelper } from "../../utils/helpers";
 import { TripRouteViewModel } from "../../models/trip/trip-route";
 import { SightObjectViewModel } from "../../models/sight-object";
-import { MapComponent } from "../../components/map/map.component";
+import { MapObsService } from "../../services/observables/map.service";
 
 @Component({
     selector: 'newtrip',
@@ -14,15 +14,20 @@ import { MapComponent } from "../../components/map/map.component";
 })
 export class NewTripPage implements OnInit {
     newtrip = new TripViewModel();
-    sights: SightObjectViewModel[] = [];
 
-    constructor(private backendService: BackendService, private router: Router) {
+    constructor(private backendService: BackendService,
+        private mapObsService: MapObsService,
+        private router: Router) {
+
         this.newtrip.creatorId = UserHelper.getUserId();
+        this.mapObsService.mapBuilt$.subscribe((tripRoute: TripRouteViewModel) => {
+            this.newtrip.tripRoute = tripRoute;
+        });
     }
 
     ngOnInit(): void {
         this.backendService.getSights().then((sights: SightObjectViewModel[]) => {
-            this.markers = sights;
+            this.mapObsService.sightObjectsReceived(sights);
         });
     }
 
@@ -30,9 +35,5 @@ export class NewTripPage implements OnInit {
         this.backendService.createTrip(this.newtrip).then((id) => {
             this.router.navigate(['/trip/' + id]);
         });
-    }
-
-    onRouteBuilt(tripRoute: TripRouteViewModel) {
-        this.newtrip.tripRoute = tripRoute;
     }
 }

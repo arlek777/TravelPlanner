@@ -14,7 +14,7 @@
     <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="true" [zoom]="zoom">
         <agm-marker 
             *ngFor="let m of markers; let i = index"
-            (markerClick)="clickedMarker(m, infoWindow)"
+            (markerClick)="addWaypoint(m, infoWindow)"
             [latitude]="m.latLng.lat"
             [longitude]="m.latLng.lng">
 
@@ -23,6 +23,5 @@
             </agm-info-window>
 
         </agm-marker>
-        <map-directions></map-directions>
     </agm-map>
 </div>

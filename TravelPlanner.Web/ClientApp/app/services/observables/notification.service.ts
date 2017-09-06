@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class NotificationService {
+export class NotificationObsService {
     public validationErrors = new Subject<string>();
     public serverErrors = new Subject<string>();
 }

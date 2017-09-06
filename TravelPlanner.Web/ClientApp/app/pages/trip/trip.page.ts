@@ -9,7 +9,7 @@ import { UserHelper } from "../../utils/helpers";
 import { User } from "../../models/user";
 import { Car } from "../../models/car";
 import { Observable } from "rxjs/Rx";
-import { MapComponent } from "../../components/map/map.component";
+import { MapObsService } from "../../services/observables/map.service";
 
 @Component({
     selector: 'trip',
@@ -21,12 +21,11 @@ export class TripPage implements OnInit {
     trip = new TripViewModel();
     newPhone = "";
     invitePhones = new Array<string>();
-    waypoints: Trip
 
     constructor(private backendService: BackendService,
         private route: ActivatedRoute,
         private authService: AuthService,
-        private sanitizer: DomSanitizer) {
+        private mapObsService: MapObsService) {
     }
 
     ngOnInit() {
@@ -35,8 +34,7 @@ export class TripPage implements OnInit {
         this.backendService.getTrip(tripId, this.currentUser.id).then((trip: TripViewModel) => {
             this.trip = trip;
             if (trip.tripRoute) {
-                this.mapComponent.waypoints = trip.tripRoute.tripWaypoints;
-                this.mapComponent.getDirections();
+                this.mapObsService.waypointsReceived(trip.tripRoute.tripWaypoints);
             }
         });
     }

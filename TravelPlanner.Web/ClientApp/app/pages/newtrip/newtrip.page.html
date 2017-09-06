@@ -10,7 +10,7 @@
         Estimated Time {{ newtrip.tripRoute.time }}
     </div>
 
-    <map [markers]="sights" (onRouteBuilt)="onRouteBuilt($event)"></map>
+    <map></map>
     
     <button [disabled]="!newTripForm.form.valid" localize="createButton" (click)="onSubmit()"></button>
 </form>

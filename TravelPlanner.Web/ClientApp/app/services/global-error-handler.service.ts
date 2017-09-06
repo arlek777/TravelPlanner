@@ -1,6 +1,6 @@
 ﻿import { Response } from '@angular/http';
 import { ErrorHandler, Injectable, Injector } from '@angular/core';
-import { NotificationService } from "./observables/notification.service";
+import { NotificationObsService } from "./observables/notification.service";
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -9,7 +9,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     handleError(error) {
         var response = <Response>error.rejection;
         if (response) {
-            var notificationService = this.injector.get(NotificationService);
+            var notificationService = this.injector.get(NotificationObsService);
 
             // bad request
             if (response.status === 400) {

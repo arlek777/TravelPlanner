@@ -1,15 +1,12 @@
-﻿import { Component, NgZone, OnInit, OnChanges, ViewChild, ElementRef, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { FormControl } from '@angular/forms';
+﻿import { Component, NgZone, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { BackendService } from "../../services/backend.service";
 import { MapsAPILoader, GoogleMapsAPIWrapper } from '@agm/core';
 import { } from 'googlemaps';
 import { GoogleMap } from "@agm/core/services/google-maps-types";
-import { Mapper } from "../../utils/helpers";
-import { DirectionsMapDirective } from "../../directives/map-directions.directive";
 import { TripWaypointViewModel } from "../../models/trip/trip-waypoint";
 import { TripRouteViewModel } from "../../models/trip/trip-route";
 import { SightObjectViewModel } from "../../models/sight-object";
-import { MapDirectionsService } from "../../services/observables/map-directions.service";
+import { MapObsService } from "../../services/observables/map.service";
 
 @Component({
     selector: 'map',
@@ -19,39 +16,41 @@ import { MapDirectionsService } from "../../services/observables/map-directions.
         }`],
     providers: [GoogleMapsAPIWrapper]
 })
-export class MapComponent implements OnInit, OnChanges  {
+export class MapComponent implements OnInit  {
     private readonly defaultZoom = 7;
     private readonly defaultLng = 50.4501;
     private readonly defaultLat = 30.5234;
 
-    @Input() waypoints: TripWaypointViewModel[] = [];
-    @Input() markers: SightObjectViewModel[] = [];
+    private zoom: number = this.defaultZoom;
+    private lat: number = this.defaultLat;
+    private lng: number = this.defaultLng;
+    private infoWindowOpened = null;
+    private updateWaypointIndex = -1;
 
-    @Output() onRouteBuilt = new EventEmitter<TripRouteViewModel>();
+    private waypoints: TripWaypointViewModel[] = [];
+    private markers: SightObjectViewModel[] = [];
 
     @ViewChild("search")
-    searchElementRef: ElementRef;
+    private searchElementRef: ElementRef;
 
-    placeAutocomplete: google.maps.places.Autocomplete;
-
-    zoom: number = this.defaultZoom;
-    lat: number = this.defaultLat;
-    lng: number = this.defaultLng;
-    infoWindowOpened = null;
-    updateWaypointIndex = -1;
+    private placeAutocomplete: google.maps.places.Autocomplete;
+    private directionsDisplay: any = null;
 
     constructor(private mapsLoader: MapsAPILoader,
+        private gmapsApi: GoogleMapsAPIWrapper,
         private backendService: BackendService,
         private ngZone: NgZone,
-        private mapDirectionsService: MapDirectionsService) {
+        private mapObsService: MapObsService) {
 
-        this.mapDirectionsService.directionDone$.subscribe((direction) => {
-            this.onRouteBuilt.emit({
-                id: 0,
-                distance: direction.distance,
-                tripWaypoints: this.waypoints,
-                time: direction.time
-            });
+        this.mapObsService.sightObjectsReceived$.subscribe((sights) => {
+            this.markers = sights;
+        });
+
+        this.mapObsService.waypointsReceived$.subscribe((waypoints) => {
+            this.waypoints = waypoints;
+            if (this.waypoints.length >= 2) {
+                this.getDirections();
+            }
         });
     }
 
@@ -59,18 +58,9 @@ export class MapComponent implements OnInit, OnChanges  {
         this.setCurrentPosition(); 
         this.mapsLoader.load().then(() => {
             this.placeAutocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
-            //this.directionsMapDirective.directionsDisplay = new google.maps.DirectionsRenderer();
+            this.directionsDisplay = new google.maps.DirectionsRenderer();
             this.placeAutocomplete.addListener("place_changed", () => this.placeSelected());
-
-            if (this.waypoints.length >= 2) {
-                this.getDirections();
-            }
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        this.waypoints = changes["waypoints"].currentValue;
-        this.markers = changes["markers"].currentValue;
     }
 
     getDirections() {
@@ -87,30 +77,20 @@ export class MapComponent implements OnInit, OnChanges  {
             this.waypoints.forEach((r) => googleWaypoints.push({ location: r.latLng, stopover: false }));
         }
    
-        this.mapDirectionsService.requestDirection({
-            origin: origin,
+        this.routeDirections({
             destination: destination,
+            origin: origin,
             waypoints: googleWaypoints
         });
     }
 
-    updateWaypoint(waypoint: TripWaypointViewModel, index: number) {
-        this.searchElementRef.nativeElement.value = waypoint.name;
-        this.updateWaypointIndex = index;
-    }
-
-    removeWaypoint(waypoint: TripWaypointViewModel, index: number) {
-        this.waypoints.splice(index, 1);
-        // remove from db
-    }
-
     clearDirections() {
         this.waypoints = [];
-        this.mapDirectionsService.clearDirection();
+        this.directionsDisplay.setDirections({ routes: [] });
         this.setCurrentPosition();
     }
 
-    clickedMarker(marker: SightObjectViewModel, infoWindow) { 
+    addWaypoint(marker: SightObjectViewModel, infoWindow) {
         this.closeInfoWindow();
         this.infoWindowOpened = infoWindow;
 
@@ -125,6 +105,50 @@ export class MapComponent implements OnInit, OnChanges  {
         });
     }
 
+    updateWaypoint(waypoint: TripWaypointViewModel, index: number) {
+        this.searchElementRef.nativeElement.value = waypoint.name;
+        this.updateWaypointIndex = index;
+    }
+
+    removeWaypoint(waypoint: TripWaypointViewModel, index: number) {
+        this.waypoints.splice(index, 1);
+        // remove from db
+    }
+
+    private routeDirections(requestDirection: { origin, destination, waypoints }) {
+        this.gmapsApi.getNativeMap().then(map => {// todo doesn't work'
+            var directionsService = new google.maps.DirectionsService();
+            this.directionsDisplay.setMap(map);
+            this.directionsDisplay.setDirections({ routes: [] });
+
+            directionsService.route({
+                origin: requestDirection.origin,
+                destination: requestDirection.destination,
+                waypoints: requestDirection.waypoints,
+                travelMode: google.maps.TravelMode.DRIVING
+            }, (resp, status) => this.onDirectionsReceived(resp, status, this));
+        });
+    }
+
+    private onDirectionsReceived(response: any, status: any, that: MapComponent) {
+        if (status === 'OK') {
+            that.directionsDisplay.setDirections(response);
+
+            var point = response.routes[0].legs[0];
+            var estimatedTime = point.duration.text;
+            var estimatedDistance = point.distance.text;
+
+            that.mapObsService.mapBuilt({
+                id: 0,
+                distance: estimatedDistance,
+                time: estimatedTime,
+                tripWaypoints: that.waypoints
+            });
+        } else {
+            console.log('Directions request failed due to ' + status);
+        }
+    }
+
     private placeSelected() {
         this.ngZone.run(() => {
             let place: google.maps.places.PlaceResult = this.placeAutocomplete.getPlace();
@@ -134,6 +158,7 @@ export class MapComponent implements OnInit, OnChanges  {
                 return;
             }
 
+            // if not update mode
             if (this.updateWaypointIndex !== -1) {
                 this.waypoints[this.updateWaypointIndex].id = place.place_id;
                 this.waypoints[this.updateWaypointIndex].latLng = {

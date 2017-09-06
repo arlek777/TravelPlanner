@@ -6,7 +6,7 @@ import { LoginViewModel } from "../models/auth/login";
 import { RegistrationViewModel } from "../models/auth/registration";
 import { User } from "../models/user";
 import { JWTTokens } from "../models/auth/jwttokens";
-import { TripViewModel } from "../models/trip";
+import { TripViewModel } from "../models/trip/trip";
 import { InvitesViewModel } from "../models/invites";
 import { MessageViewModel } from "../models/message";
 import { SightObjectViewModel } from "../models/sight-object";

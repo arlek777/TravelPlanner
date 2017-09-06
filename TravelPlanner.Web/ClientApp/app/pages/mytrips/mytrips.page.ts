@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TripViewModel } from "../../models/trip";
+import { TripViewModel } from "../../models/trip/trip";
 import { BackendService } from "../../services/backend.service";
 import { UserHelper } from "../../utils/helpers";
 

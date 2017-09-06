@@ -18,7 +18,8 @@ import { WebSocketService } from "./services/websocket.service";
 import { InterceptedHttp } from "./utils/http.interceptor";
 import { GlobalErrorHandler } from "./services/global-error-handler.service";
 
-import { NotificationService } from "./services/observables/notification.service";
+import { NotificationObsService } from "./services/observables/notification.service";
+import { MapObsService } from "./services/observables/map.service";
 
 import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -26,7 +27,6 @@ import { ChatComponent } from './components/chat/chat.component';
 import { MapComponent } from './components/map/map.component';
 
 import { LocalizeDirective } from "./directives/localize.directive";
-import { DirectionsMapDirective } from "./directives/map-directions.directive";
 
 import { HomePage } from './pages/home/home.page';
 import { MyTripsPage } from './pages/mytrips/mytrips.page';
@@ -68,8 +68,7 @@ export class CustomToastOption extends ToastOptions {
         TripPage,
         AcceptInvitePage,
         MapTestPage,
-        LocalizeDirective,
-        DirectionsMapDirective
+        LocalizeDirective
     ],
     imports: [
         BrowserModule,
@@ -110,7 +109,8 @@ export class CustomToastOption extends ToastOptions {
         BackendService,
         ChatService,
         WebSocketService,
-        NotificationService,
+        NotificationObsService,
+        MapObsService,
         {
             provide: Http,
             useFactory: httpFactory,

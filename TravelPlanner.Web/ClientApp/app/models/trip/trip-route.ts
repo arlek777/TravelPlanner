@@ -1,4 +1,4 @@
-﻿import { Mapper } from "../utils/helpers";
+﻿import { Mapper } from "../../utils/helpers";
 import { TripWaypointViewModel } from "./trip-waypoint";
 
 export class TripRouteViewModel {
