@@ -1,6 +1,6 @@
-﻿import { Component, NgZone, OnInit, ViewChild, ElementRef } from '@angular/core';
+﻿import { Component, NgZone, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { BackendService } from "../../services/backend.service";
-import { MapsAPILoader, GoogleMapsAPIWrapper } from '@agm/core';
+import { MapsAPILoader, GoogleMapsAPIWrapper, AgmMap } from '@agm/core';
 import { } from 'googlemaps';
 import { GoogleMap } from "@agm/core/services/google-maps-types";
 import { TripWaypointViewModel } from "../../models/trip/trip-waypoint";
@@ -16,7 +16,7 @@ import { MapObsService } from "../../services/observables/map.service";
         }`],
     providers: [GoogleMapsAPIWrapper]
 })
-export class MapComponent implements OnInit  {
+export class MapComponent implements OnInit, AfterViewInit  {
     private readonly defaultZoom = 7;
     private readonly defaultLng = 50.4501;
     private readonly defaultLat = 30.5234;
@@ -32,6 +32,9 @@ export class MapComponent implements OnInit  {
 
     @ViewChild("search")
     private searchElementRef: ElementRef;
+
+    @ViewChild(AgmMap)
+    private agmMap: AgmMap;
 
     private placeAutocomplete: google.maps.places.Autocomplete;
     private directionsDisplay: any = null;
@@ -60,6 +63,12 @@ export class MapComponent implements OnInit  {
             this.placeAutocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
             this.directionsDisplay = new google.maps.DirectionsRenderer();
             this.placeAutocomplete.addListener("place_changed", () => this.placeSelected());
+        });
+    }
+
+    ngAfterViewInit() {
+        this.agmMap.mapReady.subscribe(map => {
+            this.directionsDisplay.setMap(map);
         });
     }
 
@@ -116,18 +125,17 @@ export class MapComponent implements OnInit  {
     }
 
     private routeDirections(requestDirection: { origin, destination, waypoints }) {
-        this.gmapsApi.getNativeMap().then(map => {// todo doesn't work'
-            var directionsService = new google.maps.DirectionsService();
-            this.directionsDisplay.setMap(map);
-            this.directionsDisplay.setDirections({ routes: [] });
+        var directionsService = new google.maps.DirectionsService();
+        
+        this.directionsDisplay.setDirections({ routes: [] });
 
-            directionsService.route({
+        directionsService.route({
                 origin: requestDirection.origin,
                 destination: requestDirection.destination,
                 waypoints: requestDirection.waypoints,
                 travelMode: google.maps.TravelMode.DRIVING
-            }, (resp, status) => this.onDirectionsReceived(resp, status, this));
-        });
+            },
+            (resp, status) => this.onDirectionsReceived(resp, status, this));
     }
 
     private onDirectionsReceived(response: any, status: any, that: MapComponent) {
