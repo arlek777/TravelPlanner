@@ -1,5 +1,5 @@
-<h1>{{ trip.title }}</h1>
-<p>{{ trip.description }}</p>
+Title: <h1>{{ trip.title }}</h1>
+Description: <p>{{ trip.description }}</p>
 
 Invitations
 <input type="text" localize="enterInvitePhone" name="newPhone" [(ngModel)]="newPhone"/>
@@ -29,7 +29,7 @@ Users
 <chat></chat>
 
 MAP
-<map></map> // TODO think how to pass to i
+<map [isReadOnlyMode]="true"></map>
 
 <div *ngIf="trip.tripRoute">
     Distance

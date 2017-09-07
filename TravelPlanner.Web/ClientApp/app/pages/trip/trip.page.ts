@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TripViewModel } from "../../models/trip/trip";
@@ -10,22 +10,34 @@ import { User } from "../../models/user";
 import { Car } from "../../models/car";
 import { Observable } from "rxjs/Rx";
 import { MapObsService } from "../../services/observables/map.service";
+import { NotificationObsService } from "../../services/observables/notification.service";
+import { Subject } from "rxjs/Subject";
+import { TripRouteViewModel } from "../../models/trip/trip-route";
 
 @Component({
     selector: 'trip',
     templateUrl: './trip.page.html'
 })
-export class TripPage implements OnInit {
+export class TripPage implements OnInit, OnDestroy {
     private currentUser: User = null;
 
     trip = new TripViewModel();
     newPhone = "";
     invitePhones = new Array<string>();
 
+    private unsubscribe = new Subject<any>();
+
     constructor(private backendService: BackendService,
         private route: ActivatedRoute,
         private authService: AuthService,
-        private mapObsService: MapObsService) {
+        private mapObsService: MapObsService,
+        private notificationObsService: NotificationObsService) {
+
+        this.mapObsService.mapBuilt$
+            .takeUntil(this.unsubscribe)
+            .subscribe((tripRoute: TripRouteViewModel) => {
+                this.trip.tripRoute = tripRoute;
+            });
     }
 
     ngOnInit() {
@@ -43,6 +55,7 @@ export class TripPage implements OnInit {
         this.invitePhones.push(this.newPhone);
         this.newPhone = "";
     }
+
     sendInvites() {
         var model = new InvitesViewModel({
             invitorUserId: this.currentUser.id,
@@ -51,8 +64,21 @@ export class TripPage implements OnInit {
             phones: this.invitePhones
         });
         this.backendService.sendInvites(model).then(() => {
-            alert("Done");
+            this.notificationObsService.success.next("invitesSent");
         });
         this.invitePhones = new Array<string>();
+    }
+
+    updateTitleAndDescription() {
+        
+    }
+
+    updateRoute() {
+        
+    }
+
+    ngOnDestroy() {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
     }
 }

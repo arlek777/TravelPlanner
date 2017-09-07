@@ -25,5 +25,18 @@ export class AppComponent implements OnInit {
                 this.toastr.error(translation);
             });
         });
+
+        this.notificationService.serverErrors.subscribe((error: string) => {
+            setTimeout(() => {
+                this.toastr.error("Server Error Happens.... Message: " + error);
+            });
+        });
+
+        this.notificationService.success.subscribe((text: string) => {
+            setTimeout(() => {
+                var translation = this.translate.instant(text);
+                this.toastr.success(translation);
+            });
+        });
     }
 }

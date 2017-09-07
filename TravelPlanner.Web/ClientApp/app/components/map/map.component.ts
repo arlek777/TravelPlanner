@@ -1,5 +1,4 @@
-﻿import { Component, NgZone, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { BackendService } from "../../services/backend.service";
+﻿import { Component, NgZone, OnInit, Input, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { MapsAPILoader, GoogleMapsAPIWrapper, AgmMap } from '@agm/core';
 import { } from 'googlemaps';
 import { GoogleMap } from "@agm/core/services/google-maps-types";
@@ -7,6 +6,10 @@ import { TripWaypointViewModel } from "../../models/trip/trip-waypoint";
 import { TripRouteViewModel } from "../../models/trip/trip-route";
 import { SightObjectViewModel } from "../../models/sight-object";
 import { MapObsService } from "../../services/observables/map.service";
+import { Subject } from "rxjs/Subject";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Observable } from "rxjs/Observable";
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
     selector: 'map',
@@ -16,7 +19,7 @@ import { MapObsService } from "../../services/observables/map.service";
         }`],
     providers: [GoogleMapsAPIWrapper]
 })
-export class MapComponent implements OnInit, AfterViewInit  {
+export class MapComponent implements OnInit, OnDestroy, AfterViewInit  {
     private readonly defaultZoom = 7;
     private readonly defaultLng = 50.4501;
     private readonly defaultLat = 30.5234;
@@ -37,39 +40,42 @@ export class MapComponent implements OnInit, AfterViewInit  {
     private agmMap: AgmMap;
 
     private placeAutocomplete: google.maps.places.Autocomplete;
-    private directionsDisplay: any = null;
+    private directionsDisplay: any;
+    private directionsService: google.maps.DirectionsService;
+
+    private unsubscribe = new Subject<any>();
+
+    @Input() isReadOnlyMode = false;
 
     constructor(private mapsLoader: MapsAPILoader,
         private gmapsApi: GoogleMapsAPIWrapper,
-        private backendService: BackendService,
         private ngZone: NgZone,
         private mapObsService: MapObsService) {
-
-        this.mapObsService.sightObjectsReceived$.subscribe((sights) => {
-            this.markers = sights;
-        });
-
-        this.mapObsService.waypointsReceived$.subscribe((waypoints) => {
-            this.waypoints = waypoints;
-            if (this.waypoints.length >= 2) {
-                this.getDirections();
-            }
-        });
     }
 
     ngOnInit() {
-        this.setCurrentPosition(); 
         this.mapsLoader.load().then(() => {
-            this.placeAutocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
+            if (!this.isReadOnlyMode) {
+                this.setCurrentPosition(); 
+                this.placeAutocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
+                this.placeAutocomplete.addListener("place_changed", () => this.placeSelected());
+            }
+            
             this.directionsDisplay = new google.maps.DirectionsRenderer();
-            this.placeAutocomplete.addListener("place_changed", () => this.placeSelected());
+            this.directionsService = new google.maps.DirectionsService();
         });
     }
 
     ngAfterViewInit() {
         this.agmMap.mapReady.subscribe(map => {
             this.directionsDisplay.setMap(map);
+            this.subscribeToObservables();
         });
+    }
+
+    ngOnDestroy() {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
     }
 
     getDirections() {
@@ -100,6 +106,8 @@ export class MapComponent implements OnInit, AfterViewInit  {
     }
 
     addWaypoint(marker: SightObjectViewModel, infoWindow) {
+        if (this.isReadOnlyMode) return;
+
         this.closeInfoWindow();
         this.infoWindowOpened = infoWindow;
 
@@ -124,12 +132,27 @@ export class MapComponent implements OnInit, AfterViewInit  {
         // remove from db
     }
 
+    private subscribeToObservables() {
+        this.mapObsService.sightObjectsReceived$
+            .takeUntil(this.unsubscribe)
+            .subscribe((sights) => {
+                this.markers = sights;
+            });
+
+        this.mapObsService.waypointsReceived$
+            .takeUntil(this.unsubscribe)
+            .subscribe((waypoints) => {
+                this.waypoints = waypoints;
+                if (this.waypoints.length >= 2) {
+                    this.getDirections();
+                }
+            });
+    }
+
     private routeDirections(requestDirection: { origin, destination, waypoints }) {
-        var directionsService = new google.maps.DirectionsService();
-        
         this.directionsDisplay.setDirections({ routes: [] });
 
-        directionsService.route({
+        this.directionsService.route({
                 origin: requestDirection.origin,
                 destination: requestDirection.destination,
                 waypoints: requestDirection.waypoints,

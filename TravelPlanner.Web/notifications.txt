@@ -1,1 +1,1 @@
-Привет, Test приглашает вас в путешествие: http://localhost:54823/acceptinvite/7475..
+Привет, ii приглашает вас в путешествие: http://localhost:54555/acceptinvite/4745.5..

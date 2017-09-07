@@ -27,5 +27,7 @@
 
   "createButton": "Создать",
   "editButton": "Изменить",
-  "removeButton": "Удалить"
+  "removeButton": "Удалить",
+
+  "invitesSent":  "Приглашение успешно отправлены."
 }

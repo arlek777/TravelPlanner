@@ -1,15 +1,24 @@
 <div class="container">
     <h1>Map</h1>
-    <div class="form-group">
-        <input placeholder="search for location" autocorrect="off" autocapitalize="off" type="text" class="form-control" #search>
+    
+    <div *ngIf="!isReadOnlyMode">
+        
+        <div class="form-group">
+            <input placeholder="search for location" autocorrect="off" autocapitalize="off" type="text" class="form-control" #search>
+        </div>
+        <div *ngFor="let waypoint of waypoints; let i = index;">
+            {{ waypoint.name }}
+            <a class="glyphicon glyphicon-edit" href="javascript: " (click)="updateWaypoint(waypoint, i)"></a>
+            <a class="glyphicon glyphicon-remove" href="javascript: " (click)="removeWaypoint(waypoint, i)"></a>
+        </div>
+        <div>
+            <button (click)="getDirections()">Get Directions</button>
+        </div>
+        <div>
+            <button (click)="clearDirections()">Clear Directions</button>
+        </div>
+
     </div>
-    <div *ngFor="let waypoint of waypoints; let i = index;">
-        {{ waypoint.name }}
-        <a class="glyphicon glyphicon-edit" href="javascript: " (click)="updateWaypoint(waypoint, i)"></a>
-        <a class="glyphicon glyphicon-remove" href="javascript: " (click)="removeWaypoint(waypoint, i)"></a>
-    </div>
-    <div><button (click)="getDirections()">Get Directions</button></div>
-    <div><button (click)="clearDirections()">Clear Directions</button></div>
 
     <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="true" [zoom]="zoom">
         <agm-marker 

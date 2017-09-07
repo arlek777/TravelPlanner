@@ -2,7 +2,6 @@
 
 <form #newTripForm="ngForm">
     <input required name="title" localize="tripTitlePlaceholder" [(ngModel)]="newtrip.title"/>
-    <input name="map" localize="tripMapPlaceholder" [(ngModel)]="newtrip.mapUrl" />
     <textarea name="description" localize="tripDescriptionPlaceholder" [(ngModel)]="newtrip.description"></textarea>
     
     <div *ngIf="newtrip.tripRoute">
