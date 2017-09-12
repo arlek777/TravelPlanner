@@ -20,6 +20,7 @@ import 'rxjs/add/operator/takeUntil';
     providers: [GoogleMapsAPIWrapper]
 })
 export class MapComponent implements OnInit, OnDestroy, AfterViewInit  {
+  
     private readonly defaultZoom = 7;
     private readonly defaultLng = 50.4501;
     private readonly defaultLat = 30.5234;
@@ -55,11 +56,9 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit  {
 
     ngOnInit() {
         this.mapsLoader.load().then(() => {
-            if (!this.isReadOnlyMode) {
-                this.setCurrentPosition(); 
-                this.placeAutocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
-                this.placeAutocomplete.addListener("place_changed", () => this.placeSelected());
-            }
+            this.setCurrentPosition(); 
+            this.placeAutocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
+            this.placeAutocomplete.addListener("place_changed", () => this.placeSelected());
             
             this.directionsDisplay = new google.maps.DirectionsRenderer();
             this.directionsService = new google.maps.DirectionsService();
@@ -129,7 +128,6 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit  {
 
     removeWaypoint(waypoint: TripWaypointViewModel, index: number) {
         this.waypoints.splice(index, 1);
-        // remove from db
     }
 
     private subscribeToObservables() {

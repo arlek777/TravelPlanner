@@ -22,8 +22,14 @@ export class TripPage implements OnInit, OnDestroy {
     private currentUser: User = null;
 
     trip = new TripViewModel();
+    editedTrip = new TripViewModel();
+    editedRoute = new TripRouteViewModel();
     newPhone = "";
     invitePhones = new Array<string>();
+
+    isEditAllowed = false;
+    isMainInfoEditMode = false;
+    isRouteEditMode = false;
 
     private unsubscribe = new Subject<any>();
 
@@ -37,6 +43,7 @@ export class TripPage implements OnInit, OnDestroy {
             .takeUntil(this.unsubscribe)
             .subscribe((tripRoute: TripRouteViewModel) => {
                 this.trip.tripRoute = tripRoute;
+           
             });
     }
 
@@ -44,6 +51,7 @@ export class TripPage implements OnInit, OnDestroy {
         this.currentUser = this.authService.user;
         var tripId = this.route.snapshot.params['id'];
         this.backendService.getTrip(tripId, this.currentUser.id).then((trip: TripViewModel) => {
+            this.isEditAllowed = trip.creatorId === this.currentUser.id;
             this.trip = trip;
             if (trip.tripRoute) {
                 this.mapObsService.waypointsReceived(trip.tripRoute.tripWaypoints);
@@ -69,12 +77,42 @@ export class TripPage implements OnInit, OnDestroy {
         this.invitePhones = new Array<string>();
     }
 
-    updateTitleAndDescription() {
-        
+    editTrip() {
+        this.editedTrip = this.trip;
+        this.isMainInfoEditMode = true;
+    }
+
+    cancelEdit() {
+        this.editedTrip = null;
+        this.isMainInfoEditMode = false;
+    }
+
+    updateMainInfo() {
+        this.trip.title = this.editedTrip.title;
+        this.trip.description = this.editedTrip.description;
+
+        // todo update trip in db
+
+        this.editedTrip = null;
+        this.isMainInfoEditMode = false;
+    }
+
+    editRoute() {
+        this.editedRoute = this.trip.tripRoute;
+        this.isRouteEditMode = true;
+    }
+
+    cancelRouteEdit() {
+        this.trip.tripRoute = this.editedRoute;
+        this.editedRoute = null;
+        this.isRouteEditMode = false;
     }
 
     updateRoute() {
-        
+        this.editedRoute = null;
+        this.isRouteEditMode = false;
+
+        // todo update in db
     }
 
     ngOnDestroy() {

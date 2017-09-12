@@ -1,5 +1,21 @@
-Title: <h1>{{ trip.title }}</h1>
-Description: <p>{{ trip.description }}</p>
+
+<div *ngIf="isMainInfoEditMode">
+    <form #updateTripForm="ngForm">
+        <input required name="title" localize="tripTitlePlaceholder" [(ngModel)]="editedTrip.title" />
+        <textarea name="description" localize="tripDescriptionPlaceholder" [(ngModel)]="editedTrip.description"></textarea>
+        
+        <button [disabled]="!updateTripForm.form.valid" localize="updateButton" (click)="updateMainInfo()"></button>
+        <button localize="cancelEditButton" (click)="cancelEdit()"></button>
+    </form>
+</div>
+<div *ngIf="!isMainInfoEditMode">
+    <button *ngIf="isEditAllowed" localize="editButton" (click)="editTrip()"></button>
+
+    Title:
+    <h1>{{ trip.title }}</h1>
+    Description:
+    <p>{{ trip.description }}</p>
+</div>
 
 Invitations
 <input type="text" localize="enterInvitePhone" name="newPhone" [(ngModel)]="newPhone"/>
@@ -8,13 +24,6 @@ Invitations
 <button (click)="sendInvites()" localize="sendInvitesButton"></button>
 
 <hr/>
-
-<div *ngIf="trip.mapUrl">
-    Map
-    <div [innerHtml]="getMapIframe()"></div>
-
-    <hr />
-</div>
 
 Users
 <div *ngFor="let user of trip.users">
@@ -28,8 +37,11 @@ Users
 
 <chat></chat>
 
+<button *ngIf="isEditAllowed && !isRouteEditMode" localize="editButton" (click)="editRoute()"></button>
+<button *ngIf="isEditAllowed && isRouteEditMode" localize="cancelEditButton" (click)="cancelRouteEdit()"></button>
+<button *ngIf="isEditAllowed && isRouteEditMode" localize="updateButton" (click)="updateRoute()"></button>
 MAP
-<map [isReadOnlyMode]="true"></map>
+<map [isReadOnlyMode]="!isRouteEditMode"></map>
 
 <div *ngIf="trip.tripRoute">
     Distance

@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { TripRouteViewModel } from "../../models/trip/trip-route";
 import { TripWaypointViewModel } from "../../models/trip/trip-waypoint";
 import { SightObjectViewModel } from "../../models/sight-object";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class MapObsService {
     private mapBuiltSource = new Subject<TripRouteViewModel>();
-    private waypointsReceivedSource = new Subject<TripWaypointViewModel[]>();
-    private sightObjectsReceivedSource = new Subject<SightObjectViewModel[]>();
+    private waypointsReceivedSource = new BehaviorSubject<TripWaypointViewModel[]>([]);
+    private sightObjectsReceivedSource = new BehaviorSubject<SightObjectViewModel[]>([]);
 
     mapBuilt$ = this.mapBuiltSource.asObservable();
     waypointsReceived$ = this.waypointsReceivedSource.asObservable();

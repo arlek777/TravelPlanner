@@ -1,7 +1,7 @@
 <div class="container">
     <h1>Map</h1>
     
-    <div *ngIf="!isReadOnlyMode">
+    <div [ngClass]="{'hidden': isReadOnlyMode}">
         
         <div class="form-group">
             <input placeholder="search for location" autocorrect="off" autocapitalize="off" type="text" class="form-control" #search>
