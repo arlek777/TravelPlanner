@@ -1,7 +1,7 @@
 # TravelPlanner
 
 It's my pet project which is designed to practice with new stack of web technologies: ASP.NET Core, Angular 2, RxJs. 
-It's designed to make it easier to organize team trips.
+The main purpose is to make it easier to organize trips with your friends.
 
 # Detailed Description
 
