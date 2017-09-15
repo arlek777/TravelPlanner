@@ -26,5 +26,5 @@ It's a Signle Page Application. I used classical layered architecture which incl
 1. Web UI which is built on top of ASP.NET Core and Angular 4
 2. BusinessLogic layer
 3. Identity layer which is responsible for authorization and security and uses ASP.NET Identity library
-4. DataAccess layer which uses on EntityFramework to access MS SQL DB
+4. DataAccess layer which uses EntityFramework to access to MS SQL DB
 5. DomainModel layer
