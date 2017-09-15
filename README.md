@@ -1,11 +1,11 @@
 # TravelPlanner
 
-It's a pet project which is designed to practice with new stack of web technologies: ASP.NET Core, Angular 2, RxJs. 
+It's my pet project which is designed to practice with new stack of web technologies: ASP.NET Core, Angular 2, RxJs. 
 It's designed to make it easier to organize team trips.
 
 # Detailed Description
 
-When I was going to ogranaize a trip with my friends I had the problems that I solved with this web application. 
+When I was going to organize a trip with my friends I had the problems that I solved with this web application. 
 
 List of the main features: 
 
