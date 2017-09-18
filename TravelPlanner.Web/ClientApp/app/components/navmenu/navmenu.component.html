@@ -26,10 +26,10 @@
 
             <ul *ngIf="isLoggedIn()" class="nav navbar-nav navbar-right active">
                 <li>
-                    <a class="navbar-brand" (click)="showUserInfo()">Hello, <strong>{{ getUserName() }}</strong></a>
+                    <a class="navbar-brand" href="javascript: " (click)="showUserInfo()">Hello, <strong>{{ getUserName() }}</strong></a>
                 </li>
                 <li>
-                    <a class='navbar-brand' localize="logout" (click)="logout()"></a>
+                    <a class='navbar-brand' href="javascript: " localize="logout" (click)="logout()"></a>
                 </li>
             </ul>
 

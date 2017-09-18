@@ -1,16 +1,35 @@
-<h1 localize="newTripPageTitle"></h1>
-
-<form #newTripForm="ngForm">
-    <input required name="title" localize="tripTitlePlaceholder" [(ngModel)]="newtrip.title"/>
-    <textarea name="description" localize="tripDescriptionPlaceholder" [(ngModel)]="newtrip.description"></textarea>
-    
-    <div *ngIf="newtrip.tripRoute">
-        Distance {{ newtrip.tripRoute.distance }} <br/>
-        Estimated Time {{ newtrip.tripRoute.time }}
+<div class="row page-header">
+    <div class="col-md-11">
+        <h1 localize="myTripsPageTitle"></h1>
     </div>
+    <div style="padding-top: 14px" class="col-md-1">
+        <button class="btn btn-primary" [disabled]="!newTripForm.form.valid" localize="createButton" (click)="onSubmit()"></button>
+    </div>
+</div>
 
-    <map></map>
-    
-    <button [disabled]="!newTripForm.form.valid" localize="createButton" (click)="onSubmit()"></button>
-</form>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal" #newTripForm="ngForm">
+            <div class="form-group">
+                <input class="form-control" required name="title" localize="tripTitlePlaceholder" [(ngModel)]="newtrip.title" />
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" name="description" localize="tripDescriptionPlaceholder" [(ngModel)]="newtrip.description"></textarea>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div *ngIf="newtrip.tripRoute">
+    <label>{{ 'estimatedDistanceTitle' | translate }} {{ newtrip.tripRoute.distance }}</label>
+    <label>{{ 'estimatedTimeTitle' | translate }} {{ newtrip.tripRoute.time }}</label>
+</div>
+
+<div class="row page-header">
+    <div class="col-md-12">
+        <h3 localize="createTripRouteTitle"></h3>
+    </div>
+</div>
+
+<map></map>
 

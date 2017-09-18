@@ -43,7 +43,6 @@ export class TripPage implements OnInit, OnDestroy {
             .takeUntil(this.unsubscribe)
             .subscribe((tripRoute: TripRouteViewModel) => {
                 this.trip.tripRoute = tripRoute;
-           
             });
     }
 
@@ -51,7 +50,6 @@ export class TripPage implements OnInit, OnDestroy {
         this.currentUser = this.authService.user;
         var tripId = this.route.snapshot.params['id'];
         this.backendService.getTrip(tripId, this.currentUser.id).then((trip: TripViewModel) => {
-            this.isEditAllowed = trip.creatorId === this.currentUser.id;
             this.trip = trip;
             if (trip.tripRoute) {
                 this.mapObsService.waypointsReceived(trip.tripRoute.tripWaypoints);
