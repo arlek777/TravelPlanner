@@ -25,8 +25,6 @@ module.exports = (env) => {
                 '@angular/platform-browser',
                 '@angular/platform-browser-dynamic',
                 '@angular/router',
-                'bootstrap',
-                'bootstrap/dist/css/bootstrap.css',
                 'ng2-toastr/ng2-toastr.css',
                 'es6-shim',
                 'es6-promise',

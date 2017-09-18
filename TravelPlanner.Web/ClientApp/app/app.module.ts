@@ -36,7 +36,6 @@ import { RegisterPage } from './pages/register/register.page';
 import { NewTripPage } from "./pages/newtrip/newtrip.page";
 import { TripPage } from "./pages/trip/trip.page";
 import { AcceptInvitePage } from "./pages/acceptinvite/acceptinvite.page";
-import { MapTestPage } from "./pages/maptest/maptest.page";
 
 function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
     return new InterceptedHttp(xhrBackend, requestOptions);
@@ -67,7 +66,6 @@ export class CustomToastOption extends ToastOptions {
         NewTripPage,
         TripPage,
         AcceptInvitePage,
-        MapTestPage,
         LocalizeDirective
     ],
     imports: [
@@ -82,7 +80,6 @@ export class CustomToastOption extends ToastOptions {
             { path: 'register', component: RegisterPage },
             { path: 'newtrip', component: NewTripPage, canActivate: [AuthGuard] },
             { path: 'edittrip/:id', component: NewTripPage, canActivate: [AuthGuard] },
-            { path: 'maptest', component: MapTestPage },
             { path: 'trip/:id', component: TripPage, canActivate: [AuthGuard] },
             { path: 'acceptinvite/:inviteId', component: AcceptInvitePage, canActivate: [AuthGuard] },
             { path: '**', redirectTo: 'home' }

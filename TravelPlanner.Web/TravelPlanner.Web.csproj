@@ -27,6 +27,7 @@
     <Content Remove="ClientApp\**" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="wwwroot\dist\bootstrap-theme.css" />
     <Content Include="wwwroot\ru.json" />
   </ItemGroup>
   <ItemGroup>

@@ -18,10 +18,12 @@ export class LocalizeDirective implements OnInit {
     private setTranslation(translation) {
         var jElement = jQuery(this.element.nativeElement);
         var isInputOrTextArea = jElement.is("input") || jElement.is("textarea");
-        var isNotSubmit = !jElement.is("input[type=submit]");
+        var isSubmit = jElement.is("input[type=submit]");
 
-        if (isInputOrTextArea && isNotSubmit) {
+        if (isInputOrTextArea && !isSubmit) {
             jElement.attr("placeholder", translation);
+        } else if (isSubmit) {
+            jElement.val(translation);
         } else {
             jElement.html(translation);
         }

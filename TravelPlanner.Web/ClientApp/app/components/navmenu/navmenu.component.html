@@ -1,5 +1,5 @@
-<div class='main-nav'>
-    <div class='navbar navbar-inverse'>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
         <div class='navbar-header'>
             <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
                 <span class='sr-only'>Toggle navigation</span>
@@ -8,25 +8,34 @@
                 <span class='icon-bar'></span>
             </button>
             <a class='navbar-brand' [routerLink]="['/home']">Travel Planner</a>
-            <a class="navbar-brand" href="javascript: " *ngIf="isLoggedIn()" (click)="showUserInfo()">Hello, {{ getUserName() }}</a>
         </div>
-        <div class='clearfix'></div>
+        
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/home']">{{ 'homePageTitle' | translate }}</a>
+                <li [routerLinkActive]="['active']">
+                    <a localize="homePageTitle" [routerLink]="['/home']"></a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/mytrips']">{{ 'myTripsPageTitle' | translate }}</a>
+                <li [routerLinkActive]="['active']">
+                    <a localize="myTripsPageTitle" [routerLink]="['/mytrips']"></a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/invitedtrips']">{{ 'invitedTripsPageTitle' | translate }}</a>
+                <li [routerLinkActive]="['active']">
+                    <a localize="invitedTripsPageTitle" [routerLink]="['/invitedtrips']"></a>
                 </li>
-                <li *ngIf="isLoggedIn()">
-                    <a (click)="logout()">
-                        {{ 'logout' | translate }}
-                    </a>
+
+            </ul>
+
+            <ul *ngIf="isLoggedIn()" class="nav navbar-nav navbar-right active">
+                <li>
+                    <a class="navbar-brand" (click)="showUserInfo()">Hello, <strong>{{ getUserName() }}</strong></a>
                 </li>
+                <li>
+                    <a class='navbar-brand' localize="logout" (click)="logout()"></a>
+                </li>
+            </ul>
+
+            <ul *ngIf="!isLoggedIn()" class="nav navbar-nav navbar-right">
+                <li><a [routerLink]="['/login']" localize="loginPageTitle"></a></li>
+                <li><a [routerLink]="['/register']" localize="registerPageTitle"></a></li>
             </ul>
         </div>
     </div>
