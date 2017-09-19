@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using TravelPlanner.BusinessLogic.Interfaces;
 using TravelPlanner.BusinessLogic.Models;
 using TravelPlanner.DomainModel;
+using TravelPlanner.Identity.IdentityManagers;
 using TravelPlanner.Web.Models;
 
 namespace TravelPlanner.Web.Controllers
@@ -15,11 +16,13 @@ namespace TravelPlanner.Web.Controllers
     {
         private readonly ITripInviteService _inviteService;
         private readonly INotificationService _notificationService;
+        private readonly ApplicationUserManager _userManager;
 
-        public InviteApiController(ITripInviteService inviteService, INotificationService notificationService)
+        public InviteApiController(ITripInviteService inviteService, INotificationService notificationService, ApplicationUserManager userManager)
         {
             _inviteService = inviteService;
             _notificationService = notificationService;
+            _userManager = userManager;
         }
 
         [Route("api/invite/send")]
@@ -35,7 +38,9 @@ namespace TravelPlanner.Web.Controllers
             }));
 
             var invites = await _inviteService.AddInvites(tripInvites);
-            await SendInvites(model.InvitorUserName, invites.ToList());
+
+            var userInfo = _userManager.Users.FirstOrDefault(u => u.Id == model.InvitorUserId);
+            await SendInvites(userInfo.UserName, invites.ToList());
 
             return Ok();
         }

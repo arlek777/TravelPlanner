@@ -51,7 +51,7 @@ namespace TravelPlanner.Web.Infrastructure
         private static void ConfigureIdentity(IServiceCollection services)
         {
             services.AddTransient<IUserStore<User, Guid>, TravelPlannerUserStore>();
-            services.AddTransient<UserManager<User, Guid>>((ctx) => new ApplicationUserManager(ctx.GetService<IUserStore<User, Guid>>())
+            services.AddTransient<ApplicationUserManager>((ctx) => new ApplicationUserManager(ctx.GetService<IUserStore<User, Guid>>())
             {
                 PasswordValidator = new ApplicationPasswordValidator()
                 {

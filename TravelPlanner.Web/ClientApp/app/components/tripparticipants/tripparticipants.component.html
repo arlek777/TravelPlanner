@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+</div>
+
+
+<form class="form-horizontal">
+    <div class="form-group">
+        <input class="form-control" type="text" localize="enterInvitePhone" name="newPhone" [(ngModel)]="newPhone" />
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" (click)="addInvite()" localize="addInviteButton"></button>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success" (click)="sendInvites()" localize="sendInvitesButton"></button>
+    </div>
+</form>
+
+<div *ngIf="invitePhones.length > 0" class="row">
+    <div class="col-md-12">
+        <h3 localize="invitesTitle"></h3>
+    </div>
+</div>
+<div class="list-group">
+    <a href="javascript: " class="list-group-item" *ngFor="let invite of invitePhones">{{ invite }}</a>
+</div>
+                
+<div class="row">
+    <div class="col-md-12">
+        <h3 localize="tripParticipantsTabTitle"></h3>
+    </div>
+</div>
+<div class="list-group">
+    <a href="javascript: " class="list-group-item" *ngFor="let user of trip.users">{{ user.userName }}</a>
+</div>

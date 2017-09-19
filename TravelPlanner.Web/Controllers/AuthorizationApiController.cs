@@ -7,15 +7,16 @@ using TravelPlanner.BusinessLogic.Models;
 using TravelPlanner.DomainModel;
 using TravelPlanner.Web.Models;
 using TravelPlanner.BusinessLogic.Security;
+using TravelPlanner.Identity.IdentityManagers;
 
 namespace TravelPlanner.Web.Controllers
 {
     public class AuthorizationApiController : Controller
     {
-        private readonly UserManager<User, Guid> _userManager;
+        private readonly ApplicationUserManager _userManager;
         private readonly IAuthTokenManager _tokenManager;
 
-        public AuthorizationApiController(UserManager<User, Guid> userManager, IAuthTokenManager tokenManager)
+        public AuthorizationApiController(ApplicationUserManager userManager, IAuthTokenManager tokenManager)
         {
             _userManager = userManager;
             _tokenManager = tokenManager;

@@ -25,6 +25,7 @@ import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { MapComponent } from './components/map/map.component';
+import { TripParticipantsComponent } from './components/tripparticipants/tripparticipants.component';
 
 import { LocalizeDirective } from "./directives/localize.directive";
 
@@ -58,6 +59,8 @@ export class CustomToastOption extends ToastOptions {
         NavMenuComponent,
         ChatComponent,
         MapComponent,
+        TripParticipantsComponent,
+
         HomePage,
         MyTripsPage,
         InvitedTripsPage,

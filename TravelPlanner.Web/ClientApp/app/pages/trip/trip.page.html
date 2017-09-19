@@ -1,49 +1,30 @@
-
-<div *ngIf="isMainInfoEditMode">
-    <form #updateTripForm="ngForm">
-        <input required name="title" localize="tripTitlePlaceholder" [(ngModel)]="editedTrip.title" />
-        <textarea name="description" localize="tripDescriptionPlaceholder" [(ngModel)]="editedTrip.description"></textarea>
-        
-        <button [disabled]="!updateTripForm.form.valid" localize="updateButton" (click)="updateMainInfo()"></button>
-        <button localize="cancelEditButton" (click)="cancelEdit()"></button>
-    </form>
-</div>
-<div *ngIf="!isMainInfoEditMode">
-    <button *ngIf="isEditAllowed" localize="editButton" (click)="editTrip()"></button>
-
-    Title:
+<div class="page-header" *ngIf="!isMainInfoEditMode">
     <h1>{{ trip.title }}</h1>
-    Description:
     <p>{{ trip.description }}</p>
 </div>
 
-Invitations
-<input type="text" localize="enterInvitePhone" name="newPhone" [(ngModel)]="newPhone"/>
-<button (click)="addInvite()" localize="addInviteButton"></button>
-<p *ngFor="let invite of invitePhones">{{ invite }}</p>
-<button (click)="sendInvites()" localize="sendInvitesButton"></button>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#participants" localize="tripParticipantsTabTitle"></a></li>
+            <li><a href="#chat" localize="tripChatTabTitle"></a></li>
+            <li><a href="#map" localize="tripMapTabTitle"></a></li>
+        </ul>
 
-<hr/>
+        <div class="tab-content">
+            <div id="participants" class="tab-pane fade active in">
+                <chat></chat>
+                <!--<trip-participants></trip-participants>-->
+            </div>
 
-Users
-<div *ngFor="let user of trip.users">
-    {{ user.userName }}
-    
-    Cars
-    <div *ngFor="let car of user.cars">
-        {{ car.name }}
+            <div id="chat" class="tab-pane fade">
+                <chat></chat>
+            </div>
+
+            <div id="map" class="tab-pane fade">
+                <!--<map [isReadOnlyMode]="!isRouteEditMode"></map>-->
+            </div>
+        </div>
     </div>
 </div>
 
-<chat></chat>
-
-<button *ngIf="isEditAllowed && !isRouteEditMode" localize="editButton" (click)="editRoute()"></button>
-<button *ngIf="isEditAllowed && isRouteEditMode" localize="cancelEditButton" (click)="cancelRouteEdit()"></button>
-<button *ngIf="isEditAllowed && isRouteEditMode" localize="updateButton" (click)="updateRoute()"></button>
-MAP
-<map [isReadOnlyMode]="!isRouteEditMode"></map>
-
-<div *ngIf="trip.tripRoute">
-    Distance
-    <div>{{ trip.tripRoute.distance }}</div>
-</div>

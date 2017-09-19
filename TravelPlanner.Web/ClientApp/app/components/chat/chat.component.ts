@@ -12,6 +12,9 @@ import { BackendService } from "../../services/backend.service";
 export class ChatComponent implements OnInit {
     private chatId: number;
 
+    message: MessageViewModel;
+    messages: MessageViewModel[] = [];
+
     constructor(private chatService: ChatService,
         private route: ActivatedRoute,
         private authService: AuthService,
@@ -31,7 +34,9 @@ export class ChatComponent implements OnInit {
 
         this.chatService.messages.subscribe(msg => {
             if (msg.chatId == this.chatId) {
-                this.messages.push(msg);
+                setTimeout(() => {
+                    this.messages.push(msg);
+                });
             }
         });
     }
@@ -41,6 +46,7 @@ export class ChatComponent implements OnInit {
         this.message.text = '';
     }
 
-    message: MessageViewModel;
-    messages: MessageViewModel[] = [];
+    getMessageBoxCss(msg: MessageViewModel) {
+        return this.authService.user.id === msg.userId ? "alert-info" : "alert-success";
+    }
 }
