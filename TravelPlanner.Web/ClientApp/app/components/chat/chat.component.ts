@@ -22,7 +22,7 @@ export class ChatComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.chatId = this.route.snapshot.params["id"];
+        this.chatId = this.route.parent.snapshot.params["id"];
         this.backendService.getAllMessages(this.chatId).then((messages: MessageViewModel[]) => {
             this.messages = messages;
         });

@@ -83,7 +83,15 @@ export class CustomToastOption extends ToastOptions {
             { path: 'register', component: RegisterPage },
             { path: 'newtrip', component: NewTripPage, canActivate: [AuthGuard] },
             { path: 'edittrip/:id', component: NewTripPage, canActivate: [AuthGuard] },
-            { path: 'trip/:id', component: TripPage, canActivate: [AuthGuard] },
+            {
+                path: 'trip/:id', component: TripPage, canActivate: [AuthGuard],
+                children: [
+                    { path: 'participants', component: TripParticipantsComponent },
+                    { path: 'chat', component: ChatComponent },
+                    { path: 'map', component: MapComponent },
+                    { path: "**", redirectTo: 'participants' }
+                ]
+            },
             { path: 'acceptinvite/:inviteId', component: AcceptInvitePage, canActivate: [AuthGuard] },
             { path: '**', redirectTo: 'home' }
         ]),
