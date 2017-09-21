@@ -13,7 +13,6 @@ import { Subject } from "rxjs/Subject";
 import { TripRouteViewModel } from "../../models/trip/trip-route";
 
 @Component({
-    selector: 'trip',
     templateUrl: './trip.page.html'
 })
 export class TripPage implements OnInit, OnDestroy {

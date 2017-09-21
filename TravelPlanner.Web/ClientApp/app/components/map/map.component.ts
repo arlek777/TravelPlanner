@@ -20,7 +20,6 @@ import 'rxjs/add/operator/takeUntil';
     providers: [GoogleMapsAPIWrapper]
 })
 export class MapComponent implements OnInit, OnDestroy, AfterViewInit  {
-  
     private readonly defaultZoom = 7;
     private readonly defaultLng = 50.4501;
     private readonly defaultLat = 30.5234;

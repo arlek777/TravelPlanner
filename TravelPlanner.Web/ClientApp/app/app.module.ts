@@ -25,7 +25,6 @@ import { AppComponent } from './components/app/app.component'
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { MapComponent } from './components/map/map.component';
-import { TripParticipantsComponent } from './components/tripparticipants/tripparticipants.component';
 
 import { LocalizeDirective } from "./directives/localize.directive";
 
@@ -36,6 +35,9 @@ import { LoginPage } from './pages/login/login.page';
 import { RegisterPage } from './pages/register/register.page';
 import { NewTripPage } from "./pages/newtrip/newtrip.page";
 import { TripPage } from "./pages/trip/trip.page";
+import { TripMapPage } from "./pages/trip/map/tripmap.page";
+import { TripParticipantsPage } from "./pages/trip/participants/tripparticipants.page";
+import { TripChatPage } from "./pages/trip/chat/tripchat.page";
 import { AcceptInvitePage } from "./pages/acceptinvite/acceptinvite.page";
 
 function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
@@ -59,7 +61,6 @@ export class CustomToastOption extends ToastOptions {
         NavMenuComponent,
         ChatComponent,
         MapComponent,
-        TripParticipantsComponent,
 
         HomePage,
         MyTripsPage,
@@ -68,6 +69,9 @@ export class CustomToastOption extends ToastOptions {
         RegisterPage,
         NewTripPage,
         TripPage,
+        TripParticipantsPage,
+        TripChatPage,
+        TripMapPage,
         AcceptInvitePage,
         LocalizeDirective
     ],
@@ -75,8 +79,7 @@ export class CustomToastOption extends ToastOptions {
         BrowserModule,
         HttpModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'home', component: HomePage },
+            { path: '', redirectTo: 'mytrips', pathMatch: 'full' },
             { path: 'mytrips', component: MyTripsPage, canActivate: [AuthGuard] },
             { path: 'invitedtrips', component: InvitedTripsPage, canActivate: [AuthGuard] },
             { path: 'login', component: LoginPage },
@@ -86,14 +89,14 @@ export class CustomToastOption extends ToastOptions {
             {
                 path: 'trip/:id', component: TripPage, canActivate: [AuthGuard],
                 children: [
-                    { path: 'participants', component: TripParticipantsComponent },
-                    { path: 'chat', component: ChatComponent },
-                    { path: 'map', component: MapComponent },
+                    { path: 'participants', component: TripParticipantsPage },
+                    { path: 'chat', component: TripChatPage },
+                    { path: 'map', component: TripMapPage },
                     { path: "**", redirectTo: 'participants' }
                 ]
             },
             { path: 'acceptinvite/:inviteId', component: AcceptInvitePage, canActivate: [AuthGuard] },
-            { path: '**', redirectTo: 'home' }
+            { path: '**', redirectTo: 'mytrips' }
         ]),
         FormsModule,
         TranslateModule.forRoot({

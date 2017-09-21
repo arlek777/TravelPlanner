@@ -22,9 +22,12 @@
   <ItemGroup>
     <!-- Files not to show in IDE -->
     <None Remove="yarn.lock" />
+    <Compile Remove="ClientApp\app\pages\trip\tripparticipants - Copy %25282%2529\**" />
 
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
     <Content Remove="ClientApp\**" />
+    <EmbeddedResource Remove="ClientApp\app\pages\trip\tripparticipants - Copy %25282%2529\**" />
+    <None Remove="ClientApp\app\pages\trip\tripparticipants - Copy %25282%2529\**" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="wwwroot\dist\bootstrap-theme.css" />

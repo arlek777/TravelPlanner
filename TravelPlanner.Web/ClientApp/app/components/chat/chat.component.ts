@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from "@angular/router";
+import { Component, OnInit, Input } from '@angular/core';
+import { Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { ChatService } from "../../services/chat.service";
 import { MessageViewModel } from "../../models/message";
@@ -10,19 +10,17 @@ import { BackendService } from "../../services/backend.service";
     templateUrl: './chat.component.html'
 })
 export class ChatComponent implements OnInit {
-    private chatId: number;
+    @Input() chatId: number;
 
     message: MessageViewModel;
     messages: MessageViewModel[] = [];
 
     constructor(private chatService: ChatService,
-        private route: ActivatedRoute,
         private authService: AuthService,
         private backendService: BackendService) {
     }
 
     ngOnInit() {
-        this.chatId = this.route.parent.snapshot.params["id"];
         this.backendService.getAllMessages(this.chatId).then((messages: MessageViewModel[]) => {
             this.messages = messages;
         });

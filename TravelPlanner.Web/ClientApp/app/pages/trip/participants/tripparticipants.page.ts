@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
-import { InvitesViewModel } from "../../models/invites";
-import { BackendService } from "../../services/backend.service";
-import { NotificationObsService } from "../../services/observables/notification.service";
-import { UserHelper } from "../../utils/helpers";
-import { TripViewModel } from "../../models/trip/trip";
+import { InvitesViewModel } from "../../../models/invites";
+import { BackendService } from "../../../services/backend.service";
+import { NotificationObsService } from "../../../services/observables/notification.service";
+import { UserHelper } from "../../../utils/helpers";
+import { TripViewModel } from "../../../models/trip/trip";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
-    selector: 'trip-participants',
-    templateUrl: './tripparticipants.component.html'
+    templateUrl: './tripparticipants.page.html'
 })
-export class TripParticipantsComponent {
+export class TripParticipantsPage {
     trip: TripViewModel = new TripViewModel();
     newPhone = "";
     invitePhones = new Array<string>();
