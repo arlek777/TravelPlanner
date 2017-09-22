@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelPlanner.Web", "Travel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelPlanner.Identity", "TravelPlanner.Identity\TravelPlanner.Identity.csproj", "{5C849FEB-13FD-42C0-A939-3C7092A4BC3A}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TravelPlanner.TranslationKeysExtracter", "TravelPlanner.TranslationKeysExtracter\TravelPlanner.TranslationKeysExtracter.fsproj", "{BB785801-D147-42D0-AF08-D72E76DC285A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{5C849FEB-13FD-42C0-A939-3C7092A4BC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C849FEB-13FD-42C0-A939-3C7092A4BC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C849FEB-13FD-42C0-A939-3C7092A4BC3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB785801-D147-42D0-AF08-D72E76DC285A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB785801-D147-42D0-AF08-D72E76DC285A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB785801-D147-42D0-AF08-D72E76DC285A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB785801-D147-42D0-AF08-D72E76DC285A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
