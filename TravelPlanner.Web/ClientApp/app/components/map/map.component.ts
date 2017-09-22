@@ -47,6 +47,9 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit  {
 
     @Input() isReadOnlyMode = false;
 
+    estimatedTime = "";
+    estimatedDistance = "";
+
     constructor(private mapsLoader: MapsAPILoader,
         private gmapsApi: GoogleMapsAPIWrapper,
         private ngZone: NgZone,
@@ -98,6 +101,8 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit  {
     }
 
     clearDirections() {
+        if (this.isReadOnlyMode) return;
+
         this.waypoints = [];
         this.directionsDisplay.setDirections({ routes: [] });
         this.setCurrentPosition();
@@ -130,13 +135,13 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit  {
     }
 
     private subscribeToObservables() {
-        this.mapObsService.sightObjectsReceived$
+        this.mapObsService.sightObjects$
             .takeUntil(this.unsubscribe)
             .subscribe((sights) => {
                 this.markers = sights;
             });
 
-        this.mapObsService.waypointsReceived$
+        this.mapObsService.waypoints$
             .takeUntil(this.unsubscribe)
             .subscribe((waypoints) => {
                 this.waypoints = waypoints;
@@ -163,13 +168,13 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit  {
             that.directionsDisplay.setDirections(response);
 
             var point = response.routes[0].legs[0];
-            var estimatedTime = point.duration.text;
-            var estimatedDistance = point.distance.text;
+            this.estimatedTime = point.duration.text;
+            this.estimatedDistance = point.distance.text;
 
-            that.mapObsService.mapBuilt({
+            that.mapObsService.routeBuilt({
                 id: 0,
-                distance: estimatedDistance,
-                time: estimatedTime,
+                distance: this.estimatedDistance,
+                time: this.estimatedTime,
                 tripWaypoints: that.waypoints
             });
         } else {

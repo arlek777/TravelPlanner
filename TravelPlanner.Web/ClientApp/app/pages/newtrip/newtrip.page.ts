@@ -16,29 +16,26 @@ import { Subject } from "rxjs/Subject";
 export class NewTripPage implements OnInit, OnDestroy {
     newtrip = new TripViewModel();
 
-    private unsubscribe = new Subject<any>();
-
     constructor(private backendService: BackendService,
         private mapObsService: MapObsService,
         private router: Router) {
 
         this.newtrip.creatorId = UserHelper.getUserId();
-        this.mapObsService.mapBuilt$
-            .takeUntil(this.unsubscribe)
+        this.mapObsService.route$
             .subscribe((tripRoute: TripRouteViewModel) => {
                 this.newtrip.tripRoute = tripRoute;
             });
+
+        this.mapObsService.setWaypoints([]);
     }
 
     ngOnInit(): void {
         this.backendService.getSights().then((sights: SightObjectViewModel[]) => {
-            this.mapObsService.sightObjectsReceived(sights);
+            this.mapObsService.setSightObjects(sights);
         });
     }
 
     ngOnDestroy() {
-        this.unsubscribe.next();
-        this.unsubscribe.complete();
     }
 
     onSubmit() {

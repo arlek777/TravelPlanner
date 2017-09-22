@@ -7,23 +7,23 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class MapObsService {
-    private mapBuiltSource = new Subject<TripRouteViewModel>();
-    private waypointsReceivedSource = new BehaviorSubject<TripWaypointViewModel[]>([]);
-    private sightObjectsReceivedSource = new BehaviorSubject<SightObjectViewModel[]>([]);
+    private routeSource = new Subject<TripRouteViewModel>();
+    private waypointsSource = new BehaviorSubject<TripWaypointViewModel[]>([]);
+    private sightObjectsSource = new BehaviorSubject<SightObjectViewModel[]>([]);
 
-    mapBuilt$ = this.mapBuiltSource.asObservable();
-    waypointsReceived$ = this.waypointsReceivedSource.asObservable();
-    sightObjectsReceived$ = this.sightObjectsReceivedSource.asObservable();
+    route$ = this.routeSource.asObservable();
+    waypoints$ = this.waypointsSource.asObservable();
+    sightObjects$ = this.sightObjectsSource.asObservable();
 
-    mapBuilt(model: TripRouteViewModel) {
-        this.mapBuiltSource.next(model);
+    routeBuilt(model: TripRouteViewModel) {
+        this.routeSource.next(model);
     }
 
-    waypointsReceived(model: TripWaypointViewModel[]) {
-        this.waypointsReceivedSource.next(model);
+    setWaypoints(model: TripWaypointViewModel[]) {
+        this.waypointsSource.next(model);
     }
 
-    sightObjectsReceived(model: SightObjectViewModel[]) {
-        this.sightObjectsReceivedSource.next(model);
+    setSightObjects(model: SightObjectViewModel[]) {
+        this.sightObjectsSource.next(model);
     }
 }

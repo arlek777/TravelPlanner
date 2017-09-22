@@ -15,13 +15,16 @@ namespace TravelPlanner.BusinessLogic.Services
 
         public async Task SendNotifications(IEnumerable<NotificationModel> notifications)
         {
-            var streamWriter = new StreamWriter(File.Open("notifications.txt", FileMode.OpenOrCreate));
-            foreach (var notification in notifications)
+            await Task.Run(() =>
             {
-                await streamWriter.WriteAsync(notification.Text);
-            }
+                var streamWriter = new StreamWriter(File.Open("notifications.txt", FileMode.OpenOrCreate));
+                foreach (var notification in notifications)
+                {
+                    streamWriter.WriteLine(notification.Text);
+                }
 
-            streamWriter.Close();
+                streamWriter.Close();
+            });
         }
     }
 }

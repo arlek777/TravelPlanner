@@ -14,13 +14,28 @@
     </div>
 </div>
 
-<div style="margin-top: 5px" class="row" *ngFor="let waypoint of waypoints; let i = index;">
+<div style="margin-top: 15px" class="row">
     <div class="col-md-12">
-    {{ waypoint.name }}
-        <a class="glyphicon glyphicon-edit" href="javascript: " (click)="updateWaypoint(waypoint, i)"></a>
-        <a class="glyphicon glyphicon-remove" href="javascript: " (click)="removeWaypoint(waypoint, i)"></a>
+        <label localize="tripRouteEstimatedDistance"></label>: {{ estimatedDistance }}
+    </div>
+    <div class="col-md-12">
+        <label localize="tripRouteEstimatedTime"></label>: {{ estimatedTime }}
+    </div>
+    <div class="col-md-4">
+        <label localize="tripWaypointsTitle"></label>
+        <div *ngFor="let waypoint of waypoints; let i = index;">
+            <div [ngClass]="{'hidden': isReadOnlyMode}">
+                {{ waypoint.name }}
+                <a class="glyphicon glyphicon-edit" href="javascript: " (click)="updateWaypoint(waypoint, i)"></a>
+                <a class="glyphicon glyphicon-remove" href="javascript: " (click)="removeWaypoint(waypoint, i)"></a>
+            </div>
+            <div [ngClass]="{'hidden': !isReadOnlyMode}">
+                {{ waypoint.name }}
+            </div>
+        </div>
     </div>
 </div>
+
 
 <div style="margin-top: 15px; margin-bottom: 20px" class="row">
     <div class="col-md-12">

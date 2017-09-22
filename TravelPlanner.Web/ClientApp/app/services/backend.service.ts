@@ -51,6 +51,13 @@ export class BackendService {
             });
     }
 
+    getInvitedTrips(userId: string): Promise<TripViewModel[]> {
+        return this.http.get(`/api/trip/getinvited/${userId}`).toPromise()
+            .then((result) => {
+                return result.json();
+            });
+    }
+
     // Invites
     sendInvites(model: InvitesViewModel): Promise<boolean> {
         return this.http.post("/api/invite/send", model).toPromise().then(() => { return true });

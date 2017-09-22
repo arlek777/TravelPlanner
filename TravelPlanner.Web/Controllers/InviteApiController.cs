@@ -39,7 +39,7 @@ namespace TravelPlanner.Web.Controllers
 
             var invites = await _inviteService.AddInvites(tripInvites);
 
-            var userInfo = _userManager.Users.FirstOrDefault(u => u.Id == model.InvitorUserId);
+            var userInfo = await _userManager.FindByIdAsync(model.InvitorUserId);
             await SendInvites(userInfo.UserName, invites.ToList());
 
             return Ok();

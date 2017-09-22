@@ -1,17 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TravelPlanner.DomainModel
 {
     public class TripInvite
     {
-        public TripInvite()
-        {
-            Id = new Random().Next(1000, 9999);
-        }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Required]
         public int Id { get; set; }
 
         [Required]
