@@ -38,16 +38,16 @@ Home Page
 
 Create Trip Page
 
-![Alt text](/TravelPlanner.Web/screenshots/create.jpg)
+![Alt text](/TravelPlanner.Web/screenshots/create.png)
 
 Trip Route with Google maps
 
-![Alt text](/TravelPlanner.Web/screenshots/directions.jpg)
+![Alt text](/TravelPlanner.Web/screenshots/directions.png)
 
 Trip Invites by Phone Number
 
-![Alt text](/TravelPlanner.Web/screenshots/invites.jpg)
+![Alt text](/TravelPlanner.Web/screenshots/invites.png)
 
 Chat Page
 
-![Alt text](/TravelPlanner.Web/screenshots/chat.jpg)
+![Alt text](/TravelPlanner.Web/screenshots/chat.png)
