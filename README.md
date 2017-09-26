@@ -13,7 +13,7 @@ List of the main features:
 2. Built in google map with all cool places on it with ability to build your trip route based on that places.
 3. Text chat to discuss trip details with the trip members.
 4. Ability to add cars with their petrol usage so an algorithm can calculate how much gas it will consume for the trip.
-5. Localization support (for now it support English and Russian)
+5. Localization support (for now it supports English and Russian)
 
 TODO: 
 
