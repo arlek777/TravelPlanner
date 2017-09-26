@@ -36,7 +36,8 @@ namespace TravelPlanner.Web.Controllers
         public async Task<IActionResult> Send([FromBody] MessageModel model)
         {
             var sentMessage = await _messageService.Send(Mapper.Map<Message>(model));
-            await _chat.SendMessageToAllAsync(JsonCamelSerializer.Serialize(sentMessage));
+            model.Id = sentMessage.Id;
+            await _chat.SendMessageToAllAsync(JsonCamelSerializer.Serialize(model));
             return Ok();
         }
     }
