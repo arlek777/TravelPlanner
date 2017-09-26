@@ -22,7 +22,7 @@ namespace TravelPlanner.Web.Controllers
 
         [Route("api/trip/create")]
         [HttpPost]
-        public async Task<IActionResult> Create(TripDetailModel model)
+        public async Task<IActionResult> Create([FromBody] TripDetailModel model)
         {
             var id = await _tripService.Create(Mapper.Map<Trip>(model));
             return Ok(id);

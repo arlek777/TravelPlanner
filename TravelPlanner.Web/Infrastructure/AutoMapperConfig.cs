@@ -26,7 +26,7 @@ namespace TravelPlanner.Web.Infrastructure
                     .ForMember(dest => dest.Chat, opt => opt.Ignore());
             });
 
-            Mapper.AssertConfigurationIsValid();
+            //Mapper.AssertConfigurationIsValid();
         }
     }
 }

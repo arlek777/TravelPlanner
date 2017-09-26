@@ -26,8 +26,8 @@
         <div *ngFor="let waypoint of waypoints; let i = index;">
             <div [ngClass]="{'hidden': isReadOnlyMode}">
                 {{ waypoint.name }}
-                <a class="glyphicon glyphicon-edit" href="javascript: " (click)="updateWaypoint(waypoint, i)"></a>
-                <a class="glyphicon glyphicon-remove" href="javascript: " (click)="removeWaypoint(waypoint, i)"></a>
+                <a class="fa fa-edit" href="javascript: " (click)="updateWaypoint(waypoint, i)"></a>
+                <a class="fa fa-remove" href="javascript: " (click)="removeWaypoint(waypoint, i)"></a>
             </div>
             <div [ngClass]="{'hidden': !isReadOnlyMode}">
                 {{ waypoint.name }}

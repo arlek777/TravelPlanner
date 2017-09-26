@@ -1,2 +1,3 @@
-Привет, Iaroslav приглашает вас в путешествие: http://localhost:54555/acceptinvite/1.
-Привет, Iaroslav приглашает вас в путешествие: http://localhost:54555/acceptinvite/2.
+Привет, Iarik приглашает вас в путешествие: http://localhost:54555/acceptinvite/1.
+Привет, Iarik приглашает вас в путешествие: http://localhost:54555/acceptinvite/2.
+e/2.

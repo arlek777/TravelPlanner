@@ -27,11 +27,15 @@ export class TripParticipantsPage {
     }
 
     addInvite() {
+        if (!this.newPhone) return;
+
         this.invitePhones.push(this.newPhone);
         this.newPhone = "";
     }
 
     sendInvites() {
+        if (!this.invitePhones.length) return;
+
         var model = new InvitesViewModel({
             invitorUserId: UserHelper.getUserId(),
             tripId: this.trip.id,

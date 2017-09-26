@@ -32,7 +32,7 @@
   "tripRouteEstimatedDistance": "Расстояние",
   "tripRouteEstimatedTime": "Время в пути",
   "tripWaypointsTitle": "Остановки",
-  "tripTableHeadTitle": "",
+  "tripTableHeadTitle": "Название",
   "createTripRouteTitle": "Проложить Маршрут",
   "carNamePlaceholder": "Автомобиль",
   "petrolUsagePlaceholder": "Расход топлива",
