@@ -32,22 +32,13 @@ It's a Signle Page Application. I used classical layered architecture which incl
 
 # Screenshots
 
-Home Page
-
-![Alt text](/screenshots/main.png)
-
-Create Trip Page
-
-![Alt text](/screenshots/create.jpg)
-
-Trip Route with Google maps
-
-![Alt text](/screenshots/directions.jpg)
-
-Trip Invites by Phone Number
-
-![Alt text](//screenshots/invites.jpg)
-
-Chat Page
-
-![Alt text](/screenshots/chat.jpg)
+# Home Page
+![Alt text](/TravelPlanner.Web/screenshots/main.png)
+# Create Trip Page
+![Alt text](/TravelPlanner.Web/screenshots/create.png)
+# Trip Route
+![Alt text](/TravelPlanner.Web/screenshots/directions.png)
+# Trip Invites by Phone Number
+![Alt text](/TravelPlanner.Web/screenshots/invites.png)
+# Chat Page
+![Alt text](/TravelPlanner.Web/screenshots/chat.png)
