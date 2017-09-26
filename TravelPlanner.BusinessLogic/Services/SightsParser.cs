@@ -10,18 +10,17 @@ namespace TravelPlanner.BusinessLogic.Services
     {
         private static string SiteUrl = "https://funtime.kiev.ua";
         private static string PagePath = "/where-to-go?page={0}";
-        private static int TotalPages = 2; // should be 18
 
-        public static IEnumerable<SightObject> Parse()
+        public static IEnumerable<SightObject> Parse(int totalPages = 2)
         {
             var linkClass = "grid-inner-wrapper";
             var tableClass = "ui very basic unstackable table";
-            var titleClass = "object-title";
+            var titleClass = "location-title";
             var descriptionClass = "main-text";
 
             var sights = new List<SightObject>();
 
-            for (var i = 1; i <= TotalPages; i++)
+            for (var i = 1; i <= totalPages; i++)
             {
                 var web = new HtmlWeb();
                 var doc = web.Load(String.Format(SiteUrl + PagePath, i));

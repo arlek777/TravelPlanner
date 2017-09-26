@@ -18,7 +18,7 @@ namespace TravelPlanner.Web.Controllers
         [Route("api/sight/get")]
         [HttpGet]
         public async Task<IActionResult> GetAllSights()
-        {
+        { 
             var sights = await _sightObjectService.Get();
             return Ok(sights);
         }

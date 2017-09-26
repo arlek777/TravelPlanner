@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using TravelPlanner.BusinessLogic.Interfaces;
 using TravelPlanner.DataAccess;
 using TravelPlanner.DomainModel;
@@ -21,7 +23,8 @@ namespace TravelPlanner.BusinessLogic.Services
             var sights = await _repository.GetAll<SightObject>();
             if (!sights.Any())
             {
-                sights = SightsParser.Parse();
+                var json = File.ReadAllText("sights.json");
+                sights = new JavaScriptSerializer().Deserialize<IEnumerable<SightObject>>(json);
                 foreach (var sightObject in sights)
                 {
                     _repository.Add(sightObject);

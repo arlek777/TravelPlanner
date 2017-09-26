@@ -104,6 +104,8 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit  {
         if (this.isReadOnlyMode) return;
 
         this.waypoints = [];
+        this.estimatedTime = "";
+        this.estimatedDistance = "";
         this.directionsDisplay.setDirections({ routes: [] });
         this.setCurrentPosition();
     }
@@ -236,4 +238,10 @@ export class MapComponent implements OnInit, OnDestroy, AfterViewInit  {
         }
     }
 }
+
+
+
+
+
+
 
