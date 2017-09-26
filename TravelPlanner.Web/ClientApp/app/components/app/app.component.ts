@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
         private toastr: ToastsManager,
         private viewRef: ViewContainerRef) {
 
-        this.translate.use('ru');
+        this.translate.use('en');
         this.toastr.setRootViewContainerRef(viewRef);
     }
 

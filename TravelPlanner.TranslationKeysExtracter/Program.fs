@@ -11,7 +11,7 @@ open System.Collections.Generic
 [<EntryPoint>]
 let main argv = 
     let appFolderPath = @"C:\Users\nii\Documents\Visual Studio 2017\Projects\TravelPlanner\TravelPlanner.Web\ClientApp\app\"
-    let translationFile = @"C:\Users\nii\Documents\Visual Studio 2017\Projects\TravelPlanner\TravelPlanner.Web\wwwroot\ru.json";
+    let translationFile = @"C:\Users\nii\Documents\Visual Studio 2017\Projects\TravelPlanner\TravelPlanner.Web\wwwroot\en.json";
     let localizeRegexPattern = @"(?<=\blocalize="")[^""]*"
 
     let getTranslationsFromFile = 
