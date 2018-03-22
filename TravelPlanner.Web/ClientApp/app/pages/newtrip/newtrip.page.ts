@@ -1,46 +1,27 @@
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { TripViewModel } from "../../models/trip/trip";
 import { BackendService } from "../../services/backend.service";
 import { Constants } from "../../models/constants";
 import { UserHelper } from "../../utils/helpers";
-import { TripRouteViewModel } from "../../models/trip/trip-route";
-import { SightObjectViewModel } from "../../models/sight-object";
-import { MapObsService } from "../../services/observables/map.service";
-import { Subject } from "rxjs/Subject";
+import { GlobalService } from "../../services/global.service";
 
 @Component({
     selector: 'newtrip',
     templateUrl: './newtrip.page.html'
 })
-export class NewTripPage implements OnInit, OnDestroy {
+export class NewTripPage {
     newtrip = new TripViewModel();
 
     constructor(private backendService: BackendService,
-        private mapObsService: MapObsService,
-        private router: Router) {
+        private globalService: GlobalService) {
 
         this.newtrip.creatorId = UserHelper.getUserId();
-        this.mapObsService.route$
-            .subscribe((tripRoute: TripRouteViewModel) => {
-                this.newtrip.tripRoute = tripRoute;
-            });
-
-        this.mapObsService.setWaypoints([]);
     }
 
-    ngOnInit(): void {
-        this.backendService.getSights().then((sights: SightObjectViewModel[]) => {
-            this.mapObsService.setSightObjects(sights);
-        });
-    }
-
-    ngOnDestroy() {
-    }
-
-    onSubmit() {
+    createTrip() {
         this.backendService.createTrip(this.newtrip).then((id) => {
-            this.router.navigate(['/trip/' + id]);
+            this.globalService.showSuccessMsg("tripCreated");
+            this.globalService.navigateToRoute('/triproute/' + id);
         });
     }
 }

@@ -14,6 +14,7 @@ import { AuthGuard } from "./services/auth-guard.service";
 import { AuthService } from "./services/auth.service";
 import { BackendService } from "./services/backend.service";
 import { ChatService } from "./services/chat.service";
+import { GlobalService } from "./services/global.service";
 import { WebSocketService } from "./services/websocket.service";
 import { InterceptedHttp } from "./utils/http.interceptor";
 import { GlobalErrorHandler } from "./services/global-error-handler.service";
@@ -34,6 +35,7 @@ import { InvitedTripsPage } from './pages/invitedtrips/invitedtrips.page';
 import { LoginPage } from './pages/login/login.page';
 import { RegisterPage } from './pages/register/register.page';
 import { NewTripPage } from "./pages/newtrip/newtrip.page";
+import { TripRoutePage } from "./pages/triproute/triproute.page";
 import { TripPage } from "./pages/trip/trip.page";
 import { TripMapPage } from "./pages/trip/map/tripmap.page";
 import { TripParticipantsPage } from "./pages/trip/participants/tripparticipants.page";
@@ -68,6 +70,7 @@ export class CustomToastOption extends ToastOptions {
         LoginPage,
         RegisterPage,
         NewTripPage,
+        TripRoutePage,
         TripPage,
         TripParticipantsPage,
         TripChatPage,
@@ -85,7 +88,7 @@ export class CustomToastOption extends ToastOptions {
             { path: 'login', component: LoginPage },
             { path: 'register', component: RegisterPage },
             { path: 'newtrip', component: NewTripPage, canActivate: [AuthGuard] },
-            { path: 'edittrip/:id', component: NewTripPage, canActivate: [AuthGuard] },
+            { path: 'triproute/:id', component: TripRoutePage, canActivate: [AuthGuard] },
             {
                 path: 'trip/:id', component: TripPage, canActivate: [AuthGuard],
                 children: [
@@ -117,6 +120,7 @@ export class CustomToastOption extends ToastOptions {
         { provide: 'ORIGIN_URL', useValue: location.origin },
         AuthGuard,
         AuthService,
+        GlobalService,
         BackendService,
         ChatService,
         WebSocketService,

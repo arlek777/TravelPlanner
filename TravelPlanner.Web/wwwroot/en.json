@@ -23,6 +23,7 @@
   "tripDescriptionPlaceholder": "Description",
   "createButton": "Create",
   "editButton": "Change",
+  "saveButton":  "Save", 
   "removeButton": "Remove",
   "invitesSent": "Invites were sent.",
   "tripChatTabTitle": "Chat",
@@ -40,5 +41,7 @@
   "enterInvitePhone": "Enter Phone",
   "addInviteButton": "Add Phone",
   "sendInvitesButton": "Invite",
-  "invitesTitle": "Invites"
+  "invitesTitle": "Invites",
+  "tripCreated": "Trip was successfully created.",
+  "tripUpdated": "Trip was successfully updated."
 }

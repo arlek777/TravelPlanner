@@ -9,7 +9,7 @@ namespace TravelPlanner.BusinessLogic.Interfaces
     {
         Task<int> Create(Trip model);
         Task Remove(int id, Guid userId);
-        Task<int> Update(Trip model);
+        Task Update(Trip model);
         Task<Trip> Get(int id, Guid userId);
         Task<IEnumerable<Trip>> GetInvited(Guid userId);
         Task<IEnumerable<Trip>> GetOwn(Guid userId);

@@ -41,9 +41,21 @@ namespace TravelPlanner.BusinessLogic.Services
             await _repository.SaveChanges();
         }
 
-        public Task<int> Update(Trip trip)
+        public async Task Update(Trip trip)
         {
-            throw new NotImplementedException();
+            var dbTrip = await GetTrip(trip.Id, trip.CreatorId);
+
+            dbTrip.Title = trip.Title;
+            dbTrip.Description = trip.Description;
+
+            if (trip.TripRoute != null)
+            {
+                dbTrip.TripRoute.Distance = trip.TripRoute.Distance;
+                dbTrip.TripRoute.TripWaypoints = new List<TripWaypoint>();
+                trip.TripRoute.TripWaypoints.ForEach(w => dbTrip.TripRoute.TripWaypoints.Add(w));
+            }
+
+            await _repository.SaveChanges();
         }
 
         public async Task<Trip> Get(int id, Guid userId)

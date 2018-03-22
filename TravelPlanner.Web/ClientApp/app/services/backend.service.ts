@@ -34,6 +34,11 @@ export class BackendService {
             .then((result: Response) => { return parseInt(result.text()); });
     }
 
+    updateTrip(model: TripViewModel): Promise<boolean> {
+        return this.http.post("/api/trip/update", model).toPromise()
+            .then((result: Response) => { return true; });
+    }
+
     removeTrip(tripId: number, userId: string): Promise<boolean> {
         var model = { id: tripId, userId: userId };
         return this.http.post("/api/trip/remove", model).toPromise().then(() => { return true; });

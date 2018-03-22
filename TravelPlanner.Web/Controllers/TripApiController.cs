@@ -53,6 +53,14 @@ namespace TravelPlanner.Web.Controllers
             return Ok(trips);
         }
 
+        [Route("api/trip/update")]
+        [HttpPost]
+        public async Task<IActionResult> Update([FromBody] TripDetailModel model)
+        {
+            await _tripService.Update(Mapper.Map<Trip>(model));
+            return Ok();
+        }
+
         [Route("api/trip/remove")]
         [HttpPost]
         public async Task<IActionResult> Remove([FromBody] int id, Guid userId)
